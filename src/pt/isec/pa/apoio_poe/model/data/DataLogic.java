@@ -5,16 +5,17 @@ import java.util.Map;
 
 public class DataLogic {
     // TODO how to use this map: numberStudents.get('<branchName>').getNmrStudents()/.getNmrProposals()
-    Map<String, Wrapper> numberStudents; // Number of students and proposals by branch
+    Map<String, Wrapper> numberStudentsAndProposals; // Number of students and proposals by branch
 
     public DataLogic() {
-        this.numberStudents = new HashMap<>();
+        this.numberStudentsAndProposals = new HashMap<>();
         setup();
     }
 
     private void setup(){
-        // TODO populate numberStudents for other branches
-        this.numberStudents.put("DA", new Wrapper(0, 0));   // each branch starts with 0 students and 0 proposals -> to be incremented as they're created
+        this.numberStudentsAndProposals.put("DA", new Wrapper(0, 0));   // each branch starts with 0 students and 0 proposals -> to be incremented as they're created
+        this.numberStudentsAndProposals.put("RAS", new Wrapper(0, 0));   // each branch starts with 0 students and 0 proposals -> to be incremented as they're created
+        this.numberStudentsAndProposals.put("SI", new Wrapper(0, 0));   // each branch starts with 0 students and 0 proposals -> to be incremented as they're created
     }
 
     private class Wrapper{    // to be used on 'numberStudents' hashmap
