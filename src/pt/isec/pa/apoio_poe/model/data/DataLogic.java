@@ -18,6 +18,14 @@ public class DataLogic {
         this.numberStudentsAndProposals.put("SI", new Wrapper(0, 0));   // each branch starts with 0 students and 0 proposals -> to be incremented as they're created
     }
 
+    public boolean areProposalsMoreThanStudents(){
+        for (Wrapper value : numberStudentsAndProposals.values()){  // iterate through all values from the hashmap
+            if(value.getNmrProposals() < value.getNmrStudents())    // if one branch has less proposals than students, return false
+                return false;
+        }
+        return true;
+    }
+
     private class Wrapper{    // to be used on 'numberStudents' hashmap
         int nmrStudents;    // number of students in that branch
         int nmrProposals;   // number of proposals destined for that branch

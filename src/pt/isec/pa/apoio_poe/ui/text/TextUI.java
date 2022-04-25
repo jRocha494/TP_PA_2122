@@ -1,17 +1,26 @@
 package pt.isec.pa.apoio_poe.ui.text;
 
 import pt.isec.pa.apoio_poe.model.Manager;
+import pt.isec.pa.apoio_poe.utils.PAInput;
 
 public class TextUI {
     private Manager m;
-    private boolean finish = false;
+    private boolean finish;
 
     public TextUI(Manager m) {
         this.m = m;
+        this.finish = false;
     }
 
     private void stageOneUI() {
         System.out.println("STAGE ONE, " + m.getState());
+        switch(PAInput.chooseOption("What do you pretend to do?", "Change configuration mode", "Close stage", "Advance to next stage", "Save application state", "Quit")){
+            case 1 -> m.changeConfigurationMode(PAInput.chooseOption("Choose a configuration mode", "Students", "Teachers", "Proposals"));
+            case 2 -> m.closeStage();
+            case 3 -> m.advanceStage();
+            // TODO case 4 -> save();
+            default ->finish = true;
+        }
     }
 
     private void proposalManagerUI() {

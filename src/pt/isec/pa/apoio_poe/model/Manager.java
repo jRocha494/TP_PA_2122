@@ -13,4 +13,8 @@ public class Manager {
     public AppState getState() {
         return ac.getState();
     }
+
+    public boolean changeConfigurationMode(int option){ return ac.changeConfigurationMode(option); }
+    public boolean closeStage() { return ac.closeStage(); }
+    public boolean advanceStage() { return ac.advanceStage(); }
 }

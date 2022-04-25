@@ -15,4 +15,11 @@ public abstract class StateAdapter implements IState{
     protected void changeState(AppState newState){
         ac.changeState(newState.createState(ac,dl));
     }
+
+    @Override
+    public boolean changeConfigurationMode(int option){ return false; }
+    @Override
+    public boolean closeStage(){ return false; }
+    @Override
+    public boolean advanceStage(){ return false; }
 }
