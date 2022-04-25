@@ -16,6 +16,10 @@ public class Manager {
 
     public String getStage(){return ac.getStage();}
 
+    public String importStudentsCSV(String filename){
+        return ac.importStudentsCSV(filename);
+    }
+
     public String importTeachersCSV(String filename){
         return ac.importTeachersCSV(filename);
     }

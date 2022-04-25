@@ -20,6 +20,8 @@ public class TextUI {
             case 2:
                 break;
             case 3:
+                filename = PAInput.readString("Introduce the name of the file to read: ", true);
+                System.out.println(m.importStudentsCSV(filename));
                 break;
             case 4:
                 break;

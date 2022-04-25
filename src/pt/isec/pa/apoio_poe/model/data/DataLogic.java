@@ -40,6 +40,7 @@ public class DataLogic {
 
     public void addStudent(long studentNumber, String name, String email, String course, String branch, double classification, boolean internshipAccess){
         studentsList.put(studentNumber, new Student(studentNumber, name, email, course, branch, classification, internshipAccess));
+        numberStudentsAndProposals.get(branch).incrementNmrStudents();
     }
 
     public void addTeacher(String email, String name, boolean isAdvisor){
@@ -54,11 +55,15 @@ public class DataLogic {
         return false;
     }
 
-    public boolean studentExists(long studentNumber, String email){
-        for(Student s : studentsList.values()) {
-            if(studentNumber == s.getStudentNumber() || email.equals(s.getEmail()))
-                return true;
-        }
+    public boolean studentExists(long studentNumber){
+        return studentsList.containsKey(studentNumber);
+    }
+
+    public boolean studentExists(String email){
+    for(Student s : studentsList.values()) {
+        if(email.equals(s.getEmail()))
+            return true;
+    }
         return false;
     }
 
@@ -91,5 +96,8 @@ public class DataLogic {
         public int getNmrProposals() { return nmrProposals; }
         public void setNmrProposals(int nmrProposals) { this.nmrProposals = nmrProposals; }
         public void setNmrStudents(int nmrStudents) { this.nmrStudents = nmrStudents; }
+        public void incrementNmrProposals() { nmrProposals++; }
+        public void incrementNmrStudents() { nmrStudents++; }
+
     }
 }

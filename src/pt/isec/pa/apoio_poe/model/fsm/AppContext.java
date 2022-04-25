@@ -24,6 +24,10 @@ public class AppContext {
         this.state = newState;
     }
 
+    public String importStudentsCSV(String filename){
+        return state.importStudentsCSV(filename);
+    }
+
     public String importTeachersCSV(String filename){
         return state.importTeachersCSV(filename);
     }
