@@ -40,4 +40,11 @@ public abstract class StateAdapter implements IState{
 
     @Override
     public String exportTeachersCSV(String filename) { return ""; }
+
+    @Override
+    public boolean changeConfigurationMode(int option){ return false; }
+    @Override
+    public boolean closeStage(){ return false; }
+    @Override
+    public boolean advanceStage(){ return false; }
 }

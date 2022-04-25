@@ -11,4 +11,8 @@ public interface IState {
     AppState getState();
 
     String getStage();
+
+    boolean changeConfigurationMode(int option);
+    boolean closeStage();
+    boolean advanceStage();
 }
