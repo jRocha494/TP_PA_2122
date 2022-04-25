@@ -13,6 +13,7 @@ public class TextUI {
     }
 
     private void stageOneUI() {
+        /* TODO: SEPARAR PELOS ESTADOS DA FASE 1
         String filename;
 
         switch(PAInput.chooseOption("Options:", "Import Proposals", "Export Proposals", "Import Students", "Export Students", "Import Teachers", "Export Teachers", "Quit")){
@@ -36,7 +37,7 @@ public class TextUI {
                 break;
             case 7:
                 finish = true;
-        }
+        }*/
         System.out.println("STAGE ONE, " + m.getState());
         switch(PAInput.chooseOption("What do you pretend to do?", "Change configuration mode", "Close stage", "Advance to next stage", "Save application state", "Quit")){
             case 1 -> m.changeConfigurationMode(PAInput.chooseOption("Choose a configuration mode", "Students", "Teachers", "Proposals"));

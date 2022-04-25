@@ -39,17 +39,13 @@ public class AppContext {
     }
 
     public String getStage(){return state.getStage();}
-    public String importStudentsCSV(String filename){
-        return state.importStudentsCSV(filename);
-    }
 
-    public String importTeachersCSV(String filename){
-        return state.importTeachersCSV(filename);
-    }
+    public String importStudentsCSV(String filename){ return state.importStudentsCSV(filename); }
 
-    public String exportTeachersCSV(String filename){
-        return state.exportTeachersCSV(filename);
-    }
+    public String importTeachersCSV(String filename){ return state.importTeachersCSV(filename); }
+
+    public String exportTeachersCSV(String filename){ return state.exportTeachersCSV(filename); }
+    
     public void changeState(IState newState) { this.state = newState; }
 
     public boolean changeConfigurationMode(int option){ return state.changeConfigurationMode(option); }
