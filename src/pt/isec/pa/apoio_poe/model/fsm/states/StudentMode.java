@@ -9,8 +9,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Scanner;
 
-public class StudentManager extends StateAdapter{
-    public StudentManager(AppContext ac, DataLogic dl) { super(ac, dl); }
+public class StudentMode extends StateAdapter{
+    public StudentMode(AppContext ac, DataLogic dl) { super(ac, dl); }
 
     @Override
     public String importStudentsCSV(String filename) {

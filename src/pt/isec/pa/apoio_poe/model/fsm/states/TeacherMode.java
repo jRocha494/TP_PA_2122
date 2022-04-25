@@ -7,8 +7,8 @@ import pt.isec.pa.apoio_poe.model.fsm.AppContext;
 import java.io.*;
 import java.util.Scanner;
 
-public class TeacherManager extends StateAdapter{
-    public TeacherManager(AppContext ac, DataLogic dl) { super(ac, dl); }
+public class TeacherMode extends StateAdapter{
+    public TeacherMode(AppContext ac, DataLogic dl) { super(ac, dl); }
 
     @Override
     public String importTeachersCSV(String filename) {

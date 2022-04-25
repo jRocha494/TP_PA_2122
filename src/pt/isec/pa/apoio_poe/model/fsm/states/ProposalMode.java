@@ -3,8 +3,8 @@ package pt.isec.pa.apoio_poe.model.fsm.states;
 import pt.isec.pa.apoio_poe.model.data.DataLogic;
 import pt.isec.pa.apoio_poe.model.fsm.AppContext;
 
-public class ProposalManager extends StateAdapter{
-    public ProposalManager(AppContext ac, DataLogic dl) { super(ac, dl); }
+public class ProposalMode extends StateAdapter{
+    public ProposalMode(AppContext ac, DataLogic dl) { super(ac, dl); }
 
     @Override
     public String importProposalsCSV(String filename) {
