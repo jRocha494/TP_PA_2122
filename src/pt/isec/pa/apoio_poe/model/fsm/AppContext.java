@@ -7,6 +7,7 @@ import pt.isec.pa.apoio_poe.model.fsm.states.StageOne;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 public class AppContext {
     private IState state;
@@ -30,13 +31,12 @@ public class AppContext {
     public void setCloseStatus(String stage, boolean status){   // Receives the name of the stage, and sets its close status if it finds the stage
         closeStatusStages.computeIfPresent(stage, (k, v) -> v = status);
     }
+
     public boolean getCloseStatus(String stage){    // Receives the name of the stage, and returns its close status
         return closeStatusStages.get(stage);
     }
 
-    public AppState getState() {
-        return state.getState();
-    }
+    public AppState getState() { return state.getState(); }
 
     public String getStage(){return state.getStage();}
 
@@ -45,10 +45,31 @@ public class AppContext {
     public String importTeachersCSV(String filename){ return state.importTeachersCSV(filename); }
 
     public String exportTeachersCSV(String filename){ return state.exportTeachersCSV(filename); }
-    
+
     public void changeState(IState newState) { this.state = newState; }
 
     public boolean changeConfigurationMode(int option){ return state.changeConfigurationMode(option); }
     public boolean closeStage() { return state.closeStage(); }
     public boolean advanceStage() { return state.advanceStage(); }
+
+    public boolean filenameIsValid(String filename) {
+        String[] fn = filename.split("\\.");
+
+        if(fn.length > 1)
+            return false;
+
+        return true;
+    }
+
+    public boolean emailIsValid(String email) {
+        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\."+
+                "[a-zA-Z0-9_+&*-]+)*@" +
+                "(?:[a-zA-Z0-9-]+\\.)+[a-z" +
+                "A-Z]{2,7}$";
+
+        Pattern pat = Pattern.compile(emailRegex);
+        if (email == null)
+            return false;
+        return pat.matcher(email).matches();
+    }
 }

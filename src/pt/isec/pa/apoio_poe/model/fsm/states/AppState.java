@@ -13,9 +13,9 @@ public enum AppState {
     IState createState(AppContext ac, DataLogic dl) {
         return switch (this){
             case CONFIGURATIONS_STATE_STAGE_ONE -> new StageOne(ac, dl);
-            case CONFIGURATIONS_STATE_PROPOSAL_MANAGER -> null;
-            case CONFIGURATIONS_STATE_STUDENT_MANAGER -> null;
-            case CONFIGURATIONS_STATE_TEACHER_MANAGER -> null;
+            case CONFIGURATIONS_STATE_PROPOSAL_MANAGER -> new ProposalManager(ac, dl);
+            case CONFIGURATIONS_STATE_STUDENT_MANAGER -> new StudentManager(ac, dl);
+            case CONFIGURATIONS_STATE_TEACHER_MANAGER -> new TeacherManager(ac, dl);
             case CLOSED_STAGE -> null;
             case CANDIDATURE_OPTIONS_STAGE_TWO -> null;
             case PROPOSAL_ATTRIBUTION_STAGE_THREE -> null;
