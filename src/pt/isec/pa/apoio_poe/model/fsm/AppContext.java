@@ -18,7 +18,21 @@ public class AppContext {
         return state.getState();
     }
 
+    public String getStage(){return state.getStage();}
+
     public void changeState(IState newState) {
         this.state = newState;
+    }
+
+    public String importStudentsCSV(String filename){
+        return state.importStudentsCSV(filename);
+    }
+
+    public String importTeachersCSV(String filename){
+        return state.importTeachersCSV(filename);
+    }
+
+    public String exportTeachersCSV(String filename){
+        return state.exportTeachersCSV(filename);
     }
 }

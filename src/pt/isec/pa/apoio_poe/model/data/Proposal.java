@@ -15,4 +15,12 @@ public class Proposal {
         this.id = id;
         this.title = title;
     }
+
+    public String getId() {
+        return id;
+    }
+
+    public long getAssignedStudent() {
+        return assignedStudent;
+    }
 }

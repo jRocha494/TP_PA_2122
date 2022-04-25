@@ -1,6 +1,7 @@
 package pt.isec.pa.apoio_poe.ui.text;
 
 import pt.isec.pa.apoio_poe.model.Manager;
+import pt.isec.pa.apoio_poe.utils.PAInput;
 
 public class TextUI {
     private Manager m;
@@ -11,7 +12,30 @@ public class TextUI {
     }
 
     private void stageOneUI() {
-        System.out.println("STAGE ONE, " + m.getState());
+        String filename;
+
+        switch(PAInput.chooseOption("Options:", "Import Proposals", "Export Proposals", "Import Students", "Export Students", "Import Teachers", "Export Teachers", "Quit")){
+            case 1:
+                break;
+            case 2:
+                break;
+            case 3:
+                filename = PAInput.readString("Introduce the name of the file to read: ", true);
+                System.out.println(m.importStudentsCSV(filename));
+                break;
+            case 4:
+                break;
+            case 5:
+                filename = PAInput.readString("Introduce the name of the file to read: ", true);
+                System.out.println(m.importTeachersCSV(filename));
+                break;
+            case 6:
+                filename = PAInput.readString("Introduce the name of the file to write: ", true);
+                System.out.println(m.exportTeachersCSV(filename));
+                break;
+            case 7:
+                finish = true;
+        }
     }
 
     private void proposalManagerUI() {
@@ -52,6 +76,7 @@ public class TextUI {
 
     public void start(){
         while (!finish) {
+            System.out.println("\nCurrent Stage: " + m.getStage());
             switch (m.getState()){
                 case CONFIGURATIONS_STATE_STAGE_ONE -> stageOneUI();
                 case CONFIGURATIONS_STATE_PROPOSAL_MANAGER -> proposalManagerUI();
