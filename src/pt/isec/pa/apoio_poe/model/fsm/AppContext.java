@@ -42,6 +42,8 @@ public class AppContext {
 
     public String importStudentsCSV(String filename){ return state.importStudentsCSV(filename); }
 
+    public String exportStudentsCSV(String filename){ return state.exportStudentsCSV(filename); }
+
     public String importTeachersCSV(String filename){ return state.importTeachersCSV(filename); }
 
     public String exportTeachersCSV(String filename){ return state.exportTeachersCSV(filename); }

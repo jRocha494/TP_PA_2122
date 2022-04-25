@@ -25,7 +25,31 @@ public class Student {
         return studentNumber;
     }
 
+    public String getName() {
+        return name;
+    }
+
     public String getEmail() {
         return email;
+    }
+
+    public String getCourse() {
+        return course;
+    }
+
+    public String getBranch() {
+        return branch;
+    }
+
+    public double getClassification() {
+        return classification;
+    }
+
+    public boolean isInternshipAccess() {
+        return internshipAccess;
+    }
+
+    public boolean isHasProposed() {
+        return hasProposed;
     }
 }

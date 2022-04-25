@@ -28,8 +28,8 @@ public class Manager {
         return ac.importStudentsCSV(filename);
     }
 
-    public boolean exportStudentsCSV(String readString) {
-        return false;
+    public String exportStudentsCSV(String filename) {
+        return ac.exportStudentsCSV(filename);
     }
 
     public String importTeachersCSV(String filename){

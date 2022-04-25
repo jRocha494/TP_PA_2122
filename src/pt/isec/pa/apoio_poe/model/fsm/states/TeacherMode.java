@@ -18,6 +18,12 @@ public class TeacherMode extends StateAdapter{
         BufferedReader br = null;
         Scanner sc = null;
 
+        if(!ac.filenameIsValid(filename)){
+            sb.append("File name is not valid");
+            return sb.toString();
+        }else if(!filename.endsWith(".csv"))
+            filename += ".csv";
+
         try{
             fr = new FileReader(filename);
             br = new BufferedReader(fr);

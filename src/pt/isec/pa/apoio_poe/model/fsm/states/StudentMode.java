@@ -1,12 +1,11 @@
 package pt.isec.pa.apoio_poe.model.fsm.states;
 
 import pt.isec.pa.apoio_poe.model.data.DataLogic;
+import pt.isec.pa.apoio_poe.model.data.Student;
+import pt.isec.pa.apoio_poe.model.data.Teacher;
 import pt.isec.pa.apoio_poe.model.fsm.AppContext;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.Scanner;
 
 public class StudentMode extends StateAdapter{
@@ -22,6 +21,12 @@ public class StudentMode extends StateAdapter{
         FileReader fr = null;
         BufferedReader br = null;
         Scanner sc = null;
+
+        if(!ac.filenameIsValid(filename)){
+            sb.append("File name is not valid");
+            return sb.toString();
+        }else if(!filename.endsWith(".csv"))
+            filename += ".csv";
 
         try{
             fr = new FileReader(filename);
@@ -150,6 +155,34 @@ public class StudentMode extends StateAdapter{
     @Override
     public String exportStudentsCSV(String filename) {
         StringBuilder sb = new StringBuilder();
+        FileWriter fw = null;
+        BufferedWriter bw = null;
+        PrintWriter pw = null;
+
+        if(!ac.filenameIsValid(filename)){
+            sb.append("File name is not valid");
+            return sb.toString();
+        }else if(!filename.endsWith(".csv"))
+            filename += ".csv";
+
+        try{
+            fw = new FileWriter(filename);
+            bw = new BufferedWriter(fw);
+            pw = new PrintWriter(bw);
+
+            for(Student s : dl.getStudentsValues()){
+                pw.println(s.getStudentNumber() + "," + s.getName() + "," + s.getEmail() + "," + s.getCourse() +
+                        "," + s.getBranch() + "," + s.getClassification() + "," + s.isInternshipAccess());
+            }
+
+            pw.close();
+            bw.close();
+            fw.close();
+        }catch (FileNotFoundException e){
+            sb.append("The specified file was not found");
+        }catch (IOException e){
+            sb.append("There was an error (IOException)");
+        }
 
         return sb.toString();
     }
