@@ -12,6 +12,8 @@ public class TextUI {
     }
 
     private void stageOneUI() {
+        String filename;
+
         switch(PAInput.chooseOption("Options:", "Import Proposals", "Export Proposals", "Import Students", "Export Students", "Import Teachers", "Export Teachers", "Quit")){
             case 1:
                 break;
@@ -22,10 +24,12 @@ public class TextUI {
             case 4:
                 break;
             case 5:
-                String filename = PAInput.readString("Introduce the name of the file to read: ", true);
+                filename = PAInput.readString("Introduce the name of the file to read: ", true);
                 System.out.println(m.importTeachersCSV(filename));
                 break;
             case 6:
+                filename = PAInput.readString("Introduce the name of the file to write: ", true);
+                System.out.println(m.exportTeachersCSV(filename));
                 break;
             case 7:
                 finish = true;

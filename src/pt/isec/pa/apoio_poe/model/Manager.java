@@ -19,4 +19,8 @@ public class Manager {
     public String importTeachersCSV(String filename){
         return ac.importTeachersCSV(filename);
     }
+
+    public String exportTeachersCSV(String filename){
+        return ac.exportTeachersCSV(filename);
+    }
 }

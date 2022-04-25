@@ -3,6 +3,9 @@ package pt.isec.pa.apoio_poe.model.fsm.states;
 import pt.isec.pa.apoio_poe.model.data.DataLogic;
 import pt.isec.pa.apoio_poe.model.fsm.AppContext;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 public abstract class StateAdapter implements IState{
     protected AppContext ac;
     protected DataLogic dl;
