@@ -10,4 +10,8 @@ public class Teacher {
         this.name = name;
         this.isAdvisor = isAdvisor;
     }
+
+    public String getEmail() {
+        return email;
+    }
 }

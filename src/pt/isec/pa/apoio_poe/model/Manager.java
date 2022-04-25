@@ -13,4 +13,10 @@ public class Manager {
     public AppState getState() {
         return ac.getState();
     }
+
+    public String getStage(){return ac.getStage();}
+
+    public String importTeachersCSV(String filename){
+        return ac.importTeachersCSV(filename);
+    }
 }

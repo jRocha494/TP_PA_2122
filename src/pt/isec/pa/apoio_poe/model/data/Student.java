@@ -20,4 +20,12 @@ public class Student {
         this.internshipAccess = internshipAccess;
         this.hasProposed = false;
     }
+
+    public long getStudentNumber() {
+        return studentNumber;
+    }
+
+    public String getEmail() {
+        return email;
+    }
 }

@@ -15,4 +15,26 @@ public abstract class StateAdapter implements IState{
     protected void changeState(AppState newState){
         ac.changeState(newState.createState(ac,dl));
     }
+
+    @Override
+    public String importProposalsCSV(String filename) { return ""; }
+
+    @Override
+    public String exportProposalsCSV(String filename) { return ""; }
+
+    @Override
+    public String importStudentsCSV(String filename) {
+        return "";
+    }
+
+    @Override
+    public String exportStudentsCSV(String filename) {
+        return "";
+    }
+
+    @Override
+    public String importTeachersCSV(String filename) { return ""; }
+
+    @Override
+    public String exportTeachersCSV(String filename) { return ""; }
 }
