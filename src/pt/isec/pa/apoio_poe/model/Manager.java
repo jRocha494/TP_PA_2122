@@ -16,9 +16,7 @@ public class Manager {
 
     public String getStage(){return ac.getStage();}
 
-    public boolean importProposalsCSV(String readString) {
-        return false;
-    }
+    public String importProposalsCSV(String filename) { return ac.importProposalsCSV(filename); }
 
     public boolean exportProposalsCSV(String readString) {
         return false;
