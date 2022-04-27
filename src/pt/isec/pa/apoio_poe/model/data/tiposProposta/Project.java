@@ -19,4 +19,29 @@ public class Project extends Proposal {
         this.destinedBranch = destinedBranch;
         this.proposingTeacher = proposingTeacher;
     }
+
+    public List<String> getDestinedBranch() {
+        return destinedBranch;
+    }
+
+    public String getProposingTeacher() {
+        return proposingTeacher;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("T2," + id + ",");
+        for(String b : destinedBranch) {
+            if (destinedBranch.indexOf(b) != 0)
+                sb.append("|");
+            sb.append(b);
+        }
+        sb.append("," + title + "," + proposingTeacher );
+        if(assignedStudent != -1)
+            sb.append("," + assignedStudent);
+
+        return sb.toString();
+    }
 }

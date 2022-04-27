@@ -16,20 +16,16 @@ public class Manager {
 
     public String getStage(){return ac.getStage();}
 
-    public boolean importProposalsCSV(String readString) {
-        return false;
-    }
+    public String importProposalsCSV(String filename) { return ac.importProposalsCSV(filename); }
 
-    public boolean exportProposalsCSV(String readString) {
-        return false;
-    }
+    public String exportProposalsCSV(String filename) { return ac.exportProposalsCSV(filename); }
 
     public String importStudentsCSV(String filename){
         return ac.importStudentsCSV(filename);
     }
 
-    public boolean exportStudentsCSV(String readString) {
-        return false;
+    public String exportStudentsCSV(String filename) {
+        return ac.exportStudentsCSV(filename);
     }
 
     public String importTeachersCSV(String filename){

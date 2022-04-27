@@ -20,4 +20,29 @@ public class Internship extends Proposal {
         this.destinedBranch = destinedBranch;
         this.hostingEntity = hostingEntity;
     }
+
+    public List<String> getDestinedBranch() {
+        return destinedBranch;
+    }
+
+    public String getHostingEntity() {
+        return hostingEntity;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("T1," + id + ",");
+        for(String b : destinedBranch) {
+            if (destinedBranch.indexOf(b) != 0)
+                sb.append("|");
+            sb.append(b);
+        }
+        sb.append("," + title + "," + hostingEntity);
+        if(assignedStudent != -1)
+            sb.append("," + assignedStudent);
+
+        return sb.toString();
+    }
 }

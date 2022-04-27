@@ -40,7 +40,13 @@ public class AppContext {
 
     public String getStage(){return state.getStage();}
 
+    public String importProposalsCSV(String filename){ return state.importProposalsCSV(filename); }
+
+    public String exportProposalsCSV(String filename){ return state.exportProposalsCSV(filename); }
+
     public String importStudentsCSV(String filename){ return state.importStudentsCSV(filename); }
+
+    public String exportStudentsCSV(String filename){ return state.exportStudentsCSV(filename); }
 
     public String importTeachersCSV(String filename){ return state.importTeachersCSV(filename); }
 
@@ -62,14 +68,23 @@ public class AppContext {
     }
 
     public boolean emailIsValid(String email) {
-        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\."+
+        String regex = "^[a-zA-Z0-9_+&*-]+(?:\\."+
                 "[a-zA-Z0-9_+&*-]+)*@" +
                 "(?:[a-zA-Z0-9-]+\\.)+[a-z" +
                 "A-Z]{2,7}$";
 
-        Pattern pat = Pattern.compile(emailRegex);
+        Pattern pat = Pattern.compile(regex);
         if (email == null)
             return false;
         return pat.matcher(email).matches();
+    }
+
+    public boolean proposalIdIsValid(String id) {
+        String regex = "[a-zA-Z]\\d\\d\\d";
+
+        Pattern pat = Pattern.compile(regex);
+        if (regex == null)
+            return false;
+        return pat.matcher(id).matches();
     }
 }

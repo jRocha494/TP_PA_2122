@@ -1,16 +1,41 @@
 package pt.isec.pa.apoio_poe.model.fsm.states;
 
 import pt.isec.pa.apoio_poe.model.data.DataLogic;
+import pt.isec.pa.apoio_poe.model.data.Student;
 import pt.isec.pa.apoio_poe.model.fsm.AppContext;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.Scanner;
 
 public class StudentMode extends StateAdapter{
     public StudentMode(AppContext ac, DataLogic dl) { super(ac, dl); }
+
+    @Override
+    public boolean changeConfigurationMode(int option){
+        switch(option){ // following the same order set on TextUI (student, teacher, proposal)
+            case 1 -> changeState(AppState.CONFIGURATIONS_STATE_STUDENT_MANAGER);
+            case 2 -> changeState(AppState.CONFIGURATIONS_STATE_TEACHER_MANAGER);
+            case 3 -> changeState(AppState.CONFIGURATIONS_STATE_PROPOSAL_MANAGER);
+            default -> { return false; }
+        }
+        return true;
+    }
+
+    @Override
+    public boolean closeStage(){
+        //TODO In UI it should validate whether these methods return true or false (Would it make sense to throw exceptions?)
+        if(dl.areProposalsMoreThanStudents()) { // if every branch has more proposals than students...
+            ac.setCloseStatus("Stage1", true);  // sets the close status flag for this stage to true
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean advanceStage(){
+        changeState(AppState.CANDIDATURE_OPTIONS_STAGE_TWO);
+        return true;
+    }
 
     @Override
     public String importStudentsCSV(String filename) {
@@ -22,6 +47,12 @@ public class StudentMode extends StateAdapter{
         FileReader fr = null;
         BufferedReader br = null;
         Scanner sc = null;
+
+        if(!ac.filenameIsValid(filename)){
+            sb.append("File name is not valid");
+            return sb.toString();
+        }else if(!filename.endsWith(".csv"))
+            filename += ".csv";
 
         try{
             fr = new FileReader(filename);
@@ -150,6 +181,33 @@ public class StudentMode extends StateAdapter{
     @Override
     public String exportStudentsCSV(String filename) {
         StringBuilder sb = new StringBuilder();
+        FileWriter fw = null;
+        BufferedWriter bw = null;
+        PrintWriter pw = null;
+
+        if(!ac.filenameIsValid(filename)){
+            sb.append("File name is not valid");
+            return sb.toString();
+        }else if(!filename.endsWith(".csv"))
+            filename += ".csv";
+
+        try{
+            fw = new FileWriter(filename);
+            bw = new BufferedWriter(fw);
+            pw = new PrintWriter(bw);
+
+            for(Student s : dl.getStudentsValues()){
+                pw.println(s.toString());
+            }
+
+            pw.close();
+            bw.close();
+            fw.close();
+        }catch (FileNotFoundException e){
+            sb.append("The specified file was not found");
+        }catch (IOException e){
+            sb.append("There was an error (IOException)");
+        }
 
         return sb.toString();
     }

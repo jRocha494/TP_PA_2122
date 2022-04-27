@@ -2,6 +2,7 @@ package pt.isec.pa.apoio_poe.model.data;
 
 import pt.isec.pa.apoio_poe.model.data.tiposProposta.Internship;
 import pt.isec.pa.apoio_poe.model.data.tiposProposta.Project;
+import pt.isec.pa.apoio_poe.model.data.tiposProposta.SelfProposal;
 
 import java.util.*;
 
@@ -34,8 +35,16 @@ public class DataLogic {
         proposalsList.put(id, new Project(id,title,destinedBranch,proposingTeacher));
     }
 
+    public void addInternship(String id, String title, long assignedStudent, List<String> destinedBranch, String hostingEntity){
+        proposalsList.put(id, new Internship(id,title,assignedStudent,destinedBranch,hostingEntity));
+    }
+
+    public void addProject(String id, String title, long assignedStudent, List<String> destinedBranch, String proposingTeacher){
+        proposalsList.put(id, new Project(id,title,assignedStudent,destinedBranch,proposingTeacher));
+    }
+
     public void addSelfProposal(String id, String title, long assignedStudent){
-        proposalsList.put(id, new Proposal(id,title,assignedStudent));
+        proposalsList.put(id, new SelfProposal(id,title,assignedStudent));
     }
 
     public void addStudent(long studentNumber, String name, String email, String course, String branch, double classification, boolean internshipAccess){
@@ -47,9 +56,19 @@ public class DataLogic {
         teachersList.put(email, new Teacher(email, name, isAdvisor));
     }
 
-    public boolean proposalExists(String id, long assignedStudent){
-        for(Proposal p : proposalsList.values()){
-            if(p.getId().equalsIgnoreCase(id) || p.getAssignedStudent() == assignedStudent)
+    public boolean proposalExists(String id){ return proposalsList.containsKey(id);}
+
+    public boolean proposalWithStudentExists(long assignedStudent){
+        for(Proposal p : proposalsList.values()) {
+            if(assignedStudent == p.getAssignedStudent())
+                return true;
+        }
+        return false;
+    }
+
+    public boolean proposalWithTeacherExists(long assignedStudent){
+        for(Proposal p : proposalsList.values()) {
+            if(assignedStudent == p.getAssignedStudent())
                 return true;
         }
         return false;
@@ -60,10 +79,10 @@ public class DataLogic {
     }
 
     public boolean studentExists(String email){
-    for(Student s : studentsList.values()) {
-        if(email.equals(s.getEmail()))
-            return true;
-    }
+        for(Student s : studentsList.values()) {
+            if(email.equals(s.getEmail()))
+                return true;
+        }
         return false;
     }
 
