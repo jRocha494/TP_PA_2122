@@ -2,6 +2,7 @@ package pt.isec.pa.apoio_poe.model.data;
 
 import pt.isec.pa.apoio_poe.model.data.tiposProposta.Internship;
 import pt.isec.pa.apoio_poe.model.data.tiposProposta.Project;
+import pt.isec.pa.apoio_poe.model.data.tiposProposta.SelfProposal;
 
 import java.util.*;
 
@@ -43,7 +44,7 @@ public class DataLogic {
     }
 
     public void addSelfProposal(String id, String title, long assignedStudent){
-        proposalsList.put(id, new Proposal(id,title,assignedStudent));
+        proposalsList.put(id, new SelfProposal(id,title,assignedStudent));
     }
 
     public void addStudent(long studentNumber, String name, String email, String course, String branch, double classification, boolean internshipAccess){

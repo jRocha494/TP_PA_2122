@@ -20,6 +20,10 @@ public class Proposal {
         return id;
     }
 
+    public String getTitle() {
+        return title;
+    }
+
     public long getAssignedStudent() {
         return assignedStudent;
     }

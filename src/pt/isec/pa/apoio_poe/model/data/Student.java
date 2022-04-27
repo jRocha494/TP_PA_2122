@@ -52,4 +52,14 @@ public class Student {
     public boolean isHasProposed() {
         return hasProposed;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append(studentNumber + "," + name + "," + email + "," + course +
+                "," + branch + "," + classification + "," + internshipAccess);
+
+        return sb.toString();
+    }
 }

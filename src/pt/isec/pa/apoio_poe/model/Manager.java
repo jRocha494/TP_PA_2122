@@ -18,9 +18,7 @@ public class Manager {
 
     public String importProposalsCSV(String filename) { return ac.importProposalsCSV(filename); }
 
-    public boolean exportProposalsCSV(String readString) {
-        return false;
-    }
+    public String exportProposalsCSV(String filename) { return ac.exportProposalsCSV(filename); }
 
     public String importStudentsCSV(String filename){
         return ac.importStudentsCSV(filename);

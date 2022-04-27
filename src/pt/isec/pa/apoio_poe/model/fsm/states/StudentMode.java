@@ -197,8 +197,7 @@ public class StudentMode extends StateAdapter{
             pw = new PrintWriter(bw);
 
             for(Student s : dl.getStudentsValues()){
-                pw.println(s.getStudentNumber() + "," + s.getName() + "," + s.getEmail() + "," + s.getCourse() +
-                        "," + s.getBranch() + "," + s.getClassification() + "," + s.isInternshipAccess());
+                pw.println(s.toString());
             }
 
             pw.close();

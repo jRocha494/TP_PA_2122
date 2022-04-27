@@ -123,7 +123,7 @@ public class TeacherMode extends StateAdapter{
             pw = new PrintWriter(bw);
 
             for(Teacher t : dl.getTeachersValues()){
-                pw.println(t.getName() + "," + t.getEmail());
+                pw.println(t.toString());
             }
 
             pw.close();
