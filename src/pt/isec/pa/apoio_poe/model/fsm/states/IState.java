@@ -15,4 +15,5 @@ public interface IState {
     boolean changeConfigurationMode(int option);
     boolean closeStage();
     boolean advanceStage();
+    boolean returnStage();
 }

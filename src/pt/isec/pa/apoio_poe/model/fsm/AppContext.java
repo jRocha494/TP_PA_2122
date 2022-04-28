@@ -32,7 +32,7 @@ public class AppContext {
         closeStatusStages.computeIfPresent(stage, (k, v) -> v = status);
     }
 
-    public boolean getCloseStatus(String stage){    // Receives the name of the stage, and returns its close status
+    public boolean isStageClosed(String stage){    // Receives the name of the stage, and returns its close status
         return closeStatusStages.get(stage);
     }
 
@@ -57,6 +57,7 @@ public class AppContext {
     public boolean changeConfigurationMode(int option){ return state.changeConfigurationMode(option); }
     public boolean closeStage() { return state.closeStage(); }
     public boolean advanceStage() { return state.advanceStage(); }
+    public boolean returnStage() { return state.returnStage(); }
 
     public boolean filenameIsValid(String filename) {
         String[] fn = filename.split("\\.");

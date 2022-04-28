@@ -39,5 +39,5 @@ public class Manager {
     public boolean changeConfigurationMode(int option){ return ac.changeConfigurationMode(option); }
     public boolean closeStage() { return ac.closeStage(); }
     public boolean advanceStage() { return ac.advanceStage(); }
-
+    public boolean returnStage() { return ac.returnStage(); }
 }

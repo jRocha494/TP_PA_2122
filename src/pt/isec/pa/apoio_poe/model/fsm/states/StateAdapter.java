@@ -47,4 +47,6 @@ public abstract class StateAdapter implements IState{
     public boolean closeStage(){ return false; }
     @Override
     public boolean advanceStage(){ return false; }
+    @Override
+    public boolean returnStage(){ return false; }
 }

@@ -11,6 +11,7 @@ import java.util.regex.Pattern;
 public class StageOne extends StateAdapter{
     public StageOne(AppContext ac, DataLogic dl) {
         super(ac, dl);
+        ac.setCloseStatus("Stage1", false);
     }
 
     @Override
@@ -34,6 +35,7 @@ public class StageOne extends StateAdapter{
         //TODO In UI it should validate whether these methods return true or false (Would it make sense to throw exceptions?)
         if(dl.areProposalsMoreThanStudents()) { // if every branch has more proposals than students...
             ac.setCloseStatus("Stage1", true);  // sets the close status flag for this stage to true
+            changeState(AppState.CLOSED_STAGE);
             return true;
         }
         return false;
@@ -41,7 +43,7 @@ public class StageOne extends StateAdapter{
 
     @Override
     public boolean advanceStage(){
-        changeState(AppState.CANDIDATURE_OPTIONS_STAGE_TWO);
+        changeState(AppState.APPLICATION_OPTIONS_STAGE_TWO);
         return true;
     }
 
