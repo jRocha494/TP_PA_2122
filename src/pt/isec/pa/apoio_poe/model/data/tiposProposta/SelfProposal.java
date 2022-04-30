@@ -16,4 +16,12 @@ public class SelfProposal extends Proposal {
 
         return sb.toString();
     }
+
+    @Override
+    public String proposalToString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("[SELF PROPOSAL]\n" + super.proposalToString());
+
+        return sb.toString();
+    }
 }

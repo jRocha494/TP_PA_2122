@@ -176,7 +176,7 @@ public class ProposalMode extends StateAdapter{
                     if(pType.equalsIgnoreCase("T1"))
                         dl.addInternship(id, title, dl.getStudent(assignedStudent), destinedBranch, hostingEntity);
                     if(pType.equalsIgnoreCase("T2"))
-                        dl.addProject(id, title, dl.getStudent(assignedStudent), destinedBranch, proposingTeacher);
+                        dl.addProject(id, title, dl.getStudent(assignedStudent), destinedBranch, dl.getTeacher(proposingTeacher));
                     if(pType.equalsIgnoreCase("T3"))
                         dl.addSelfProposal(id, title, dl.getStudent(assignedStudent));
                 }else

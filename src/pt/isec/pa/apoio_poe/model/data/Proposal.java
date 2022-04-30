@@ -30,10 +30,10 @@ public class Proposal {
     public String proposalToString(){
         StringBuilder sb = new StringBuilder();
         sb.append("|> " + title + id +
-                (assignedStudent!=null ? "has no student assigned yet" : "already has " + assignedStudent.getStudentNumber() + " | " + assignedStudent.getName() + " assigned to this proposal"));
+                (assignedStudent!=null ? "has no student assigned yet" : "assigned to " + assignedStudent.getStudentNumber() + " | " + assignedStudent.getName()));
 
         return sb.toString();
     }
 
-    public boolean hasAssignedStudent() { return assignedStudent!=-1; }
+    public boolean hasAssignedStudent() { return assignedStudent!=null; }
 }

@@ -16,12 +16,6 @@ public class Internship extends Proposal {
         this.hostingEntity = hostingEntity;
     }
 
-    public Internship(String id, String title, List<String> destinedBranch, String hostingEntity) {
-        super(id, title);
-        this.destinedBranch = destinedBranch;
-        this.hostingEntity = hostingEntity;
-    }
-
     public List<String> getDestinedBranch() {
         return destinedBranch;
     }
@@ -42,7 +36,20 @@ public class Internship extends Proposal {
         }
         sb.append("," + title + "," + hostingEntity);
         if(assignedStudent != null)
-            sb.append("," + assignedStudent);
+            sb.append("," + assignedStudent.getStudentNumber());
+
+        return sb.toString();
+    }
+
+    @Override
+    public String proposalToString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("[PROJECT]\n" + super.proposalToString());
+        sb.append("Hosted by " + hostingEntity);
+        sb.append("Branches: ");
+        for(String b : destinedBranch){
+            sb.append(" -> " + b);
+        }
 
         return sb.toString();
     }

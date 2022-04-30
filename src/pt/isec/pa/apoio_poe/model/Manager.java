@@ -51,4 +51,7 @@ public class Manager {
     public String viewStudents() { return ac.viewStudents(); }
     public String viewTeachers() { return ac.viewTeachers(); }
     public String viewProposals() { return ac.viewProposals(); }
+    public String viewStudentsSelfProposals() { return ac.viewStudentsSelfProposals(); }
+    public String viewStudentsWithApplication() { return ac.viewStudentsWithApplication(); }
+    public String viewStudentsWithoutApplication() { return ac.viewStudentsWithoutApplication(); }
 }

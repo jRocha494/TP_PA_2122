@@ -35,7 +35,7 @@ public class DataLogic {
             numberStudentsAndProposals.get(b).incrementNmrProposals();
     }
 
-    public void addProject(String id, String title, Student assignedStudent, List<String> destinedBranch, String proposingTeacher){
+    public void addProject(String id, String title, Student assignedStudent, List<String> destinedBranch, Teacher proposingTeacher){
         proposalsList.put(id, new Project(id,title,assignedStudent,destinedBranch,proposingTeacher));
         for(String b : destinedBranch)
             numberStudentsAndProposals.get(b).incrementNmrProposals();
@@ -44,7 +44,7 @@ public class DataLogic {
     public void addSelfProposal(String id, String title, Student assignedStudent){
         proposalsList.put(id, new SelfProposal(id,title,assignedStudent));
         numberStudentsAndProposals.get(assignedStudent.getBranch()).incrementNmrProposals();
-        studentsList.get(assignedStudent).setHasProposed(true);
+        studentsList.get(assignedStudent.getStudentNumber()).setHasProposed(true);
     }
 
     public void addStudent(long studentNumber, String name, String email, String course, String branch, double classification, boolean internshipAccess){
@@ -58,13 +58,15 @@ public class DataLogic {
 
     public void addApplication(Student studentNumber, List<Proposal> chosenProposals){
         applicationsList.put(studentNumber, new Application(chosenProposals, studentNumber));
-        studentsList.get(studentNumber).setHasApplication(true);
+        studentsList.get(studentNumber.getStudentNumber()).setHasApplication(true);
     }
 
     public Student getStudent(long id){
         return studentsList.get(id);
     }
-
+    public Teacher getTeacher(String id) {
+        return teachersList.get(id);
+    }
     public Proposal getProposal(String id){
         return proposalsList.get(id);
     }
@@ -74,14 +76,6 @@ public class DataLogic {
     public boolean proposalWithStudentExists(long assignedStudent){
         if (studentExists(assignedStudent))
             return studentsList.get(assignedStudent).hasProposed();
-        return false;
-    }
-
-    public boolean proposalWithTeacherExists(long assignedStudent){
-        for(Proposal p : proposalsList.values()) {
-            if(assignedStudent == p.getAssignedStudent())
-                return true;
-        }
         return false;
     }
 
@@ -149,6 +143,31 @@ public class DataLogic {
         }
         return sb.toString();
     }
+    public String viewStudentsSelfProposals() {
+        StringBuilder sb = new StringBuilder();
+        for (Student s : studentsList.values()) {
+            if(s.hasProposed())
+                sb.append(s.studentToString());
+        }
+        return sb.toString();
+    }
+    public String viewStudentsWithApplication() {
+        StringBuilder sb = new StringBuilder();
+        for (Student s : studentsList.values()) {
+            if(s.hasApplication())
+                sb.append(s.studentToString());
+        }
+        return sb.toString();
+    }
+    public String viewStudentsWithoutApplication() {
+        StringBuilder sb = new StringBuilder();
+        for (Student s : studentsList.values()) {
+            if(!s.hasApplication())
+                sb.append(s.studentToString());
+        }
+        return sb.toString();
+    }
+
 
     private class Wrapper{    // to be used on 'numberStudents' hashmap
         int nmrStudents;    // number of students in that branch
