@@ -13,62 +13,70 @@ public class TextUI {
     }
 
     private void stageOneUI() {
-        //TODO: SEPARAR PELOS ESTADOS DA FASE 1
         System.out.println("STAGE ONE, " + m.getState());
-        switch(PAInput.chooseOption("What do you pretend to do?", "Change configuration mode", "Close stage", "Advance to next stage", "Save application state", "Quit")){
+        switch(PAInput.chooseOption("What do you pretend to do?", "Change configuration mode", "View students list", "View teachers list", "View proposals list", "Close stage", "Advance to next stage", "Save application state", "Quit")){
             //TODO: ADD OPTIONS TO VIEW DATA (STUDENT, TEACHER, PROPOSALS)
             case 1 -> m.changeConfigurationMode(PAInput.chooseOption("Choose a configuration mode", "Students", "Teachers", "Proposals"));
-            case 2 -> m.closeStage();
-            case 3 -> m.advanceStage();
-            // TODO case 4 -> save();
-            default ->finish = true;
+            case 2 -> System.out.println(m.viewStudents());
+            case 3 -> System.out.println(m.viewTeachers());
+            case 4 -> System.out.println(m.viewProposals());
+            case 5 -> m.closeStage();
+            case 6 -> m.advanceStage();
+            // TODO case 7 -> save();
+            default -> finish = true;
         }
     }
 
     private void proposalManagerUI() {
         System.out.println("PROPOSAL MANAGER, " + m.getState());
-        switch(PAInput.chooseOption("What do you pretend to do?", "Import data from CSV file", "Export data to CSV file", "Change configuration mode", "Close stage", "Advance to next stage", "Save application state", "Quit")){
-            case 1 -> System.out.println(m.importProposalsCSV(PAInput.readString("Introduce the name of the file to read: ", true)));
-            case 2 -> System.out.println(m.exportProposalsCSV(PAInput.readString("Introduce the name of the file to write: ", true)));
-            case 3 -> m.changeConfigurationMode(PAInput.chooseOption("Choose a configuration mode", "Students", "Teachers", "Proposals"));
-            case 4 -> m.closeStage();
-            case 5 -> m.advanceStage();
-            // TODO case 6 -> save();
-            default ->finish = true;
+        switch(PAInput.chooseOption("What do you pretend to do?", "Change configuration mode", "View proposals list", "Import data from CSV file", "Export data to CSV file", "Close stage", "Advance to next stage", "Save application state", "Quit")){
+            case 1 -> m.changeConfigurationMode(PAInput.chooseOption("Choose a configuration mode", "Students", "Teachers"));
+            case 2 -> m.viewProposals();
+            case 3 -> System.out.println(m.importProposalsCSV(PAInput.readString("Introduce the name of the file to read: ", true)));
+            case 4 -> System.out.println(m.exportProposalsCSV(PAInput.readString("Introduce the name of the file to write: ", true)));
+            case 5 -> m.closeStage();
+            case 6 -> m.advanceStage();
+            // TODO case 7 -> save();
+            default -> finish = true;
         }
     }
 
     private void studentManagerUI() {
         System.out.println("STUDENT MANAGER, " + m.getState());
-        switch(PAInput.chooseOption("What do you pretend to do?", "Import data from CSV file", "Export data to CSV file", "Change configuration mode", "Close stage", "Advance to next stage", "Save application state", "Quit")){
-            case 1 -> System.out.println(m.importStudentsCSV(PAInput.readString("Introduce the name of the file to read: ", true)));
-            case 2 -> System.out.println(m.exportStudentsCSV(PAInput.readString("Introduce the name of the file to write: ", true)));
-            case 3 -> m.changeConfigurationMode(PAInput.chooseOption("Choose a configuration mode", "Students", "Teachers", "Proposals"));
-            case 4 -> m.closeStage();
-            case 5 -> m.advanceStage();
-            // TODO case 6 -> save();
-            default ->finish = true;
+        switch(PAInput.chooseOption("What do you pretend to do?", "Change configuration mode", "View students list", "Import data from CSV file", "Export data to CSV file", "Close stage", "Advance to next stage", "Save application state", "Quit")){
+            case 1 -> m.changeConfigurationMode(PAInput.chooseOption("Choose a configuration mode", "Teachers", "Proposals"));
+            case 2 -> m.viewStudents();
+            case 3 -> System.out.println(m.importStudentsCSV(PAInput.readString("Introduce the name of the file to read: ", true)));
+            case 4 -> System.out.println(m.exportStudentsCSV(PAInput.readString("Introduce the name of the file to write: ", true)));
+            case 5 -> m.closeStage();
+            case 6 -> m.advanceStage();
+            // TODO case 7 -> save();
+            default -> finish = true;
         }
     }
 
     private void teacherManagerUI() {
         System.out.println("TEACHER MANAGER, " + m.getState());
-        switch(PAInput.chooseOption("What do you pretend to do?", "Import data from CSV file", "Export data to CSV file", "Change configuration mode", "Close stage", "Advance to next stage", "Save application state", "Quit")){
-            case 1 -> System.out.println(m.importTeachersCSV(PAInput.readString("Introduce the name of the file to read: ", true)));
-            case 2 -> System.out.println(m.exportTeachersCSV(PAInput.readString("Introduce the name of the file to write: ", true)));
-            case 3 -> m.changeConfigurationMode(PAInput.chooseOption("Choose a configuration mode", "Students", "Teachers", "Proposals"));
-            case 4 -> m.closeStage();
-            case 5 -> m.advanceStage();
-            // TODO case 6 -> save();
-            default ->finish = true;
+        switch(PAInput.chooseOption("What do you pretend to do?", "Change configuration mode", "View teachers list", "Import data from CSV file", "Export data to CSV file", "Close stage", "Advance to next stage", "Save application state", "Quit")){
+            case 1 -> m.changeConfigurationMode(PAInput.chooseOption("Choose a configuration mode", "Students", "Proposals"));
+            case 2 -> m.viewTeachers();
+            case 3 -> System.out.println(m.importTeachersCSV(PAInput.readString("Introduce the name of the file to read: ", true)));
+            case 4 -> System.out.println(m.exportTeachersCSV(PAInput.readString("Introduce the name of the file to write: ", true)));
+            case 5 -> m.closeStage();
+            case 6 -> m.advanceStage();
+            // TODO case 7 -> save();
+            default -> finish = true;
         }
     }
 
     private void closedStageUI() {
         System.out.println("CLOSED STAGE, " + m.getState());
-        switch(PAInput.chooseOption("What do you pretend to do?", "Advance to next stage", "Quit")){
-            //TODO: ADD OPTIONS TO VIEW DATA (STUDENT, TEACHER, PROPOSALS)
-            case 1 -> m.advanceStage();
+        switch(PAInput.chooseOption("What do you pretend to do?", "View students list", "View teachers list", "View proposals list", "Advance to next stage", "Quit")){
+            case 1 -> m.viewStudents();
+            case 2 -> m.viewTeachers();
+            case 3 -> m.viewProposals();
+            case 4 -> m.advanceStage();
+            // TODO case 5 -> save();
         }
     }
 
