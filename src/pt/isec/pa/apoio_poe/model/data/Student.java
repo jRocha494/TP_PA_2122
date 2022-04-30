@@ -9,6 +9,7 @@ public class Student {
     private double classification;
     private boolean internshipAccess;   // boolean representing whether this Student is eligible to apply for internships
     private boolean hasProposed;    // True if this student has proposed a project/internship, False if not (Students can only propose once)
+    private boolean hasApplication;
 
     public Student(long studentNumber, String name, String email, String course, String branch, double classification, boolean internshipAccess) {
         this.studentNumber = studentNumber;
@@ -19,6 +20,7 @@ public class Student {
         this.classification = classification;
         this.internshipAccess = internshipAccess;
         this.hasProposed = false;
+        this.hasApplication = false;
     }
 
     public long getStudentNumber() {
@@ -49,12 +51,16 @@ public class Student {
         return internshipAccess;
     }
 
-    public boolean isHasProposed() {
+    public boolean hasProposed() {
         return hasProposed;
     }
 
+    public boolean hasApplication() {
+        return hasApplication;
+    }
+
     @Override
-    public String toString() {
+    public String toString() { 
         StringBuilder sb = new StringBuilder();
 
         sb.append(studentNumber + "," + name + "," + email + "," + course +

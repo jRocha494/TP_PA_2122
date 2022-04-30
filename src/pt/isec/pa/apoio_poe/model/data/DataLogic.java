@@ -27,24 +27,21 @@ public class DataLogic {
         this.numberStudentsAndProposals.put("SI", new Wrapper(0, 0));   // each branch starts with 0 students and 0 proposals -> to be incremented as they're created
     }
 
-    public void addInternship(String id, String title, List<String> destinedBranch, String hostingEntity){
-        proposalsList.put(id, new Internship(id,title,destinedBranch,hostingEntity));
-    }
-
-    public void addProject(String id, String title, List<String> destinedBranch, String proposingTeacher){
-        proposalsList.put(id, new Project(id,title,destinedBranch,proposingTeacher));
-    }
-
     public void addInternship(String id, String title, long assignedStudent, List<String> destinedBranch, String hostingEntity){
         proposalsList.put(id, new Internship(id,title,assignedStudent,destinedBranch,hostingEntity));
+        for(String b : destinedBranch)
+            numberStudentsAndProposals.get(b).incrementNmrProposals();
     }
 
     public void addProject(String id, String title, long assignedStudent, List<String> destinedBranch, String proposingTeacher){
         proposalsList.put(id, new Project(id,title,assignedStudent,destinedBranch,proposingTeacher));
+        for(String b : destinedBranch)
+            numberStudentsAndProposals.get(b).incrementNmrProposals();
     }
 
     public void addSelfProposal(String id, String title, long assignedStudent){
         proposalsList.put(id, new SelfProposal(id,title,assignedStudent));
+        numberStudentsAndProposals.get(getStudent(assignedStudent).getBranch()).incrementNmrProposals();
     }
 
     public void addStudent(long studentNumber, String name, String email, String course, String branch, double classification, boolean internshipAccess){
@@ -56,13 +53,15 @@ public class DataLogic {
         teachersList.put(email, new Teacher(email, name, isAdvisor));
     }
 
+    public Student getStudent(long id){
+        return studentsList.get(id);
+    }
+
     public boolean proposalExists(String id){ return proposalsList.containsKey(id);}
 
     public boolean proposalWithStudentExists(long assignedStudent){
-        for(Proposal p : proposalsList.values()) {
-            if(assignedStudent == p.getAssignedStudent())
-                return true;
-        }
+        if (studentExists(assignedStudent))
+            return studentsList.get(assignedStudent).hasProposed();
         return false;
     }
 

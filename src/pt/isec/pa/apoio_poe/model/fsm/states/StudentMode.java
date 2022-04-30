@@ -33,7 +33,7 @@ public class StudentMode extends StateAdapter{
 
     @Override
     public boolean advanceStage(){
-        changeState(AppState.CANDIDATURE_OPTIONS_STAGE_TWO);
+        changeState(AppState.APPLICATION_OPTIONS_STAGE_TWO);
         return true;
     }
 
