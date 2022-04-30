@@ -44,7 +44,7 @@ public class DataLogic {
     public void addSelfProposal(String id, String title, Student assignedStudent){
         proposalsList.put(id, new SelfProposal(id,title,assignedStudent));
         numberStudentsAndProposals.get(assignedStudent.getBranch()).incrementNmrProposals();
-        studentsList.get(assignedStudent).setHasProposed(true);
+        studentsList.get(assignedStudent.getStudentNumber()).setHasProposed(true);
     }
 
     public void addStudent(long studentNumber, String name, String email, String course, String branch, double classification, boolean internshipAccess){
@@ -58,7 +58,7 @@ public class DataLogic {
 
     public void addApplication(Student studentNumber, List<Proposal> chosenProposals){
         applicationsList.put(studentNumber, new Application(chosenProposals, studentNumber));
-        studentsList.get(studentNumber).setHasApplication(true);
+        studentsList.get(studentNumber.getStudentNumber()).setHasApplication(true);
     }
 
     public Student getStudent(long id){
@@ -92,6 +92,14 @@ public class DataLogic {
         return false;
     }
 
+    public boolean hasInternshipAccess(long studentNumber){
+        return studentsList.get(studentNumber).hasInternshipAccess();
+    }
+
+    public boolean isInternship(String id){
+        return (proposalsList.get(id) instanceof Internship);
+    }
+
     public boolean studentExists(long studentNumber){
         return studentsList.containsKey(studentNumber);
     }
@@ -118,6 +126,10 @@ public class DataLogic {
 
     public Collection<Teacher> getTeachersValues() {
         return teachersList.values();
+    }
+
+    public Collection<Application> getApplicationsValues() {
+        return applicationsList.values();
     }
 
     public boolean areProposalsMoreThanStudents(){

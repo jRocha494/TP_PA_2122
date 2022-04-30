@@ -90,6 +90,7 @@ public class TextUI {
             case 4 -> m.returnStage();
             case 5 -> m.advanceStage();
         }
+        System.out.println("STAGE TWO, " + m.getState());
     }
 
     private void stageThreeUI() {

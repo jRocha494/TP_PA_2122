@@ -23,7 +23,7 @@ public class Application {
     public String toString() {
         StringBuilder sb = new StringBuilder();
 
-        sb.append(studentNumber);
+        sb.append(studentNumber.getStudentNumber());
         for (Proposal p : chosenProposals)
             sb.append("," + p.getId());
 

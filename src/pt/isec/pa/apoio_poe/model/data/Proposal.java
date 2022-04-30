@@ -35,5 +35,5 @@ public class Proposal {
         return sb.toString();
     }
 
-    public boolean hasAssignedStudent() { return assignedStudent!=-1; }
+    public boolean hasAssignedStudent() { return assignedStudent!=null; }
 }
