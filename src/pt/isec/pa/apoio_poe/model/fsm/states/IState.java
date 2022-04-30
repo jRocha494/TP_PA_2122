@@ -7,6 +7,8 @@ public interface IState {
     String exportStudentsCSV(String filename);
     String importTeachersCSV(String filename);
     String exportTeachersCSV(String filename);
+    String importApplicationsCSV(String filename);
+    String exportApplicationsCSV(String filename);
 
     AppState getState();
 

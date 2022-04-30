@@ -11,14 +11,14 @@ public class Student {
     private boolean hasProposed;    // True if this student has proposed a project/internship, False if not (Students can only propose once)
     private boolean hasApplication; // True if this student has an associated application
 
-    public Student(long studentNumber, String name, String email, String course, String branch, double classification, boolean internshipAccess) {
+    public Student(long studentNumber, String name, String email, String course, String branch, double classification, boolean hasInternshipAccess) {
         this.studentNumber = studentNumber;
         this.name = name;
         this.email = email;
         this.course = course;
         this.branch = branch;
         this.classification = classification;
-        this.hasInternshipAccess = internshipAccess;
+        this.hasInternshipAccess = hasInternshipAccess;
         this.hasProposed = false;
         this.hasApplication = false;
     }
@@ -47,7 +47,7 @@ public class Student {
         return classification;
     }
 
-    public boolean isInternshipAccess() {
+    public boolean hasInternshipAccess() {
         return hasInternshipAccess;
     }
 
@@ -57,6 +57,14 @@ public class Student {
 
     public boolean hasApplication() {
         return hasApplication;
+    }
+
+    public void setHasProposed(boolean hasProposed) {
+        this.hasProposed = hasProposed;
+    }
+
+    public void setHasApplication(boolean hasApplication) {
+        this.hasApplication = hasApplication;
     }
 
     @Override

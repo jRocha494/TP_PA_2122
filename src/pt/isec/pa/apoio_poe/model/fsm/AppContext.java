@@ -16,16 +16,16 @@ public class AppContext {
 
     public AppContext() {
         this.dl = new DataLogic();
-        this.state = new StageOne(this, dl);
         this.closeStatusStages = new HashMap<>();
+        setup();
+        this.state = new StageOne(this, dl);
+    }
+
+    private void setup(){
         this.closeStatusStages.put("Stage1", false);
         this.closeStatusStages.put("Stage2", false);
         this.closeStatusStages.put("Stage3", false);
         this.closeStatusStages.put("Stage4", false);
-        setup();
-    }
-
-    private void setup(){
     }
 
     public void setCloseStatus(String stage, boolean status){   // Receives the name of the stage, and sets its close status if it finds the stage
@@ -51,6 +51,10 @@ public class AppContext {
     public String importTeachersCSV(String filename){ return state.importTeachersCSV(filename); }
 
     public String exportTeachersCSV(String filename){ return state.exportTeachersCSV(filename); }
+
+    public String importApplicationsCSV(String filename){ return state.importApplicationsCSV(filename); }
+
+    public String exportApplicationsCSV(String filename){ return state.exportApplicationsCSV(filename); }
 
     public void changeState(IState newState) { this.state = newState; }
 

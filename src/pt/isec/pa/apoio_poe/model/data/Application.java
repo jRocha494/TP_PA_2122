@@ -3,19 +3,19 @@ package pt.isec.pa.apoio_poe.model.data;
 import java.util.List;
 
 public class Application {
-    List<String> chosenProposals;
-    long studentNumber;
+    List<Proposal> chosenProposals;
+    Student studentNumber;
 
-    public Application(List<String> choosenProposals, long studentNumber) {
-        this.chosenProposals = choosenProposals;
+    public Application(List<Proposal> chosenProposals, Student studentNumber) {
+        this.chosenProposals = chosenProposals;
         this.studentNumber = studentNumber;
     }
 
-    public List<String> getChosenProposals() {
+    public List<Proposal> getChoosenProposals() {
         return chosenProposals;
     }
 
-    public long getStudentNumber() {
+    public Student getStudentNumber() {
         return studentNumber;
     }
 
@@ -24,8 +24,8 @@ public class Application {
         StringBuilder sb = new StringBuilder();
 
         sb.append(studentNumber);
-        for (String p : chosenProposals)
-            sb.append("," + p);
+        for (Proposal p : chosenProposals)
+            sb.append("," + p.getId());
 
         return sb.toString();
     }

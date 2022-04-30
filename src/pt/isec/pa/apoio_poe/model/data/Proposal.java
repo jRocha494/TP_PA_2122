@@ -34,4 +34,6 @@ public class Proposal {
 
         return sb.toString();
     }
+
+    public boolean hasAssignedStudent() { return assignedStudent!=-1; }
 }
