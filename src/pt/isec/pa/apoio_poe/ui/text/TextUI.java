@@ -3,6 +3,9 @@ package pt.isec.pa.apoio_poe.ui.text;
 import pt.isec.pa.apoio_poe.model.Manager;
 import pt.isec.pa.apoio_poe.utils.PAInput;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class TextUI {
     private Manager m;
     private boolean finish;
@@ -88,15 +91,37 @@ public class TextUI {
             case 1 -> System.out.println(m.viewStudentsSelfProposals());
             case 2 -> System.out.println(m.viewStudentsWithApplication());
             case 3 -> System.out.println(m.viewStudentsWithoutApplication());
-            case 4 -> System.out.println(m.importApplicationsCSV(PAInput.readString("Introduce the name of the file to read: ", true)));
-            case 5 -> System.out.println(m.exportApplicationsCSV(PAInput.readString("Introduce the name of the file to write: ", true)));
-            case 6 -> m.closeStage();
-            case 7 -> m.returnStage();
-            case 8 -> m.advanceStage();
+            case 4 -> viewProposalsWithFilters();
+            case 5 -> System.out.println(m.importApplicationsCSV(PAInput.readString("Introduce the name of the file to read: ", true)));
+            case 6 -> System.out.println(m.exportApplicationsCSV(PAInput.readString("Introduce the name of the file to write: ", true)));
+            case 7 -> m.closeStage();
+            case 8 -> m.returnStage();
+            case 9 -> m.advanceStage();
             // TODO case 9 -> save();
             default -> finish = true;
         }
         System.out.println("STAGE TWO, " + m.getState());
+    }
+
+    private void viewProposalsWithFilters(){
+        int choice = 0;
+        ArrayList<Integer> filters = new ArrayList<>();
+
+        while (!finish){
+            choice = PAInput.chooseOption("Please choose a filter, and after that confirm the choices","Students Self-Proposals", "Teachers Proposals", "Proposals with Application", "Proposals without Application", "Confirm filters");
+
+            if(choice < 5) {
+                if(!filters.contains(choice)) {
+                    System.out.println("Filter " + choice + " added!");
+                    filters.add(choice);
+                } else {
+                    System.out.println("Filter " + choice + " removed!");
+                    filters.remove(choice);
+                }
+            } else
+                break;
+        }
+        m.filterProposals(filters.toArray());
     }
 
     private void stageThreeUI() {
