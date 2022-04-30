@@ -69,6 +69,8 @@ public class AppContext {
     public String viewStudentsWithApplication() { return dl.viewStudentsWithApplication(); }
     public String viewStudentsWithoutApplication() { return dl.viewStudentsWithoutApplication(); }
 
+    public String filterProposals(Integer... filters) { return dl.filterProposals(filters);}
+
     public boolean filenameIsValid(String filename) {
         String[] fn = filename.split("\\.");
 

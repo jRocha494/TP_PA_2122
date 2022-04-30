@@ -15,6 +15,27 @@ public class TextUI {
         this.finish = false;
     }
 
+    private String viewProposalsWithFilters(){
+        int choice = 0;
+        ArrayList<Integer> filters = new ArrayList<>();
+
+        while (!finish){
+            choice = PAInput.chooseOption("Please choose a filter, and after that confirm the choices","Students Self-Proposals", "Teachers Proposals", "Proposals with Application", "Proposals without Application", "Confirm filters");
+
+            if(choice < 5) {
+                if(!filters.contains(choice)) {
+                    System.out.println("Filter " + choice + " added!");
+                    filters.add(choice);
+                } else {
+                    System.out.println("Filter " + choice + " removed!");
+                    filters.remove(filters.indexOf(choice));
+                }
+            } else
+                break;
+        }
+        return m.filterProposals(filters.toArray(new Integer[0]));
+    }
+
     private void stageOneUI() {
         System.out.println("STAGE ONE, " + m.getState());
         switch(PAInput.chooseOption("What do you pretend to do?", "Change configuration mode", "View students list", "View teachers list", "View proposals list", "Close stage", "Advance to next stage", "Save application state", "Quit")){
@@ -34,8 +55,9 @@ public class TextUI {
         System.out.println("PROPOSAL MANAGER, " + m.getState());
         switch(PAInput.chooseOption("What do you pretend to do?", "Change configuration mode", "View proposals list", "Import data from CSV file", "Export data to CSV file", "Close stage", "Advance to next stage", "Save application state", "Quit")){
             case 1 -> m.changeConfigurationMode(PAInput.chooseOption("Choose a configuration mode", "Students", "Teachers"));
-            case 2 -> m.viewProposals();
-            case 3 -> System.out.println(m.importProposalsCSV(PAInput.readString("Introduce the name of the file to read: ", true)));
+            case 2 -> System.out.println(m.viewProposals());
+            //case 3 -> System.out.println(m.importProposalsCSV(PAInput.readString("Introduce the name of the file to read: ", true)));
+            case 3 -> System.out.println(m.importProposalsCSV("proposals1"));
             case 4 -> System.out.println(m.exportProposalsCSV(PAInput.readString("Introduce the name of the file to write: ", true)));
             case 5 -> m.closeStage();
             case 6 -> m.advanceStage();
@@ -48,8 +70,9 @@ public class TextUI {
         System.out.println("STUDENT MANAGER, " + m.getState());
         switch(PAInput.chooseOption("What do you pretend to do?", "Change configuration mode", "View students list", "Import data from CSV file", "Export data to CSV file", "Close stage", "Advance to next stage", "Save application state", "Quit")){
             case 1 -> m.changeConfigurationMode(PAInput.chooseOption("Choose a configuration mode", "Teachers", "Proposals"));
-            case 2 -> m.viewStudents();
-            case 3 -> System.out.println(m.importStudentsCSV(PAInput.readString("Introduce the name of the file to read: ", true)));
+            case 2 -> System.out.println(m.viewStudents());
+            //case 3 -> System.out.println(m.importStudentsCSV(PAInput.readString("Introduce the name of the file to read: ", true)));
+            case 3 -> System.out.println(m.importStudentsCSV("students1"));
             case 4 -> System.out.println(m.exportStudentsCSV(PAInput.readString("Introduce the name of the file to write: ", true)));
             case 5 -> m.closeStage();
             case 6 -> m.advanceStage();
@@ -62,8 +85,9 @@ public class TextUI {
         System.out.println("TEACHER MANAGER, " + m.getState());
         switch(PAInput.chooseOption("What do you pretend to do?", "Change configuration mode", "View teachers list", "Import data from CSV file", "Export data to CSV file", "Close stage", "Advance to next stage", "Save application state", "Quit")){
             case 1 -> m.changeConfigurationMode(PAInput.chooseOption("Choose a configuration mode", "Students", "Proposals"));
-            case 2 -> m.viewTeachers();
-            case 3 -> System.out.println(m.importTeachersCSV(PAInput.readString("Introduce the name of the file to read: ", true)));
+            case 2 -> System.out.println(m.viewTeachers());
+            //case 3 -> System.out.println(m.importTeachersCSV(PAInput.readString("Introduce the name of the file to read: ", true)));
+            case 3 -> System.out.println(m.importTeachersCSV("teachers1"));
             case 4 -> System.out.println(m.exportTeachersCSV(PAInput.readString("Introduce the name of the file to write: ", true)));
             case 5 -> m.closeStage();
             case 6 -> m.advanceStage();
@@ -75,9 +99,9 @@ public class TextUI {
     private void closedStageUI() {
         System.out.println("CLOSED STAGE, " + m.getState());
         switch(PAInput.chooseOption("What do you pretend to do?", "View students list", "View teachers list", "View proposals list", "Advance to next stage", "Quit")){
-            case 1 -> m.viewStudents();
-            case 2 -> m.viewTeachers();
-            case 3 -> m.viewProposals();
+            case 1 -> System.out.println(m.viewStudents());
+            case 2 -> System.out.println(m.viewTeachers());
+            case 3 -> System.out.println(m.viewProposals());
             case 4 -> m.advanceStage();
             // TODO case 5 -> save();
             default -> finish = true;
@@ -86,12 +110,12 @@ public class TextUI {
 
     private void stageTwoUI() {
         System.out.println("STAGE TWO, " + m.getState());
-        switch(PAInput.chooseOption("What do you pretend to do?", "Import data from CSV file", "View students list with self-proposals", "View students with registered application", "View students without registered application", "View applications list", "Export data to CSV file","Close Stage", "Return to previous stage", "Advance to next stage", "Quit")){
+        switch(PAInput.chooseOption("What do you pretend to do?", "View students list with self-proposals", "View students with registered application", "View students without registered application", "View applications list", "Import data from CSV file", "Export data to CSV file","Close Stage", "Return to previous stage", "Advance to next stage", "Quit")){
             //TODO: ADD OPTIONS TO VIEW DATA (STUDENT, TEACHER, PROPOSALS)
             case 1 -> System.out.println(m.viewStudentsSelfProposals());
             case 2 -> System.out.println(m.viewStudentsWithApplication());
             case 3 -> System.out.println(m.viewStudentsWithoutApplication());
-            case 4 -> viewProposalsWithFilters();
+            case 4 -> System.out.println(viewProposalsWithFilters());
             case 5 -> System.out.println(m.importApplicationsCSV(PAInput.readString("Introduce the name of the file to read: ", true)));
             case 6 -> System.out.println(m.exportApplicationsCSV(PAInput.readString("Introduce the name of the file to write: ", true)));
             case 7 -> m.closeStage();
@@ -100,28 +124,6 @@ public class TextUI {
             // TODO case 9 -> save();
             default -> finish = true;
         }
-        System.out.println("STAGE TWO, " + m.getState());
-    }
-
-    private void viewProposalsWithFilters(){
-        int choice = 0;
-        ArrayList<Integer> filters = new ArrayList<>();
-
-        while (!finish){
-            choice = PAInput.chooseOption("Please choose a filter, and after that confirm the choices","Students Self-Proposals", "Teachers Proposals", "Proposals with Application", "Proposals without Application", "Confirm filters");
-
-            if(choice < 5) {
-                if(!filters.contains(choice)) {
-                    System.out.println("Filter " + choice + " added!");
-                    filters.add(choice);
-                } else {
-                    System.out.println("Filter " + choice + " removed!");
-                    filters.remove(choice);
-                }
-            } else
-                break;
-        }
-        m.filterProposals(filters.toArray());
     }
 
     private void stageThreeUI() {

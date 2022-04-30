@@ -29,8 +29,8 @@ public class Proposal {
 
     public String proposalToString(){
         StringBuilder sb = new StringBuilder();
-        sb.append("|> " + title + id +
-                (assignedStudent!=null ? "has no student assigned yet" : "assigned to " + assignedStudent.getStudentNumber() + " | " + assignedStudent.getName()));
+        sb.append("\n|> " + title + id +
+                (assignedStudent==null ? "has no student assigned yet" : "assigned to " + assignedStudent.getStudentNumber() + " | " + assignedStudent.getName()));
 
         return sb.toString();
     }
