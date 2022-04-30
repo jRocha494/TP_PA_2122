@@ -12,12 +12,14 @@ public class DataLogic {
     Map<String, Proposal> proposalsList; // Map with the list of proposals (Key: Proposal ID, Value: Proposal Object)
     Map<Long, Student> studentsList; // Map with the list of students (Key: Student Number, Value: Student Object)
     Map<String, Teacher> teachersList; // Map with the list of proposals (Key: Teacher email, Value: Teacher Object)
+    Map<Student, Application> applicationsList; // Map with the list of applications (Key: Student Object, Value: Application Object)
 
     public DataLogic() {
         this.numberStudentsAndProposals = new HashMap<>();
         this.proposalsList = new HashMap<>();
         this.studentsList = new HashMap<>();
         this.teachersList = new HashMap<>();
+        this.applicationsList = new HashMap<>();
         setup();
     }
 
@@ -42,6 +44,7 @@ public class DataLogic {
     public void addSelfProposal(String id, String title, long assignedStudent){
         proposalsList.put(id, new SelfProposal(id,title,assignedStudent));
         numberStudentsAndProposals.get(getStudent(assignedStudent).getBranch()).incrementNmrProposals();
+        studentsList.get(assignedStudent).setHasProposed(true);
     }
 
     public void addStudent(long studentNumber, String name, String email, String course, String branch, double classification, boolean internshipAccess){
@@ -53,8 +56,17 @@ public class DataLogic {
         teachersList.put(email, new Teacher(email, name, isAdvisor));
     }
 
+    public void addApplication(Student studentNumber, List<Proposal> chosenProposals){
+        applicationsList.put(studentNumber, new Application(chosenProposals, studentNumber));
+        studentsList.get(studentNumber).setHasApplication(true);
+    }
+
     public Student getStudent(long id){
         return studentsList.get(id);
+    }
+
+    public Proposal getProposal(String id){
+        return proposalsList.get(id);
     }
 
     public boolean proposalExists(String id){ return proposalsList.containsKey(id);}
@@ -69,6 +81,13 @@ public class DataLogic {
         for(Proposal p : proposalsList.values()) {
             if(assignedStudent == p.getAssignedStudent())
                 return true;
+        }
+        return false;
+    }
+
+    public boolean hasAssignedStudent(String id){
+        if(proposalExists(id)){
+            return proposalsList.get(id).hasAssignedStudent();
         }
         return false;
     }

@@ -36,6 +36,14 @@ public class Manager {
         return ac.exportTeachersCSV(filename);
     }
 
+    public String importApplicationsCSV(String filename){
+        return ac.importApplicationsCSV(filename);
+    }
+
+    public String exportApplicationsCSV(String filename){
+        return ac.exportApplicationsCSV(filename);
+    }
+
     public boolean changeConfigurationMode(int option){ return ac.changeConfigurationMode(option); }
     public boolean closeStage() { return ac.closeStage(); }
     public boolean advanceStage() { return ac.advanceStage(); }

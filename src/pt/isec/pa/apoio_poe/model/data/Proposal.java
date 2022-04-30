@@ -27,4 +27,6 @@ public class Proposal {
     public long getAssignedStudent() {
         return assignedStudent;
     }
+
+    public boolean hasAssignedStudent() { return assignedStudent!=-1; }
 }

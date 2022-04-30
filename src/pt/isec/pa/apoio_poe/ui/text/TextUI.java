@@ -82,11 +82,13 @@ public class TextUI {
 
     private void stageTwoUI() {
         System.out.println("STAGE TWO, " + m.getState());
-        switch(PAInput.chooseOption("What do you pretend to do?", "Close Stage", "Return to previous stage", "Advance to next stage", "Quit")){
+        switch(PAInput.chooseOption("What do you pretend to do?", "Import data from CSV file", "Export data to CSV file","Close Stage", "Return to previous stage", "Advance to next stage", "Quit")){
             //TODO: ADD OPTIONS TO VIEW DATA (STUDENT, TEACHER, PROPOSALS)
-            case 1 -> m.closeStage();
-            case 2 -> m.returnStage();
-            case 3 -> m.advanceStage();
+            case 1 -> System.out.println(m.importApplicationsCSV(PAInput.readString("Introduce the name of the file to read: ", true)));
+            case 2 -> System.out.println(m.exportApplicationsCSV(PAInput.readString("Introduce the name of the file to write: ", true)));
+            case 3 -> m.closeStage();
+            case 4 -> m.returnStage();
+            case 5 -> m.advanceStage();
         }
     }
 

@@ -1,7 +1,14 @@
 package pt.isec.pa.apoio_poe.model.fsm.states;
 
 import pt.isec.pa.apoio_poe.model.data.DataLogic;
+import pt.isec.pa.apoio_poe.model.data.Proposal;
+import pt.isec.pa.apoio_poe.model.data.Student;
 import pt.isec.pa.apoio_poe.model.fsm.AppContext;
+
+import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 
 public class StageTwo extends StateAdapter{
     protected StageTwo(AppContext ac, DataLogic dl) {
@@ -40,5 +47,149 @@ public class StageTwo extends StateAdapter{
     public boolean advanceStage(){
         changeState(AppState.PROPOSAL_ATTRIBUTION_STAGE_THREE);
         return true;
+    }
+
+    @Override
+    public String importApplicationsCSV(String filename) {
+        StringBuilder sb = new StringBuilder();
+        long studentNumber;
+        String line, id;
+        List<Proposal> chosenProposals = new ArrayList<>();
+        FileReader fr = null;
+        BufferedReader br = null;
+        Scanner sc = null;
+
+        if(!ac.filenameIsValid(filename)){
+            sb.append("File name is not valid");
+            return sb.toString();
+        }else if(!filename.endsWith(".csv"))
+            filename += ".csv";
+
+        try{
+            fr = new FileReader(filename);
+            br = new BufferedReader(fr);
+
+            while ((line = br.readLine()) != null) {
+                sc = new Scanner(line);
+                sc.useDelimiter(",");
+
+                //Student Number
+                if (sc.hasNext()) {
+                    String snString = sc.next();
+                    if(snString.length()!=10){
+                        sb.append("Student Number is not valid");
+                        break;
+                    }
+
+                    studentNumber = Long.parseLong(snString);
+
+                    if (!dl.studentExists(studentNumber)) {
+                        sb.append("Student with number " + studentNumber + " does not exist\n");
+                        break;
+                    }
+
+                    if (dl.getStudent(studentNumber).hasApplication()) {
+                        sb.append("Student with number " + studentNumber + " already has made an application\n");
+                        break;
+                    }
+
+                    if (dl.getStudent(studentNumber).hasProposed()) {
+                        sb.append("Student with number " + studentNumber + " already has self-proposed\n");
+                        break;
+                    }
+
+                    if(dl.proposalWithStudentExists(studentNumber)){
+                        sb.append("Student with number " + studentNumber + " already is assigned to a Proposal\n");
+                        break;
+                    }
+                } else {
+                    sb.append("Student Number not found");
+                    break;
+                }
+
+                //Chosen Proposals
+                for(int i=0; i<6 && sc.hasNext(); i++) {
+                    id = sc.next();
+                    if (!ac.proposalIdIsValid(id)) {
+                        sb.append("Proposal id is not valid");
+                        break;
+                    }
+
+                    if (!dl.proposalExists(id)) {
+                        sb.append("Proposal with id " + id + " does not exist\n");
+                        break;
+                    }
+
+                    if(chosenProposals.contains(id)){
+                        sb.append("Proposal with id " + id + " is already selected\n");
+                        break;
+                    }
+
+                    if(dl.hasAssignedStudent(id)){
+                        sb.append("Proposal with id " + id + " already has a Student assigned to it\n");
+                        break;
+                    }
+                    chosenProposals.add(dl.getProposal(id));
+                }
+
+                if(chosenProposals.isEmpty()){
+                    sb.append("Proposal id not found\n");
+                    break;
+                }
+
+                //Add Application
+                if(!sc.hasNext())
+                    dl.addApplication(dl.getStudent(studentNumber), chosenProposals);
+                else
+                    sb.append("More fields than expected\n");
+
+            }
+
+            if(sc!=null) sc.close();
+            br.close();
+            fr.close();
+        }catch (FileNotFoundException e){
+            sb.append("The specified file was not found\n");
+        }catch (NumberFormatException e){
+            sb.append("Argument should be a number but it was not\n");
+        }catch (IOException e){
+            sb.append("There was an error (IOException)\n");
+        }
+
+        return sb.toString();
+    }
+
+    @Override
+    public String exportApplicationsCSV(String filename) {
+        StringBuilder sb = new StringBuilder();
+        FileWriter fw = null;
+        BufferedWriter bw = null;
+        PrintWriter pw = null;
+
+        if(!ac.filenameIsValid(filename)){
+            sb.append("File name is not valid");
+            return sb.toString();
+        }else if(!filename.endsWith(".csv"))
+            filename += ".csv";
+
+        try{
+            fw = new FileWriter(filename);
+            bw = new BufferedWriter(fw);
+            pw = new PrintWriter(bw);
+
+            for(Student s : dl.getStudentsValues()){
+                pw.println(s.toString());
+            }
+
+            pw.close();
+            bw.close();
+            fw.close();
+        }catch (FileNotFoundException e){
+            sb.append("The specified file was not found");
+        }catch (IOException e){
+            sb.append("There was an error (IOException)");
+        }
+
+        return sb.toString();
     }
 }

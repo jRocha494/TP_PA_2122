@@ -7,18 +7,18 @@ public class Student {
     private String course;  // "LEI" or "LEI-PL"
     private String branch;  // "DA", "RAS" or "SI"
     private double classification;
-    private boolean internshipAccess;   // boolean representing whether this Student is eligible to apply for internships
+    private boolean hasInternshipAccess;   // boolean representing whether this Student is eligible to apply for internships
     private boolean hasProposed;    // True if this student has proposed a project/internship, False if not (Students can only propose once)
     private boolean hasApplication;
 
-    public Student(long studentNumber, String name, String email, String course, String branch, double classification, boolean internshipAccess) {
+    public Student(long studentNumber, String name, String email, String course, String branch, double classification, boolean hasInternshipAccess) {
         this.studentNumber = studentNumber;
         this.name = name;
         this.email = email;
         this.course = course;
         this.branch = branch;
         this.classification = classification;
-        this.internshipAccess = internshipAccess;
+        this.hasInternshipAccess = hasInternshipAccess;
         this.hasProposed = false;
         this.hasApplication = false;
     }
@@ -47,8 +47,8 @@ public class Student {
         return classification;
     }
 
-    public boolean isInternshipAccess() {
-        return internshipAccess;
+    public boolean hasInternshipAccess() {
+        return hasInternshipAccess;
     }
 
     public boolean hasProposed() {
@@ -59,12 +59,20 @@ public class Student {
         return hasApplication;
     }
 
+    public void setHasProposed(boolean hasProposed) {
+        this.hasProposed = hasProposed;
+    }
+
+    public void setHasApplication(boolean hasApplication) {
+        this.hasApplication = hasApplication;
+    }
+
     @Override
     public String toString() { 
         StringBuilder sb = new StringBuilder();
 
         sb.append(studentNumber + "," + name + "," + email + "," + course +
-                "," + branch + "," + classification + "," + internshipAccess);
+                "," + branch + "," + classification + "," + hasInternshipAccess);
 
         return sb.toString();
     }
