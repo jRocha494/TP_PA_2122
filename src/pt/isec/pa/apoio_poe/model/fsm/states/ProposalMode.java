@@ -162,6 +162,11 @@ public class ProposalMode extends StateAdapter{
                         break;
                     }
 
+                    if(pType.equalsIgnoreCase("T1") && !dl.hasInternshipAccess(assignedStudent)){
+                        sb.append("Student with number " + assignedStudent + " does not have internship access");
+                        break;
+                    }
+
                     if(dl.proposalWithStudentExists(assignedStudent)){
                         sb.append("Proposal assigned to student " + assignedStudent + " already exists");
                         break;
@@ -182,6 +187,7 @@ public class ProposalMode extends StateAdapter{
                 }else
                     sb.append("More fields than expected\n");
 
+                assignedStudent=-1;
             }
 
             if(sc!=null) sc.close();

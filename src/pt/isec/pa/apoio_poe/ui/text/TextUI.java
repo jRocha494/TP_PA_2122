@@ -96,6 +96,7 @@ public class TextUI {
             // TODO case 9 -> save();
             default -> finish = true;
         }
+        System.out.println("STAGE TWO, " + m.getState());
     }
 
     private void stageThreeUI() {

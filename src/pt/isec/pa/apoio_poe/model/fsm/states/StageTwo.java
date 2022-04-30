@@ -1,5 +1,6 @@
 package pt.isec.pa.apoio_poe.model.fsm.states;
 
+import pt.isec.pa.apoio_poe.model.data.Application;
 import pt.isec.pa.apoio_poe.model.data.DataLogic;
 import pt.isec.pa.apoio_poe.model.data.Proposal;
 import pt.isec.pa.apoio_poe.model.data.Student;
@@ -52,6 +53,7 @@ public class StageTwo extends StateAdapter{
     @Override
     public String importApplicationsCSV(String filename) {
         StringBuilder sb = new StringBuilder();
+        boolean flag = false;
         long studentNumber;
         String line, id;
         List<Proposal> chosenProposals = new ArrayList<>();
@@ -112,25 +114,38 @@ public class StageTwo extends StateAdapter{
                     id = sc.next();
                     if (!ac.proposalIdIsValid(id)) {
                         sb.append("Proposal id is not valid");
+                        flag = true;
                         break;
                     }
 
                     if (!dl.proposalExists(id)) {
                         sb.append("Proposal with id " + id + " does not exist\n");
+                        flag = true;
                         break;
                     }
 
                     if(chosenProposals.contains(id)){
                         sb.append("Proposal with id " + id + " is already selected\n");
+                        flag = true;
                         break;
                     }
 
                     if(dl.hasAssignedStudent(id)){
                         sb.append("Proposal with id " + id + " already has a Student assigned to it\n");
+                        flag = true;
+                        break;
+                    }
+
+                    if(dl.isInternship(id) && !dl.hasInternshipAccess(studentNumber)){
+                        sb.append("Internship with id " + id + " cant be assigned to student." + studentNumber + " not allowed to have access\n");
+                        flag = true;
                         break;
                     }
                     chosenProposals.add(dl.getProposal(id));
                 }
+
+                if(flag)
+                    break;
 
                 if(chosenProposals.isEmpty()){
                     sb.append("Proposal id not found\n");
@@ -177,8 +192,8 @@ public class StageTwo extends StateAdapter{
             bw = new BufferedWriter(fw);
             pw = new PrintWriter(bw);
 
-            for(Student s : dl.getStudentsValues()){
-                pw.println(s.toString());
+            for(Application a : dl.getApplicationsValues()){
+                pw.println(a.toString());
             }
 
             pw.close();

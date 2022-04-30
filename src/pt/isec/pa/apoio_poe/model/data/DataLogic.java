@@ -86,6 +86,14 @@ public class DataLogic {
         return false;
     }
 
+    public boolean hasInternshipAccess(long studentNumber){
+        return studentsList.get(studentNumber).hasInternshipAccess();
+    }
+
+    public boolean isInternship(String id){
+        return (proposalsList.get(id) instanceof Internship);
+    }
+
     public boolean studentExists(long studentNumber){
         return studentsList.containsKey(studentNumber);
     }
@@ -112,6 +120,10 @@ public class DataLogic {
 
     public Collection<Teacher> getTeachersValues() {
         return teachersList.values();
+    }
+
+    public Collection<Application> getApplicationsValues() {
+        return applicationsList.values();
     }
 
     public boolean areProposalsMoreThanStudents(){
