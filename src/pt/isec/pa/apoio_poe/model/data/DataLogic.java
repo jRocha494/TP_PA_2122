@@ -27,21 +27,21 @@ public class DataLogic {
         this.numberStudentsAndProposals.put("SI", new Wrapper(0, 0));   // each branch starts with 0 students and 0 proposals -> to be incremented as they're created
     }
 
-    public void addInternship(String id, String title, long assignedStudent, List<String> destinedBranch, String hostingEntity){
+    public void addInternship(String id, String title, Student assignedStudent, List<String> destinedBranch, String hostingEntity){
         proposalsList.put(id, new Internship(id,title,assignedStudent,destinedBranch,hostingEntity));
         for(String b : destinedBranch)
             numberStudentsAndProposals.get(b).incrementNmrProposals();
     }
 
-    public void addProject(String id, String title, long assignedStudent, List<String> destinedBranch, String proposingTeacher){
+    public void addProject(String id, String title, Student assignedStudent, List<String> destinedBranch, String proposingTeacher){
         proposalsList.put(id, new Project(id,title,assignedStudent,destinedBranch,proposingTeacher));
         for(String b : destinedBranch)
             numberStudentsAndProposals.get(b).incrementNmrProposals();
     }
 
-    public void addSelfProposal(String id, String title, long assignedStudent){
+    public void addSelfProposal(String id, String title, Student assignedStudent){
         proposalsList.put(id, new SelfProposal(id,title,assignedStudent));
-        numberStudentsAndProposals.get(getStudent(assignedStudent).getBranch()).incrementNmrProposals();
+        numberStudentsAndProposals.get(assignedStudent.getBranch()).incrementNmrProposals();
     }
 
     public void addStudent(long studentNumber, String name, String email, String course, String branch, double classification, boolean internshipAccess){
@@ -112,21 +112,21 @@ public class DataLogic {
     public String viewStudents() {
         StringBuilder sb = new StringBuilder();
         for (Student s : studentsList.values()) {
-            sb.append(s.toString());
+            sb.append(s.studentToString());
         }
         return sb.toString();
     }
     public String viewTeachers() {
         StringBuilder sb = new StringBuilder();
         for (Teacher t : teachersList.values()) {
-            sb.append(t.toString());
+            sb.append(t.teacherToString());
         }
         return sb.toString();
     }
     public String viewProposals() {
         StringBuilder sb = new StringBuilder();
         for (Proposal p : proposalsList.values()) {
-            sb.append(p.toString());
+            sb.append(p.proposalToString());
         }
         return sb.toString();
     }

@@ -14,8 +14,8 @@ public enum AppState {
             case CONFIGURATIONS_STATE_PROPOSAL_MANAGER -> new ProposalMode(ac, dl);
             case CONFIGURATIONS_STATE_STUDENT_MANAGER -> new StudentMode(ac, dl);
             case CONFIGURATIONS_STATE_TEACHER_MANAGER -> new TeacherMode(ac, dl);
-            case CLOSED_STAGE -> null;
-            case APPLICATION_OPTIONS_STAGE_TWO -> null;
+            case CLOSED_STAGE -> new ClosedStage(ac, dl);
+            case APPLICATION_OPTIONS_STAGE_TWO -> new StageTwo(ac, dl);
             case PROPOSAL_ATTRIBUTION_STAGE_THREE -> null;
             case CONFLICT_STATE -> null;
             case ADVISOR_ATTRIBUTION_STAGE_FOUR -> null;

@@ -27,4 +27,12 @@ public class Teacher {
 
         return sb.toString();
     }
+
+    public String teacherToString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("|> " + name + " | " + email +
+                (isAdvisor ? "is" : "isn't") + " an advisor");
+
+        return sb.toString();
+    }
 }

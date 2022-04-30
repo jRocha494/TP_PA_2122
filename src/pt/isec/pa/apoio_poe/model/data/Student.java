@@ -7,9 +7,9 @@ public class Student {
     private String course;  // "LEI" or "LEI-PL"
     private String branch;  // "DA", "RAS" or "SI"
     private double classification;
-    private boolean internshipAccess;   // boolean representing whether this Student is eligible to apply for internships
+    private boolean hasInternshipAccess;   // boolean representing whether this Student is eligible to apply for internships
     private boolean hasProposed;    // True if this student has proposed a project/internship, False if not (Students can only propose once)
-    private boolean hasApplication;
+    private boolean hasApplication; // True if this student has an associated application
 
     public Student(long studentNumber, String name, String email, String course, String branch, double classification, boolean internshipAccess) {
         this.studentNumber = studentNumber;
@@ -18,7 +18,7 @@ public class Student {
         this.course = course;
         this.branch = branch;
         this.classification = classification;
-        this.internshipAccess = internshipAccess;
+        this.hasInternshipAccess = internshipAccess;
         this.hasProposed = false;
         this.hasApplication = false;
     }
@@ -48,7 +48,7 @@ public class Student {
     }
 
     public boolean isInternshipAccess() {
-        return internshipAccess;
+        return hasInternshipAccess;
     }
 
     public boolean hasProposed() {
@@ -64,7 +64,19 @@ public class Student {
         StringBuilder sb = new StringBuilder();
 
         sb.append(studentNumber + "," + name + "," + email + "," + course +
-                "," + branch + "," + classification + "," + internshipAccess);
+                "," + branch + "," + classification + "," + hasInternshipAccess);
+
+        return sb.toString();
+    }
+
+    public String studentToString(){
+        StringBuilder sb = new StringBuilder();
+        sb.append("|> " + name + " | " + studentNumber + " | " + email);
+        sb.append(course + " | " + branch);
+        sb.append("Classification: " + classification +
+                (hasInternshipAccess ? " can" : "can't") + " apply for internships, " +
+                (hasProposed ? "has" : "hasn't") + " self-proposed, " +
+                (hasApplication ? "has already" : "hasn't") + " applied for a internship/project");
 
         return sb.toString();
     }

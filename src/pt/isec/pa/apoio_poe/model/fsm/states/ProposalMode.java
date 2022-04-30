@@ -174,11 +174,11 @@ public class ProposalMode extends StateAdapter{
                 //Add Student
                 if(!sc.hasNext()) {
                     if(pType.equalsIgnoreCase("T1"))
-                        dl.addInternship(id, title, assignedStudent, destinedBranch, hostingEntity);
+                        dl.addInternship(id, title, dl.getStudent(assignedStudent), destinedBranch, hostingEntity);
                     if(pType.equalsIgnoreCase("T2"))
-                        dl.addProject(id, title, assignedStudent, destinedBranch, proposingTeacher);
+                        dl.addProject(id, title, dl.getStudent(assignedStudent), destinedBranch, proposingTeacher);
                     if(pType.equalsIgnoreCase("T3"))
-                        dl.addSelfProposal(id, title, assignedStudent);
+                        dl.addSelfProposal(id, title, dl.getStudent(assignedStudent));
                 }else
                     sb.append("More fields than expected\n");
 
