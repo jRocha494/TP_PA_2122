@@ -110,6 +110,28 @@ public class DataLogic {
         return true;
     }
 
+    public String viewStudents() {
+        StringBuilder sb = new StringBuilder();
+        for (Student s : studentsList.values()) {
+            sb.append(s.toString());
+        }
+        return sb.toString();
+    }
+    public String viewTeachers() {
+        StringBuilder sb = new StringBuilder();
+        for (Teacher t : teachersList.values()) {
+            sb.append(t.toString());
+        }
+        return sb.toString();
+    }
+    public String viewProposals() {
+        StringBuilder sb = new StringBuilder();
+        for (Proposal p : proposalsList.values()) {
+            sb.append(p.toString());
+        }
+        return sb.toString();
+    }
+
     private class Wrapper{    // to be used on 'numberStudents' hashmap
         int nmrStudents;    // number of students in that branch
         int nmrProposals;   // number of proposals destined for that branch

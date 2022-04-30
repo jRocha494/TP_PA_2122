@@ -18,14 +18,14 @@ public class AppContext {
         this.dl = new DataLogic();
         this.state = new StageOne(this, dl);
         this.closeStatusStages = new HashMap<>();
+        this.closeStatusStages.put("Stage1", false);
+        this.closeStatusStages.put("Stage2", false);
+        this.closeStatusStages.put("Stage3", false);
+        this.closeStatusStages.put("Stage4", false);
         setup();
     }
 
     private void setup(){
-        closeStatusStages.put("Stage1", false);
-        closeStatusStages.put("Stage2", false);
-        closeStatusStages.put("Stage3", false);
-        closeStatusStages.put("Stage4", false);
     }
 
     public void setCloseStatus(String stage, boolean status){   // Receives the name of the stage, and sets its close status if it finds the stage
@@ -58,6 +58,9 @@ public class AppContext {
     public boolean closeStage() { return state.closeStage(); }
     public boolean advanceStage() { return state.advanceStage(); }
     public boolean returnStage() { return state.returnStage(); }
+    public String viewStudents() { return dl.viewStudents(); }
+    public String viewTeachers() { return dl.viewTeachers(); }
+    public String viewProposals() { return dl.viewProposals(); }
 
     public boolean filenameIsValid(String filename) {
         String[] fn = filename.split("\\.");
