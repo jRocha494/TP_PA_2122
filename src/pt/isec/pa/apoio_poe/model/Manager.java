@@ -40,4 +40,7 @@ public class Manager {
     public boolean closeStage() { return ac.closeStage(); }
     public boolean advanceStage() { return ac.advanceStage(); }
     public boolean returnStage() { return ac.returnStage(); }
+    public String viewStudents() { return ac.viewStudents(); }
+    public String viewTeachers() { return ac.viewTeachers(); }
+    public String viewProposals() { return ac.viewProposals(); }
 }
