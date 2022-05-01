@@ -23,8 +23,8 @@ public enum AppState {
             case PROPOSAL_ATTRIBUTION_PREV_OPEN_STAGE_THREE -> new PrevOpenStageThree(ac,dl);
             case PROPOSAL_ATTRIBUTION_PREV_CLOSED_STAGE_THREE -> new PrevClosedStageThree(ac,dl);
             case CONFLICT_STAGE -> null;
-            case ADVISOR_ATTRIBUTION_STAGE_FOUR -> null;
-            case VIEW_DATA_STAGE_FIVE -> null;
+            case ADVISOR_ATTRIBUTION_STAGE_FOUR -> new StageFour(ac, dl);
+            case VIEW_DATA_STAGE_FIVE -> new StageFive(ac, dl);
         };
     }
 
@@ -39,8 +39,8 @@ public enum AppState {
             case PROPOSAL_ATTRIBUTION_PREV_OPEN_STAGE_THREE -> new PrevOpenStageThree(ac,dl);
             case PROPOSAL_ATTRIBUTION_PREV_CLOSED_STAGE_THREE -> new PrevClosedStageThree(ac,dl);
             case CONFLICT_STAGE -> new ConflictStage(ac,dl,students,proposal);
-            case ADVISOR_ATTRIBUTION_STAGE_FOUR -> null;
-            case VIEW_DATA_STAGE_FIVE -> null;
+            case ADVISOR_ATTRIBUTION_STAGE_FOUR -> new StageFour(ac, dl);
+            case VIEW_DATA_STAGE_FIVE -> new StageFive(ac, dl);
         };
     }
 }

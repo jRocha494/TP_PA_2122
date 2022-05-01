@@ -91,4 +91,16 @@ public class Student implements Comparable<Student>{
     public int compareTo(Student o) {
         return Double.compare(getClassification(),o.getClassification());
     }
+
+    @Override
+    public boolean equals(Object o){
+        if(o == this)
+            return true;
+
+        if(!(o instanceof Student))
+            return false;
+
+        Student s = (Student) o;
+        return studentNumber == s.studentNumber;
+    }
 }

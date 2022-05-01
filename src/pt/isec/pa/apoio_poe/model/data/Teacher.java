@@ -49,4 +49,16 @@ public class Teacher {
 
         return sb.toString();
     }
+
+    @Override
+    public boolean equals(Object o){
+        if(o == this)
+            return true;
+
+        if(!(o instanceof Teacher))
+            return false;
+
+        Teacher t = (Teacher) o;
+        return email.equals(t.email);
+    }
 }

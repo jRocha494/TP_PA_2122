@@ -1,13 +1,18 @@
 package pt.isec.pa.apoio_poe.model;
 
+import pt.isec.pa.apoio_poe.model.data.DataLogic;
 import pt.isec.pa.apoio_poe.model.fsm.AppContext;
 import pt.isec.pa.apoio_poe.model.fsm.states.AppState;
 
+import javax.xml.crypto.Data;
+
 public class Manager {
     AppContext ac;
+    DataLogic dl;
 
     public Manager(){
-        ac = new AppContext();
+        dl = new DataLogic();
+        ac = new AppContext(dl);
     }
 
     public AppState getState() {
@@ -75,4 +80,10 @@ public class Manager {
     public String exportStageThreeCSV(String filename) { return ac.exportStageThreeCSV(filename); }
 
     public boolean automaticAssignmentAdvisors() { return ac.automaticAssignmentAdvisors(); }
+
+    public String viewStudentsAssignedWithAdvisor() { return ac.viewStudentsAssignedWithAdvisor(); }
+    public String viewStudentsAssignedWithoutAdvisor() { return ac.viewStudentsAssignedWithoutAdvisor(); }
+    public String viewStudentsUnassignedWithApplications() { return ac.viewStudentsUnassignedWithApplications(); }
+    public String viewProposalsUnassigned() { return ac.viewProposalsUnassigned(); }
+    public String viewProposalsAssigned() { return ac.viewProposalsAssigned(); }
 }

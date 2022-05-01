@@ -5,9 +5,15 @@ import pt.isec.pa.apoio_poe.model.data.Assignment;
 import pt.isec.pa.apoio_poe.model.data.DataLogic;
 import pt.isec.pa.apoio_poe.model.data.Proposal;
 import pt.isec.pa.apoio_poe.model.data.Student;
+import pt.isec.pa.apoio_poe.model.data.tiposProposta.Project;
+import pt.isec.pa.apoio_poe.model.data.tiposProposta.SelfProposal;
 import pt.isec.pa.apoio_poe.model.fsm.AppContext;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 public class PrevOpenStageThree extends StateAdapter{
     protected PrevOpenStageThree(AppContext ac, DataLogic dl) {
@@ -19,6 +25,21 @@ public class PrevOpenStageThree extends StateAdapter{
 
     @Override
     public String getStage() { return "Third Stage - Previous Stage Closed"; }
+
+    @Override
+    public boolean returnStage(){
+        if(!ac.isStageClosed("Stage2")){
+            changeState(AppState.APPLICATION_OPTIONS_STAGE_TWO);
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean advanceStage(){
+        changeState(AppState.ADVISOR_ATTRIBUTION_STAGE_FOUR);
+        return true;
+    }
 
     @Override
     public boolean automaticAssignmentSelfProposals() {
@@ -33,6 +54,95 @@ public class PrevOpenStageThree extends StateAdapter{
             }
         }
         return true;
+    }
+
+    @Override
+    public boolean removeAssignment(int assignmentToRemove) {
+        // doesn't remove assignments that are self proposals, or proposed by teachers and already have a student pre-assigned
+        Assignment a = dl.getAssignment(assignmentToRemove-1);
+        if(a.getProposal() instanceof SelfProposal || (a.getProposal() instanceof Project && a.getProposal().hasAssignedStudent())) {}
+        else {
+            if (a.hasAdvisor())
+                a.getAdvisor().setHasBeenAssigned(false);
+            if (a.hasStudent())
+                a.getStudent().setHasBeenAssigned(false);
+            a.getProposal().setHasBeenAssigned(false);
+            a.getProposal().setAssignedStudent(null);
+            dl.removeAssignment(a);
+        }
+        return true;
+    }
+
+    @Override
+    public boolean removeAllAssignments(){
+        for(Assignment a : dl.getAssignmentList()){
+            if(a.getProposal() instanceof SelfProposal || (a.getProposal() instanceof Project && a.getProposal().hasAssignedStudent()))
+                continue;
+            else {
+                if (a.hasAdvisor())
+                    a.getAdvisor().setHasBeenAssigned(false);
+                if (a.hasStudent())
+                    a.getStudent().setHasBeenAssigned(false);
+                a.getProposal().setHasBeenAssigned(false);
+                a.getProposal().setAssignedStudent(null);
+                dl.removeAssignment(a);
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public String viewStudentsAssigned(){
+        StringBuilder sb = new StringBuilder();
+        for (Student s : dl.getStudentsValues()) {
+            if(s.hasBeenAssigned()) {
+                sb.append(s.studentToString());
+                Proposal p = dl.getProposalByStudent(s.getStudentNumber()); // gets the proposal assigned to the student
+                if(p instanceof SelfProposal)
+                    sb.append("-> Preference order: 1");
+                else
+                    sb.append("-> Preference order: ").append(dl.getApplicationByStudent(s).getIndexProposal(p));
+
+            }
+        }
+        return sb.toString();
+    }
+
+    @Override
+    public String viewStudentsUnassigned(){
+        StringBuilder sb = new StringBuilder();
+        for (Student s : dl.getStudentsValues()) {
+            if(!s.hasBeenAssigned()) {
+                sb.append(s.studentToString());
+            }
+        }
+        return sb.toString();
+    }
+
+    Predicate<Proposal> bySelfProposals = proposal -> proposal instanceof SelfProposal;
+    Predicate<Proposal> byTeacherProposals = proposal -> proposal instanceof Project;
+    Predicate<Proposal> byProposalUnassigned = proposal -> proposal.hasBeenAssigned() == false;
+    Predicate<Proposal> byProposalAssigned = proposal -> proposal.hasBeenAssigned();
+    @Override
+    public String filterProposals(Integer... filters){
+        StringBuilder sb = new StringBuilder();
+
+        List<Proposal> results = new ArrayList();
+        results.addAll(dl.getProposalsValues());
+        for(int element : filters){
+            switch (element){
+                case 1 -> results = results.stream().filter(bySelfProposals).collect(Collectors.toList());
+                case 2 -> results = results.stream().filter(byTeacherProposals).collect(Collectors.toList());
+                case 3 -> results = results.stream().filter(byProposalUnassigned).collect(Collectors.toList());
+                case 4 -> results = results.stream().filter(byProposalAssigned).collect(Collectors.toList());
+                default -> { return ""; }
+            }
+        }
+        sb.append("\n[FILTERED PROPOSALS]");
+        for(var proposal : results){
+            sb.append(proposal.proposalToString());
+        }
+        return sb.toString();
     }
 
     @Override

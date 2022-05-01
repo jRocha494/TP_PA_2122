@@ -175,7 +175,7 @@ public class TextUI {
 
     private void stageThreePrevOpenUI() {
         System.out.println("STAGE THREE PREV OPEN, " + m.getState());
-        switch (PAInput.chooseOption("What do you pretend to do?", "Automatic assign self-proposals/proposals with a pre-defined student", "Remove an assignment", "Remove all assignments", "View students list with self-proposals", "View students with registered application", "View students assigned to proposal", "View students unassigned", "View proposals list", "Close stage", "Advance stage", "Export data to CSV file", "Quit")) {
+        switch (PAInput.chooseOption("What do you pretend to do?", "Automatic assign self-proposals/proposals with a pre-defined student", "Remove an assignment", "Remove all assignments", "View students list with self-proposals", "View students with registered application", "View students assigned to proposals", "View students unassigned", "View proposals list", "Return to previous stage", "Advance stage", "Export data to CSV file", "Quit")) {
             case 1 -> m.automaticAssignmentSelfProposals();
             case 2 -> m.removeAssignment(PAInput.chooseOption("Choose assignment to remove", m.viewAssignments()));
             case 3 -> m.removeAllAssignments();
@@ -184,7 +184,7 @@ public class TextUI {
             case 6 -> System.out.println(m.viewStudentsAssigned());
             case 7 -> System.out.println(m.viewStudentsUnassigned());
             case 8 -> System.out.println(viewProposalsWithFiltersStageThree());
-            case 9 -> m.closeStage();
+            case 9 -> m.returnStage();
             case 10 -> m.advanceStage();
             case 11 -> m.exportStageThreeCSV(m.exportStageThreeCSV(PAInput.readString("Introduce the name of the file to write: ", true)));
             // TODO save()
@@ -193,7 +193,7 @@ public class TextUI {
     }
 
     private void conflictStateUI() {
-        System.out.println("CONFLICT STATE, " + m.getState());
+        System.out.println("CONFLICT STAGE, " + m.getState());
         switch (PAInput.chooseOption("What do you pretend to do?", "Resolve Conflicts", "Quit")) {
             case 1 -> m.resolveConflictedCases(PAInput.chooseOption("Conflicts:\nProposal: " + m.getConflictedProposal() + "\nStudents:",m.getConflictedCases()));
             default -> finish = true;
@@ -201,13 +201,26 @@ public class TextUI {
     }
 
     private void stageFourUI() {
-        switch (PAInput.chooseOption("What do you pretend to do?", "Automatic assign teachers to their proposals as an advisor", "Quit")) {
+        System.out.println("STAGE FOUR, " + m.getState());
+        switch (PAInput.chooseOption("What do you pretend to do?", "Automatic assign teachers to their proposals as an advisor", "Close stage", "Return to previous stage", "View students assigned to proposals with advisors", "View students assigned to proposals without advisors", "Quit")) {
             case 1 -> m.automaticAssignmentAdvisors();
+            case 2 -> m.closeStage();
+            case 3 -> m.returnStage();
+            case 4 -> System.out.println(m.viewStudentsAssignedWithAdvisor());
+            case 5 -> System.out.println(m.viewStudentsAssignedWithoutAdvisor());
+            default -> finish = true;
         }
     }
 
     private void stageFiveUI() {
         System.out.println("STAGE FIVE, " + m.getState());
+        switch(PAInput.chooseOption("What do you pretend to do?", "View students assigned to proposals", "View students unassigned with applications", "View available proposals", "View assigned proposals", "Quit")){
+            case 1 -> System.out.println(m.viewStudentsAssigned());
+            case 2 -> System.out.println(m.viewStudentsUnassignedWithApplications());
+            case 3 -> System.out.println(m.viewProposalsUnassigned());
+            case 4 -> System.out.println(m.viewProposalsAssigned());
+            default -> finish = true;
+        }
     }
 
     public void start(){

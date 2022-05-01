@@ -1,5 +1,7 @@
 package pt.isec.pa.apoio_poe.model.fsm.states;
 
+import java.io.Serializable;
+
 public interface IState {
     String importProposalsCSV(String filename);
 
@@ -62,4 +64,10 @@ public interface IState {
     boolean resolveConflictedCases(int option);
 
     boolean automaticAssignmentAdvisors();
+
+    String viewStudentsAssignedWithAdvisor();
+    String viewStudentsAssignedWithoutAdvisor();
+    String viewStudentsUnassignedWithApplications();
+    String viewProposalsUnassigned();
+    String viewProposalsAssigned();
 }
