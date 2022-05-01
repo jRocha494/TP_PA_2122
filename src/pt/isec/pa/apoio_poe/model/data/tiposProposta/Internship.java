@@ -28,15 +28,15 @@ public class Internship extends Proposal {
     public String toString() {
         StringBuilder sb = new StringBuilder();
 
-        sb.append("T1," + id + ",");
+        sb.append("T1," + getId() + ",");
         for(String b : destinedBranch) {
             if (destinedBranch.indexOf(b) != 0)
                 sb.append("|");
             sb.append(b);
         }
-        sb.append("," + title + "," + hostingEntity);
-        if(assignedStudent != null)
-            sb.append("," + assignedStudent.getStudentNumber());
+        sb.append("," + getTitle() + "," + hostingEntity);
+        if(hasAssignedStudent())
+            sb.append("," + getAssignedStudent().getStudentNumber());
 
         return sb.toString();
     }

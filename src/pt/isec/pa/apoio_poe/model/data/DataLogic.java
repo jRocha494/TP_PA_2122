@@ -10,12 +10,12 @@ import java.util.stream.Collectors;
 
 public class DataLogic {
     // TODO how to use this map: numberStudents.get('<branchName>').getNmrStudents()/.getNmrProposals()
-    Map<String, Wrapper> numberStudentsAndProposals; // Number of students and proposals by branch
-    Map<String, Proposal> proposalsList; // Map with the list of proposals (Key: Proposal ID, Value: Proposal Object)
-    Map<Long, Student> studentsList; // Map with the list of students (Key: Student Number, Value: Student Object)
-    Map<String, Teacher> teachersList; // Map with the list of proposals (Key: Teacher email, Value: Teacher Object)
-    Map<Student, Application> applicationsList; // Map with the list of applications (Key: Student Object, Value: Application Object)
-    List<Attribution> attributionList;  // List containing information about attributions (contains references to the correspondent student, proposal and advisor)
+    private Map<String, Wrapper> numberStudentsAndProposals; // Number of students and proposals by branch
+    private Map<String, Proposal> proposalsList; // Map with the list of proposals (Key: Proposal ID, Value: Proposal Object)
+    private Map<Long, Student> studentsList; // Map with the list of students (Key: Student Number, Value: Student Object)
+    private Map<String, Teacher> teachersList; // Map with the list of proposals (Key: Teacher email, Value: Teacher Object)
+    private Map<Student, Application> applicationsList; // Map with the list of applications (Key: Student Object, Value: Application Object)
+    private List<Assignment> assignmentList;  // List containing information about attributions (contains references to the correspondent student, proposal and advisor)
 
     public DataLogic() {
         this.numberStudentsAndProposals = new HashMap<>();
@@ -23,7 +23,7 @@ public class DataLogic {
         this.studentsList = new HashMap<>();
         this.teachersList = new HashMap<>();
         this.applicationsList = new HashMap<>();
-        this.attributionList = new ArrayList<>();
+        this.assignmentList = new ArrayList<>();
         setup();
     }
     private void setup(){
@@ -58,7 +58,9 @@ public class DataLogic {
         applicationsList.put(studentNumber, new Application(chosenProposals, studentNumber));
         studentsList.get(studentNumber.getStudentNumber()).setHasApplication(true);
     }
-    public void addAttribution(Attribution attribution) { attributionList.add(attribution); }
+    public void addAssignment(Assignment assignment) { assignmentList.add(assignment); }
+    public void removeAssignment(int assignmentToRemove) { assignmentList.remove(assignmentToRemove); }
+    public void removeAssignment(Assignment a) { assignmentList.remove(a); }
 
     public Student getStudent(long id){
         return studentsList.get(id);
@@ -69,7 +71,19 @@ public class DataLogic {
     public Proposal getProposal(String id){
         return proposalsList.get(id);
     }
+    public Assignment getAssignment(int index) {return assignmentList.get(index); }
+    public Application getApplicationByStudent(Student id) { return applicationsList.get(id); }
 
+    public Proposal getProposalByStudent(long id){
+        if(studentExists(id)) {
+            for (Proposal p : proposalsList.values()) {
+                if(p.hasAssignedStudent())
+                    if(p.getAssignedStudent().getStudentNumber() == id)
+                        return p;
+            }
+        }
+        return null;
+    }
     public boolean proposalExists(String id){ return proposalsList.containsKey(id);}
     public boolean proposalWithStudentExists(long assignedStudent){
         if (studentExists(assignedStudent))
@@ -103,7 +117,7 @@ public class DataLogic {
     }
     public boolean applicationHasProposal(Proposal p){
         for(Application a : applicationsList.values()){
-            if(a.chosenProposals.contains(p))
+            if(a.chosenProposalsContains(p))
                 return true;
         }
         return false;
@@ -125,6 +139,7 @@ public class DataLogic {
     public Collection<Application> getApplicationsValues() {
         return applicationsList.values();
     }
+    public List<Assignment> getAssignmentList() { return assignmentList; }
 
     public List<Student> getStudentsWithProposalInApplication(Proposal p) {
         List<Student> studentsWithProposal = new ArrayList<>();
@@ -205,77 +220,52 @@ public class DataLogic {
         return true;
     }
 
-    public String viewStudents() {
-        StringBuilder sb = new StringBuilder();
-        for (Student s : studentsList.values()) {
-            sb.append(s.studentToString());
+    public String[] getAvailableProposals(){
+        List<String> result = new ArrayList<>();
+
+        for(Map.Entry<String, Proposal> entry : proposalsList.entrySet()){
+            if(!entry.getValue().hasBeenAssigned()) // if the proposal hasn't been assigned yet... adds its key to the array
+                result.add(entry.getKey());
         }
-        return sb.toString();
-    }
-    public String viewTeachers() {
-        StringBuilder sb = new StringBuilder();
-        for (Teacher t : teachersList.values()) {
-            sb.append(t.teacherToString());
-        }
-        return sb.toString();
-    }
-    public String viewProposals() {
-        StringBuilder sb = new StringBuilder();
-        for (Proposal p : proposalsList.values()) {
-            sb.append(p.proposalToString());
-        }
-        return sb.toString();
-    }
-    public String viewStudentsSelfProposals() {
-        StringBuilder sb = new StringBuilder();
-        for (Student s : studentsList.values()) {
-            if(s.hasProposed())
-                sb.append(s.studentToString());
-        }
-        return sb.toString();
-    }
-    public String viewStudentsWithApplication() {
-        StringBuilder sb = new StringBuilder();
-        for (Student s : studentsList.values()) {
-            if(s.hasApplication())
-                sb.append(s.studentToString());
-        }
-        return sb.toString();
-    }
-    public String viewStudentsWithoutApplication() {
-        StringBuilder sb = new StringBuilder();
-        for (Student s : studentsList.values()) {
-            if(!s.hasApplication())
-                sb.append(s.studentToString());
-        }
-        return sb.toString();
+        return result.toArray(new String[result.size()]);
     }
 
-    Predicate<Proposal> bySelfProposals = proposal -> proposal instanceof SelfProposal;
-    Predicate<Proposal> byTeacherProposals = proposal -> proposal instanceof Project;
-    Predicate<Proposal> byProposalInApplication = proposal -> applicationHasProposal(proposal);
-    Predicate<Proposal> byProposalNotInApplication = proposal -> applicationHasProposal(proposal) == false;
-    public String filterProposals(Integer... filters){
-        StringBuilder sb = new StringBuilder();
+    public String[] getAvailableStudents() {
+        List<String> result = new ArrayList<>();
 
-        List<Proposal> results = new ArrayList();
-        results.addAll(proposalsList.values());
-        for(int element : filters){
-            switch (element){
-                case 1 -> results = results.stream().filter(bySelfProposals).collect(Collectors.toList());
-                case 2 -> results = results.stream().filter(byTeacherProposals).collect(Collectors.toList());
-                case 3 -> results = results.stream().filter(byProposalInApplication).collect(Collectors.toList());
-                case 4 -> results = results.stream().filter(byProposalNotInApplication).collect(Collectors.toList());
-                default -> { return ""; }
-            }
+        for(Map.Entry<Long, Student> entry : studentsList.entrySet()){
+            if(!entry.getValue().hasBeenAssigned()); // if the proposal hasn't been assigned yet... adds its key to the array
+                result.add(entry.getKey().toString());
         }
-        sb.append("\n[FILTERED PROPOSALS]");
-        for(var proposal : results){
-            sb.append(proposal.proposalToString());
-        }
-        return sb.toString();
+
+        return result.toArray(new String[result.size()]);
     }
 
+    public String[] viewAssignments() {
+        List<String> result = new ArrayList<>();
+
+        for(Assignment a : assignmentList){
+            result.add(a.toString());
+        }
+
+        return result.toArray(new String[result.size()]);
+    }
+
+    public boolean hasEveryStudentWithApplicationsBeenAssigned() {
+        for(Student s : applicationsList.keySet()){
+            if(!s.hasBeenAssigned())
+                return false;
+        }
+        return true;
+    }
+
+    /*public boolean manuallyAssign(int proposalChosen, int studentChosen, String[] availableProposals, String[] availableStudents) {
+        Proposal pToAssign = proposalsList.get(availableProposals[proposalChosen]);
+        Student sToAssign = studentsList.get(availableStudents[studentChosen]);
+        assignmentList.add(new Assignment(sToAssign, pToAssign));
+        pToAssign.setHasBeenAssigned(true);
+        sToAssign.setHasBeenAssigned(true);
+    }*/
 
     private class Wrapper{    // to be used on 'numberStudents' hashmap
         int nmrStudents;    // number of students in that branch

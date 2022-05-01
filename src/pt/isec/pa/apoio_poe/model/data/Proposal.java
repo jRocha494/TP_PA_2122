@@ -1,10 +1,10 @@
 package pt.isec.pa.apoio_poe.model.data;
 
 public class Proposal {
-    protected String id;  // identification code
-    protected String title;
-    protected Student assignedStudent;   // identification (studentNumber) of the student assigned to said internship (null if no student was assigned yet)
-    private boolean hasBeenAssigned;
+    private String id;  // identification code
+    private String title;
+    private Student assignedStudent;   // identification (studentNumber) of the student assigned to said internship (null if no student was assigned yet)
+    private boolean hasBeenAssigned;  // Flag on whether this proposal has been officially associated with an assignment or not
 
     protected Proposal(String id, String title, Student assignedStudent) {
         this.id = id;
@@ -28,6 +28,15 @@ public class Proposal {
 
     public Student getAssignedStudent() {
         return assignedStudent;
+    }
+    public void setAssignedStudent(Student assignedStudent) {
+        this.assignedStudent = assignedStudent;
+    }
+    public boolean hasBeenAssigned() {
+        return hasBeenAssigned;
+    }
+    public void setHasBeenAssigned(boolean hasBeenAssigned) {
+        this.hasBeenAssigned = hasBeenAssigned;
     }
 
     public String proposalToString(){

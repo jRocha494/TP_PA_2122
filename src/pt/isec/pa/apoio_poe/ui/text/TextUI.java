@@ -14,7 +14,7 @@ public class TextUI {
         this.finish = false;
     }
 
-    private String viewProposalsWithFilters(){
+    private String viewProposalsWithFiltersStageTwo(){
         int choice = 0;
         ArrayList<Integer> filters = new ArrayList<>();
 
@@ -33,6 +33,33 @@ public class TextUI {
                 break;
         }
         return m.filterProposals(filters.toArray(new Integer[0]));
+    }
+
+    private String viewProposalsWithFiltersStageThree(){
+        int choice = 0;
+        ArrayList<Integer> filters = new ArrayList<>();
+
+        while (!finish){
+            choice = PAInput.chooseOption("Please choose a filter, and after that confirm the choices","Students Self-Proposals", "Teachers Proposals", "Proposals Unassigned", "Proposals assigned", "Confirm filters");
+
+            if(choice < 5) {
+                if(!filters.contains(choice)) {
+                    System.out.println("Filter " + choice + " added!");
+                    filters.add(choice);
+                } else {
+                    System.out.println("Filter " + choice + " removed!");
+                    filters.remove(filters.indexOf(choice));
+                }
+            } else
+                break;
+        }
+        return m.filterProposals(filters.toArray(new Integer[0]));
+    }
+
+    private void manuallyAssign() {
+        String[] availableProposals = m.getAvailableProposals();
+        String[] availableStudents = m.getAvailableStudents();
+        m.manuallyAssign(PAInput.chooseOption("Choose a proposal to assign", availableProposals), PAInput.chooseOption("Choose a student to assign the proposal to", availableStudents), availableProposals, availableStudents);
     }
 
     private void stageOneUI() {
@@ -109,12 +136,12 @@ public class TextUI {
 
     private void stageTwoUI() {
         System.out.println("STAGE TWO, " + m.getState());
-        switch(PAInput.chooseOption("What do you pretend to do?", "View students list with self-proposals", "View students with registered application", "View students without registered application", "View applications list", "Import data from CSV file", "Export data to CSV file","Close Stage", "Return to previous stage", "Advance to next stage", "Quit")){
-            //TODO: ADD OPTIONS TO VIEW DATA (STUDENT, TEACHER, PROPOSALS)
+        switch(PAInput.chooseOption("What do you pretend to do?", "View students list with self-proposals", "View students with registered application", "View students without registered application", "View proposals list", "Import data from CSV file", "Export data to CSV file","Close Stage", "Return to previous stage", "Advance to next stage", "Quit")){
+            //TODO: ADD OPTIONS TO VIEW DATA (APPLICATIONS)
             case 1 -> System.out.println(m.viewStudentsSelfProposals());
             case 2 -> System.out.println(m.viewStudentsWithApplication());
             case 3 -> System.out.println(m.viewStudentsWithoutApplication());
-            case 4 -> System.out.println(viewProposalsWithFilters());
+            case 4 -> System.out.println(viewProposalsWithFiltersStageTwo());
             case 5 -> System.out.println(m.importApplicationsCSV(PAInput.readString("Introduce the name of the file to read: ", true)));
             case 6 -> System.out.println(m.exportApplicationsCSV(PAInput.readString("Introduce the name of the file to write: ", true)));
             case 7 -> m.closeStage();
@@ -127,6 +154,20 @@ public class TextUI {
 
     private void stageThreePrevClosedUI() {
         System.out.println("STAGE THREE PREV CLOSED, " + m.getState());
+        switch (PAInput.chooseOption("What do you pretend to do?", "Automatic assign self-proposals/proposals with a pre-defined student", "Automatic assign a student to an available proposal", "Manually assign proposal to student", "Remove an assignment", "Remove all assignments", "View students list with self-proposals", "View students with registered application", "View students assigned to proposal", "View students unassigned", "View proposals list", "Close stage", "Advance stage", "Quit")){
+            case 1 -> m.automaticAssignmentSelfProposals();
+            case 2 -> m.automaticAssignment();
+            case 3 -> manuallyAssign();
+            case 4 -> m.removeAssignment(PAInput.chooseOption("Choose assignment to remove", m.viewAssignments()));
+            case 5 -> m.removeAllAssignments();
+            case 6 -> System.out.println(m.viewStudentsSelfProposals());
+            case 7 -> System.out.println(m.viewStudentsWithApplication());
+            case 8 -> System.out.println(m.viewStudentsAssigned());
+            case 9 -> System.out.println(m.viewStudentsUnassigned());
+            case 10 -> System.out.println(viewProposalsWithFiltersStageThree());
+            case 11 -> m.closeStage();
+            case 12 -> m.advanceStage();
+            // TODO save()
         switch (PAInput.chooseOption("What do you pretend to do?", "Automatic attribute self-proposals/proposals with a pre-defined student", "Automatic attribute proposals without an assigned student", "Export data to CSV file", "Quit")){
             case 1 -> m.automaticAttributionSelfProposals();
             case 2 -> m.automaticAttributionsNotAssigned();

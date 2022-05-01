@@ -12,7 +12,7 @@ public class SelfProposal extends Proposal {
     public String toString() {
         StringBuilder sb = new StringBuilder();
 
-        sb.append("T3," + id + "," + title + "," + assignedStudent.getStudentNumber());
+        sb.append("T3," + getId() + "," + getTitle() + "," + getAssignedStudent().getStudentNumber());
 
         return sb.toString();
     }

@@ -62,16 +62,26 @@ public class AppContext {
     public boolean closeStage() { return state.closeStage(); }
     public boolean advanceStage() { return state.advanceStage(); }
     public boolean returnStage() { return state.returnStage(); }
-    public String viewStudents() { return dl.viewStudents(); }
-    public String viewTeachers() { return dl.viewTeachers(); }
-    public String viewProposals() { return dl.viewProposals(); }
-    public String viewStudentsSelfProposals() { return dl.viewStudentsSelfProposals(); }
-    public String viewStudentsWithApplication() { return dl.viewStudentsWithApplication(); }
-    public String viewStudentsWithoutApplication() { return dl.viewStudentsWithoutApplication(); }
+    public String viewStudents() { return state.viewStudents(); }
+    public String viewTeachers() { return state.viewTeachers(); }
+    public String viewProposals() { return state.viewProposals(); }
+    public String viewStudentsSelfProposals() { return state.viewStudentsSelfProposals(); }
+    public String viewStudentsWithApplication() { return state.viewStudentsWithApplication(); }
+    public String viewStudentsWithoutApplication() { return state.viewStudentsWithoutApplication(); }
+    public String[] viewAssignments() { return dl.viewAssignments(); }
 
-    public String filterProposals(Integer... filters) { return dl.filterProposals(filters);}
+    public String filterProposals(Integer... filters) { return state.filterProposals(filters);}
 
-    public boolean automaticAttributionSelfProposals() { return state.automaticAttributionSelfProposals(); }
+    public boolean automaticAssignmentSelfProposals() { return state.automaticAssignmentSelfProposals(); }
+    public boolean automaticAssignment() { return state.automaticAssignment();}
+    public String[] getAvailableProposals() { return dl.getAvailableProposals(); }
+    public String[] getAvailableStudents() { return dl.getAvailableStudents(); }
+    public boolean manuallyAssign(int proposalChosen, int studentChosen, String[] availableProposals, String[] availableStudents) { return state.manuallyAssign(proposalChosen, studentChosen, availableProposals, availableStudents); }
+    public boolean removeAssignment(int assignmentToRemove) { return state.removeAssignment(assignmentToRemove); }
+    public boolean removeAllAssignments() { return state.removeAllAssignments(); }
+    public String viewStudentsUnassigned() { return state.viewStudentsUnassigned(); }
+
+    public String viewStudentsAssigned() { return state.viewStudentsAssigned(); }
 
     public boolean automaticAttributionsNotAssigned() { return state.automaticAttributionsNotAssigned();}
 

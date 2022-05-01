@@ -4,12 +4,16 @@ import pt.isec.pa.apoio_poe.model.data.Application;
 import pt.isec.pa.apoio_poe.model.data.DataLogic;
 import pt.isec.pa.apoio_poe.model.data.Proposal;
 import pt.isec.pa.apoio_poe.model.data.Student;
+import pt.isec.pa.apoio_poe.model.data.tiposProposta.Project;
+import pt.isec.pa.apoio_poe.model.data.tiposProposta.SelfProposal;
 import pt.isec.pa.apoio_poe.model.fsm.AppContext;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 public class StageTwo extends StateAdapter{
     protected StageTwo(AppContext ac, DataLogic dl) {
@@ -205,6 +209,40 @@ public class StageTwo extends StateAdapter{
             sb.append("There was an error (IOException)");
         }
 
+        return sb.toString();
+    }
+    public String viewStudentsWithoutApplication() {
+        StringBuilder sb = new StringBuilder();
+        for (Student s : dl.getStudentsValues()) {
+            if(!s.hasApplication())
+                sb.append(s.studentToString());
+        }
+        return sb.toString();
+    }
+
+    Predicate<Proposal> bySelfProposals = proposal -> proposal instanceof SelfProposal;
+    Predicate<Proposal> byTeacherProposals = proposal -> proposal instanceof Project;
+    Predicate<Proposal> byProposalInApplication = proposal -> dl.applicationHasProposal(proposal);
+    Predicate<Proposal> byProposalNotInApplication = proposal -> dl.applicationHasProposal(proposal) == false;
+    @Override
+    public String filterProposals(Integer... filters){
+        StringBuilder sb = new StringBuilder();
+
+        List<Proposal> results = new ArrayList();
+        results.addAll(dl.getProposalsValues());
+        for(int element : filters){
+            switch (element){
+                case 1 -> results = results.stream().filter(bySelfProposals).collect(Collectors.toList());
+                case 2 -> results = results.stream().filter(byTeacherProposals).collect(Collectors.toList());
+                case 3 -> results = results.stream().filter(byProposalInApplication).collect(Collectors.toList());
+                case 4 -> results = results.stream().filter(byProposalNotInApplication).collect(Collectors.toList());
+                default -> { return ""; }
+            }
+        }
+        sb.append("\n[FILTERED PROPOSALS]");
+        for(var proposal : results){
+            sb.append(proposal.proposalToString());
+        }
         return sb.toString();
     }
 }
