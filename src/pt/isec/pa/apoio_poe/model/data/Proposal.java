@@ -23,8 +23,8 @@ public class Proposal {
 
     public String getTitle() { return title; }
 
-    public long getAssignedStudent() {
-        return assignedStudent.getStudentNumber();
+    public Student getAssignedStudent() {
+        return assignedStudent;
     }
 
     public String proposalToString(){

@@ -126,8 +126,15 @@ public class TextUI {
         }
     }
 
-    private void stageThreeUI() {
-        System.out.println("STAGE THREE, " + m.getState());
+    private void stageThreePrevClosedUI() {
+        System.out.println("STAGE THREE PREV CLOSED, " + m.getState());
+        switch (PAInput.chooseOption("What do you pretend to do?", "Automatic attribute self-proposals/proposals with a pre-defined student", "Quit")){
+            case 1 -> m.automaticAttributionSelfProposals();
+            default -> finish = true;
+        }
+    }
+    private void stageThreePrevOpenUI() {
+        System.out.println("STAGE THREE PREV OPEN, " + m.getState());
     }
 
     private void conflictStateUI() {
@@ -152,7 +159,8 @@ public class TextUI {
                 case CONFIGURATIONS_STATE_TEACHER_MANAGER -> teacherManagerUI();
                 case CLOSED_STAGE -> closedStageUI();
                 case APPLICATION_OPTIONS_STAGE_TWO -> stageTwoUI();
-                case PROPOSAL_ATTRIBUTION_STAGE_THREE -> stageThreeUI();
+                case PROPOSAL_ATTRIBUTION_PREV_CLOSED_STAGE_THREE -> stageThreePrevClosedUI();
+                case PROPOSAL_ATTRIBUTION_PREV_OPEN_STAGE_THREE -> stageThreePrevOpenUI();
                 case CONFLICT_STATE -> conflictStateUI();
                 case ADVISOR_ATTRIBUTION_STAGE_FOUR -> stageFourUI();
                 case VIEW_DATA_STAGE_FIVE -> stageFiveUI();

@@ -55,4 +55,7 @@ public abstract class StateAdapter implements IState{
     public boolean advanceStage(){ return false; }
     @Override
     public boolean returnStage(){ return false; }
+
+    @Override
+    public boolean automaticAttributionSelfProposals() { return false; }
 }

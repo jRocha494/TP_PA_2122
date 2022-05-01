@@ -71,6 +71,8 @@ public class AppContext {
 
     public String filterProposals(Integer... filters) { return dl.filterProposals(filters);}
 
+    public boolean automaticAttributionSelfProposals() { return state.automaticAttributionSelfProposals(); }
+
     public boolean filenameIsValid(String filename) {
         String[] fn = filename.split("\\.");
 

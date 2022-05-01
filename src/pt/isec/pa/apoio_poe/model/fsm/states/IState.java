@@ -18,4 +18,6 @@ public interface IState {
     boolean closeStage();
     boolean advanceStage();
     boolean returnStage();
+
+    boolean automaticAttributionSelfProposals();
 }

@@ -28,7 +28,7 @@ public class StageTwo extends StateAdapter{
         // in case previous stage (stage 1) is closed... closes this stage
         if(ac.isStageClosed("Stage1")){
             ac.setCloseStatus("Stage2", true);
-            changeState(AppState.PROPOSAL_ATTRIBUTION_STAGE_THREE);
+            changeState(AppState.PROPOSAL_ATTRIBUTION_PREV_CLOSED_STAGE_THREE);
             return true;
         }
         return false;
@@ -46,7 +46,7 @@ public class StageTwo extends StateAdapter{
 
     @Override
     public boolean advanceStage(){
-        changeState(AppState.PROPOSAL_ATTRIBUTION_STAGE_THREE);
+        changeState(AppState.PROPOSAL_ATTRIBUTION_PREV_OPEN_STAGE_THREE);
         return true;
     }
 

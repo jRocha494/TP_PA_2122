@@ -58,6 +58,7 @@ public class DataLogic {
         applicationsList.put(studentNumber, new Application(chosenProposals, studentNumber));
         studentsList.get(studentNumber.getStudentNumber()).setHasApplication(true);
     }
+    public void addAttribution(Attribution attribution) { attributionList.add(attribution); }
 
     public Student getStudent(long id){
         return studentsList.get(id);
@@ -199,6 +200,7 @@ public class DataLogic {
         }
         return sb.toString();
     }
+
 
     private class Wrapper{    // to be used on 'numberStudents' hashmap
         int nmrStudents;    // number of students in that branch

@@ -56,4 +56,6 @@ public class Manager {
     public String viewStudentsWithoutApplication() { return ac.viewStudentsWithoutApplication(); }
 
     public String filterProposals(Integer... filters) { return ac.filterProposals(filters); }
+
+    public boolean automaticAttributionSelfProposals() { return ac.automaticAttributionSelfProposals(); }
 }
