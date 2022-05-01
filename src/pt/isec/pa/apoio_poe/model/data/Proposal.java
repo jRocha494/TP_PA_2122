@@ -1,6 +1,9 @@
 package pt.isec.pa.apoio_poe.model.data;
 
-public class Proposal {
+import java.io.Serializable;
+
+public class Proposal implements Serializable {
+    static final long serialVersionUID = 100L;
     private String id;  // identification code
     private String title;
     private Student assignedStudent;   // identification (studentNumber) of the student assigned to said internship (null if no student was assigned yet)

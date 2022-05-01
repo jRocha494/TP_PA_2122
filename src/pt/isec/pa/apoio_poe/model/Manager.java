@@ -1,7 +1,13 @@
 package pt.isec.pa.apoio_poe.model;
 
+import pt.isec.pa.apoio_poe.model.data.DataLogic;
 import pt.isec.pa.apoio_poe.model.fsm.AppContext;
 import pt.isec.pa.apoio_poe.model.fsm.states.AppState;
+
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
 public class Manager {
     AppContext ac;
@@ -75,4 +81,35 @@ public class Manager {
     public String exportStageThreeCSV(String filename) { return ac.exportStageThreeCSV(filename); }
 
     public boolean automaticAssignmentAdvisors() { return ac.automaticAssignmentAdvisors(); }
+
+    public void save(String filename){
+        try(ObjectOutputStream oos =
+                    new ObjectOutputStream(
+                            new FileOutputStream(filename)))
+        {
+            oos.writeObject(ac);
+        } catch (Exception e) {
+            System.err.println("Error saving data: " + e.getMessage());
+        }
+    }
+
+    public void loadAppContext(String filename){
+        AppContext appContext = load(filename);
+        if(appContext!=null) {
+            ac = load(filename);
+            ac.changeState(AppState.values()[ac.getCurrentState()].createState(ac, ac.getDl()));
+        }
+    }
+
+    private AppContext load(String filename) {
+        try(ObjectInputStream ois =
+                    new ObjectInputStream(
+                            new FileInputStream(filename)))
+        {
+            return (AppContext) ois.readObject();
+        } catch (Exception e) {
+            System.err.println("Error loading data: " + e.getMessage());
+        }
+        return null;
+    }
 }

@@ -12,7 +12,7 @@ public enum AppState {
     CONFIGURATIONS_STATE_TEACHER_MANAGER, CLOSED_STAGE, APPLICATION_OPTIONS_STAGE_TWO,
     PROPOSAL_ATTRIBUTION_PREV_OPEN_STAGE_THREE, PROPOSAL_ATTRIBUTION_PREV_CLOSED_STAGE_THREE, CONFLICT_STAGE, ADVISOR_ATTRIBUTION_STAGE_FOUR, VIEW_DATA_STAGE_FIVE;
 
-    IState createState(AppContext ac, DataLogic dl) {
+    public IState createState(AppContext ac, DataLogic dl) {
         return switch (this){
             case CONFIGURATIONS_STATE_STAGE_ONE -> new StageOne(ac, dl);
             case CONFIGURATIONS_STATE_PROPOSAL_MANAGER -> new ProposalMode(ac, dl);
@@ -28,7 +28,7 @@ public enum AppState {
         };
     }
 
-    IState createState(AppContext ac, DataLogic dl, List<Student> students, Proposal proposal) {
+    public IState createState(AppContext ac, DataLogic dl, List<Student> students, Proposal proposal) {
         return switch (this){
             case CONFIGURATIONS_STATE_STAGE_ONE -> new StageOne(ac, dl);
             case CONFIGURATIONS_STATE_PROPOSAL_MANAGER -> new ProposalMode(ac, dl);

@@ -1,6 +1,9 @@
 package pt.isec.pa.apoio_poe.model.data;
 
-public class Assignment {
+import java.io.Serializable;
+
+public class Assignment implements Serializable {
+    static final long serialVersionUID = 100L;
     private Student student;
     private Proposal proposal;
     private Teacher advisor;

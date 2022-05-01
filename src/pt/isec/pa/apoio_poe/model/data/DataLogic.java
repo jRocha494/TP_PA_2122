@@ -4,18 +4,22 @@ import pt.isec.pa.apoio_poe.model.data.tiposProposta.Internship;
 import pt.isec.pa.apoio_poe.model.data.tiposProposta.Project;
 import pt.isec.pa.apoio_poe.model.data.tiposProposta.SelfProposal;
 
+import java.io.Serializable;
 import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-public class DataLogic {
+public class DataLogic implements Serializable {
     // TODO how to use this map: numberStudents.get('<branchName>').getNmrStudents()/.getNmrProposals()
+    static final long serialVersionUID = 100L;
     private Map<String, Wrapper> numberStudentsAndProposals; // Number of students and proposals by branch
     private Map<String, Proposal> proposalsList; // Map with the list of proposals (Key: Proposal ID, Value: Proposal Object)
     private Map<Long, Student> studentsList; // Map with the list of students (Key: Student Number, Value: Student Object)
     private Map<String, Teacher> teachersList; // Map with the list of proposals (Key: Teacher email, Value: Teacher Object)
     private Map<Student, Application> applicationsList; // Map with the list of applications (Key: Student Object, Value: Application Object)
     private List<Assignment> assignmentList;  // List containing information about attributions (contains references to the correspondent student, proposal and advisor)
+    private List<Student> conflictStudents;
+    private Proposal conflictProposal;
 
     public DataLogic() {
         this.numberStudentsAndProposals = new HashMap<>();
@@ -168,6 +172,22 @@ public class DataLogic {
         return students;
     }
 
+    public void setConflictStudents(List<Student> conflictStudents) {
+        this.conflictStudents = conflictStudents;
+    }
+
+    public void setConflictProposal(Proposal conflictProposal) {
+        this.conflictProposal = conflictProposal;
+    }
+
+    public List<Student> getConflictStudents() {
+        return conflictStudents;
+    }
+
+    public Proposal getConflictProposal() {
+        return conflictProposal;
+    }
+
     public List<Student> getStudentsWithSameProposal(List<Student> students, Proposal p){
         List<Student> studentsWithProposal = new ArrayList<>();
 
@@ -218,6 +238,36 @@ public class DataLogic {
         return result.toArray(new String[result.size()]);
     }
 
+    public String[] getAssignmentsWithoutAdvisor() {
+        List<String> result = new ArrayList<>();
+
+        for (Assignment a : assignmentList){
+            if(a.getAdvisor() == null)
+                result.add(a.toString());
+        }
+
+        return result.toArray(new String[result.size()]);
+    }
+
+    public String[] getAvailableAdvisors() {
+        List<String> result = new ArrayList<>();
+
+        for (Teacher t : teachersList.values()){
+            if(isAvailable(t))
+                result.add(t.teacherToString());
+        }
+
+        return result.toArray(new String[result.size()]);
+    }
+
+    public boolean isAvailable(Teacher teacher){
+        for(Assignment a : assignmentList){
+            if(a.getAdvisor()==teacher)
+                return false;
+        }
+        return true;
+    }
+
     public String[] viewAssignments() {
         List<String> result = new ArrayList<>();
 
@@ -244,7 +294,8 @@ public class DataLogic {
         sToAssign.setHasBeenAssigned(true);
     }*/
 
-    private class Wrapper{    // to be used on 'numberStudents' hashmap
+    private class Wrapper implements Serializable{    // to be used on 'numberStudents' hashmap
+        static final long serialVersionUID = 100L;
         int nmrStudents;    // number of students in that branch
         int nmrProposals;   // number of proposals destined for that branch
 

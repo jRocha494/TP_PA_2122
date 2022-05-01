@@ -1,6 +1,9 @@
 package pt.isec.pa.apoio_poe.model.data;
 
-public class Student implements Comparable<Student>{
+import java.io.Serializable;
+
+public class Student implements Comparable<Student>, Serializable {
+    static final long serialVersionUID = 100L;
     private long studentNumber;
     private String name;
     private String email;

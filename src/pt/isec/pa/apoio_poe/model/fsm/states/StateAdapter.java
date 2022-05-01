@@ -7,6 +7,7 @@ import pt.isec.pa.apoio_poe.model.fsm.AppContext;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.List;
 
 public abstract class StateAdapter implements IState {
@@ -19,10 +20,12 @@ public abstract class StateAdapter implements IState {
     }
 
     protected void changeState(AppState newState) {
+        ac.setCurrentState(newState.ordinal());
         ac.changeState(newState.createState(ac, dl));
     }
 
     protected void changeState(AppState newState, List<Student> students, Proposal proposal){
+        ac.setCurrentState(newState.ordinal());
         ac.changeState(newState.createState(ac,dl,students,proposal));
     }
 

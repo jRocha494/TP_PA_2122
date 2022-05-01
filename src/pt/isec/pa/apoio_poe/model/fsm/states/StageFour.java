@@ -1,6 +1,8 @@
 package pt.isec.pa.apoio_poe.model.fsm.states;
 
+import pt.isec.pa.apoio_poe.model.data.Assignment;
 import pt.isec.pa.apoio_poe.model.data.DataLogic;
+import pt.isec.pa.apoio_poe.model.data.Teacher;
 import pt.isec.pa.apoio_poe.model.fsm.AppContext;
 
 public class StageFour extends StateAdapter{

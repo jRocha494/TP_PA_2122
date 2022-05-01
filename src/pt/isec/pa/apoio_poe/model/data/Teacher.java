@@ -1,6 +1,9 @@
 package pt.isec.pa.apoio_poe.model.data;
 
-public class Teacher {
+import java.io.Serializable;
+
+public class Teacher implements Serializable {
+    static final long serialVersionUID = 100L;
     private String email;
     private String name;
     private boolean isAdvisor;  // True if this teacher is an advisor, False if this teacher is a project proposer

@@ -1,8 +1,10 @@
 package pt.isec.pa.apoio_poe.model.data;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Application {
+public class Application implements Serializable {
+    static final long serialVersionUID = 100L;
     private List<Proposal> chosenProposals;
     private Student studentNumber;
 

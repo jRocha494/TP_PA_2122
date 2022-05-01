@@ -5,12 +5,15 @@ import pt.isec.pa.apoio_poe.model.fsm.states.AppState;
 import pt.isec.pa.apoio_poe.model.fsm.states.IState;
 import pt.isec.pa.apoio_poe.model.fsm.states.StageOne;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-public class AppContext {
-    private IState state;
+public class AppContext implements Serializable {
+    static final long serialVersionUID = 100L;
+    private int currentState;
+    private transient IState state;
     private DataLogic dl;
     private Map<String, Boolean> closeStatusStages; // Used to manage whether a certain stage has already been closed or not
 
@@ -32,6 +35,10 @@ public class AppContext {
         closeStatusStages.computeIfPresent(stage, (k, v) -> v = status);
     }
 
+    public void setCurrentState(int ordinal) { this.currentState = ordinal; }
+
+    public int getCurrentState() { return currentState; }
+
     public boolean isStageClosed(String stage){    // Receives the name of the stage, and returns its close status
         return closeStatusStages.get(stage);
     }
@@ -39,6 +46,10 @@ public class AppContext {
     public AppState getState() { return state.getState(); }
 
     public String getStage(){return state.getStage();}
+
+    public DataLogic getDl() {
+        return dl;
+    }
 
     public String importProposalsCSV(String filename){ return state.importProposalsCSV(filename); }
 
@@ -123,4 +134,5 @@ public class AppContext {
     public String exportStageThreeCSV(String filename) { return state.exportStageThreeCSV(filename); }
 
     public boolean automaticAssignmentAdvisors() { return state.automaticAssignmentAdvisors(); }
+
 }
