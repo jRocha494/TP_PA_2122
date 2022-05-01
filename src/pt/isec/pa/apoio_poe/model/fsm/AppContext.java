@@ -17,8 +17,8 @@ public class AppContext implements Serializable {
     private DataLogic dl;
     private Map<String, Boolean> closeStatusStages; // Used to manage whether a certain stage has already been closed or not
 
-    public AppContext() {
-        this.dl = new DataLogic();
+    public AppContext(DataLogic dl) {
+        this.dl = dl;
         this.closeStatusStages = new HashMap<>();
         setup();
         this.state = new StageOne(this, dl);
@@ -135,4 +135,9 @@ public class AppContext implements Serializable {
 
     public boolean automaticAssignmentAdvisors() { return state.automaticAssignmentAdvisors(); }
 
+    public String viewStudentsAssignedWithAdvisor() { return state.viewStudentsAssignedWithAdvisor(); }
+    public String viewStudentsAssignedWithoutAdvisor() { return state.viewStudentsAssignedWithoutAdvisor();}
+    public String viewStudentsUnassignedWithApplications() { return state.viewStudentsUnassignedWithApplications(); }
+    public String viewProposalsUnassigned() { return state.viewProposalsUnassigned(); }
+    public String viewProposalsAssigned() { return state.viewProposalsAssigned(); }
 }

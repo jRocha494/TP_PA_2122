@@ -174,4 +174,18 @@ public abstract class StateAdapter implements IState {
 
     @Override
     public boolean automaticAssignmentAdvisors(){ return false; }
+
+    @Override
+    public String viewStudentsAssignedWithAdvisor(){return "";}
+
+    @Override
+    public String viewStudentsAssignedWithoutAdvisor(){return "";}
+
+    @Override
+    public String viewStudentsUnassignedWithApplications(){return "";}
+
+    @Override
+    public String viewProposalsUnassigned(){return "";}
+    @Override
+    public String viewProposalsAssigned(){return "";}
 }

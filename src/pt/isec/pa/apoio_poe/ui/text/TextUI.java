@@ -191,7 +191,7 @@ public class TextUI {
             case 6 -> System.out.println(m.viewStudentsAssigned());
             case 7 -> System.out.println(m.viewStudentsUnassigned());
             case 8 -> System.out.println(viewProposalsWithFiltersStageThree());
-            case 9 -> m.closeStage();
+            case 9 -> m.returnStage();
             case 10 -> m.advanceStage();
             case 11 -> m.exportStageThreeCSV(m.exportStageThreeCSV(PAInput.readString("Introduce the name of the file to write: ", true)));
             case 12 -> m.save(PAInput.readString("Introduce the name of the file to write: ", true));
@@ -211,8 +211,15 @@ public class TextUI {
     }
 
     private void stageFourUI() {
+        System.out.println("STAGE FOUR, " + m.getState());
+        switch (PAInput.chooseOption("What do you pretend to do?", "Automatic assign teachers to their proposals as an advisor", "Close stage", "Return to previous stage", "View students assigned to proposals with advisors", "View students assigned to proposals without advisors", "Quit")) {
         switch (PAInput.chooseOption("What do you pretend to do?", "Automatic assign teachers to their proposals as an advisor", "Consult Assignments", "Load application state","Quit")) {
             case 1 -> m.automaticAssignmentAdvisors();
+            case 2 -> m.closeStage();
+            case 3 -> m.returnStage();
+            case 4 -> System.out.println(m.viewStudentsAssignedWithAdvisor());
+            case 5 -> System.out.println(m.viewStudentsAssignedWithoutAdvisor());
+            default -> finish = true;
             case 2 -> m.viewAssignments();
             case 3 -> m.save(PAInput.readString("Introduce the name of the file to write: ", true));
             case 4 -> m.loadAppContext(PAInput.readString("Introduce the name of the file to read: ", true));
@@ -222,6 +229,13 @@ public class TextUI {
 
     private void stageFiveUI() {
         System.out.println("STAGE FIVE, " + m.getState());
+        switch(PAInput.chooseOption("What do you pretend to do?", "View students assigned to proposals", "View students unassigned with applications", "View available proposals", "View assigned proposals", "Quit")){
+            case 1 -> System.out.println(m.viewStudentsAssigned());
+            case 2 -> System.out.println(m.viewStudentsUnassignedWithApplications());
+            case 3 -> System.out.println(m.viewProposalsUnassigned());
+            case 4 -> System.out.println(m.viewProposalsAssigned());
+            default -> finish = true;
+        }
     }
 
     public void start(){

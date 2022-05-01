@@ -37,6 +37,10 @@ public class Assignment implements Serializable {
     public boolean hasAdvisor() { return advisor!=null; }
     public boolean hasStudent() { return advisor!=null; }
 
+    public void setAdvisor(Teacher advisor) {
+        this.advisor = advisor;
+    }
+
     @Override
     public String toString(){
         StringBuilder sb = new StringBuilder();

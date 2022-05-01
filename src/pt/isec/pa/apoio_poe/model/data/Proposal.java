@@ -58,4 +58,16 @@ public class Proposal implements Serializable {
     public boolean hasBeenAssigned() {
         return hasBeenAssigned;
     }
+
+    @Override
+    public boolean equals(Object o){
+        if(o == this)
+            return true;
+
+        if(!(o instanceof Proposal))
+            return false;
+
+        Proposal p = (Proposal) o;
+        return id.equals(p.id);
+    }
 }

@@ -11,9 +11,11 @@ import java.io.ObjectOutputStream;
 
 public class Manager {
     AppContext ac;
+    DataLogic dl;
 
     public Manager(){
-        ac = new AppContext();
+        dl = new DataLogic();
+        ac = new AppContext(dl);
     }
 
     public AppState getState() {
@@ -81,6 +83,12 @@ public class Manager {
     public String exportStageThreeCSV(String filename) { return ac.exportStageThreeCSV(filename); }
 
     public boolean automaticAssignmentAdvisors() { return ac.automaticAssignmentAdvisors(); }
+
+    public String viewStudentsAssignedWithAdvisor() { return ac.viewStudentsAssignedWithAdvisor(); }
+    public String viewStudentsAssignedWithoutAdvisor() { return ac.viewStudentsAssignedWithoutAdvisor(); }
+    public String viewStudentsUnassignedWithApplications() { return ac.viewStudentsUnassignedWithApplications(); }
+    public String viewProposalsUnassigned() { return ac.viewProposalsUnassigned(); }
+    public String viewProposalsAssigned() { return ac.viewProposalsAssigned(); }
 
     public void save(String filename){
         try(ObjectOutputStream oos =
