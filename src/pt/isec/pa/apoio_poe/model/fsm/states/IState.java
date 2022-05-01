@@ -9,6 +9,7 @@ public interface IState {
     String exportTeachersCSV(String filename);
     String importApplicationsCSV(String filename);
     String exportApplicationsCSV(String filename);
+    String exportStageThreeCSV(String filename);
 
     AppState getState();
 
@@ -20,4 +21,9 @@ public interface IState {
     boolean returnStage();
 
     boolean automaticAttributionSelfProposals();
+    boolean automaticAttributionsNotAssigned();
+
+    String[] getConflictedCases();
+    String getConflictedProposal();
+    boolean resolveConflictedCases(int option);
 }

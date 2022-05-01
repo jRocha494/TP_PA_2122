@@ -73,7 +73,7 @@ public class DataLogic {
     public boolean proposalExists(String id){ return proposalsList.containsKey(id);}
     public boolean proposalWithStudentExists(long assignedStudent){
         if (studentExists(assignedStudent))
-            return studentsList.get(assignedStudent).hasProposed();
+            return studentsList.get(assignedStudent).hasProposed() || studentsList.get(assignedStudent).hasBeenAssigned();
         return false;
     }
     public boolean hasAssignedStudent(String id){
@@ -109,6 +109,10 @@ public class DataLogic {
         return false;
     }
 
+    public boolean applicationHasProposal(Application a, Proposal p){
+        return a.chosenProposals.contains(p);
+    }
+
     public Collection<Proposal> getProposalsValues() {
         return proposalsList.values();
     }
@@ -120,6 +124,77 @@ public class DataLogic {
     }
     public Collection<Application> getApplicationsValues() {
         return applicationsList.values();
+    }
+
+    public List<Student> getStudentsWithProposalInApplication(Proposal p) {
+        List<Student> studentsWithProposal = new ArrayList<>();
+
+        for (Application a : getApplicationsValues()) {
+            if (a.chosenProposals.contains(p)) {
+                studentsWithProposal.add(a.studentNumber);
+            }
+        }
+
+        return studentsWithProposal;
+    }
+
+    public Proposal getFirstFreeProposal(Student student){
+        for(Proposal p : applicationsList.get(student).getChoosenProposals()){
+            if(!p.hasAssignedStudent())
+                return p;
+        }
+
+        return null;
+    }
+
+    public List<Student> getStudentWithBestClassification(){
+        List<Student> students = new ArrayList<>();
+        double bestClassification = -1;
+
+        for(Student s : getStudentsValues()){
+            if(!s.hasBeenAssigned() && !s.hasProposed() && s.hasApplication()) {
+                if (s.getClassification() > bestClassification) {
+                    students.clear();
+                    students.add(s);
+                    bestClassification = s.getClassification();
+                } else if (s.getClassification() == bestClassification)
+                    students.add(s);
+            }
+        }
+
+        return students;
+    }
+
+    public List<Student> getStudentsWithSameProposal(List<Student> students, Proposal p){
+        List<Student> studentsWithProposal = new ArrayList<>();
+
+        for(Student s : students){
+            if(applicationHasProposal(applicationsList.get(s),p))
+                studentsWithProposal.add(s);
+        }
+
+        return studentsWithProposal;
+    }
+
+    public Proposal getProposalByStudent(long id){
+        if(studentExists(id)) {
+            for (Proposal p : proposalsList.values()) {
+                if(p.hasAssignedStudent())
+                    if(p.getAssignedStudent().getStudentNumber() == id)
+                        return p;
+            }
+        }
+        return null;
+    }
+
+    public int getIndexofProposalInApplication(Proposal p, Student s){
+        if(proposalExists(p.getId()) && studentExists(s.getStudentNumber())){
+            if(applicationHasProposal(applicationsList.get(s),p)){
+                return applicationsList.get(s).getChoosenProposals().indexOf(p) + 1;
+            }
+        }
+
+        return -1;
     }
 
     public boolean areProposalsMoreThanStudents(){

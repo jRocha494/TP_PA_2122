@@ -4,7 +4,6 @@ import pt.isec.pa.apoio_poe.model.Manager;
 import pt.isec.pa.apoio_poe.utils.PAInput;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class TextUI {
     private Manager m;
@@ -128,17 +127,29 @@ public class TextUI {
 
     private void stageThreePrevClosedUI() {
         System.out.println("STAGE THREE PREV CLOSED, " + m.getState());
-        switch (PAInput.chooseOption("What do you pretend to do?", "Automatic attribute self-proposals/proposals with a pre-defined student", "Quit")){
+        switch (PAInput.chooseOption("What do you pretend to do?", "Automatic attribute self-proposals/proposals with a pre-defined student", "Automatic attribute proposals without an assigned student", "Export data to CSV file", "Quit")){
             case 1 -> m.automaticAttributionSelfProposals();
+            case 2 -> m.automaticAttributionsNotAssigned();
+            case 3 -> m.exportStageThreeCSV(m.exportStageThreeCSV(PAInput.readString("Introduce the name of the file to write: ", true)));
             default -> finish = true;
         }
     }
+
     private void stageThreePrevOpenUI() {
         System.out.println("STAGE THREE PREV OPEN, " + m.getState());
+        switch (PAInput.chooseOption("What do you pretend to do?", "Automatic attribute self-proposals/proposals with a pre-defined student", "Export data to CSV file", "Quit")) {
+            case 1 -> m.automaticAttributionSelfProposals();
+            case 2 -> m.exportStageThreeCSV(m.exportStageThreeCSV(PAInput.readString("Introduce the name of the file to write: ", true)));
+            default -> finish = true;
+        }
     }
 
     private void conflictStateUI() {
         System.out.println("CONFLICT STATE, " + m.getState());
+        switch (PAInput.chooseOption("What do you pretend to do?", "Resolve Conflicts", "Quit")) {
+            case 1 -> m.resolveConflictedCases(PAInput.chooseOption("Conflicts:\nProposal: " + m.getConflictedProposal() + "\nStudents:",m.getConflictedCases()));
+            default -> finish = true;
+        }
     }
 
     private void stageFourUI() {
@@ -161,7 +172,7 @@ public class TextUI {
                 case APPLICATION_OPTIONS_STAGE_TWO -> stageTwoUI();
                 case PROPOSAL_ATTRIBUTION_PREV_CLOSED_STAGE_THREE -> stageThreePrevClosedUI();
                 case PROPOSAL_ATTRIBUTION_PREV_OPEN_STAGE_THREE -> stageThreePrevOpenUI();
-                case CONFLICT_STATE -> conflictStateUI();
+                case CONFLICT_STAGE -> conflictStateUI();
                 case ADVISOR_ATTRIBUTION_STAGE_FOUR -> stageFourUI();
                 case VIEW_DATA_STAGE_FIVE -> stageFiveUI();
             }

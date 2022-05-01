@@ -73,6 +73,14 @@ public class AppContext {
 
     public boolean automaticAttributionSelfProposals() { return state.automaticAttributionSelfProposals(); }
 
+    public boolean automaticAttributionsNotAssigned() { return state.automaticAttributionsNotAssigned();}
+
+    public String[] getConflictedCases(){ return state.getConflictedCases(); }
+
+    public String getConflictedProposal() { return state.getConflictedProposal(); }
+
+    public boolean resolveConflictedCases(int option) { return state.resolveConflictedCases(option); }
+
     public boolean filenameIsValid(String filename) {
         String[] fn = filename.split("\\.");
 
@@ -102,4 +110,6 @@ public class AppContext {
             return false;
         return pat.matcher(id).matches();
     }
+
+    public String exportStageThreeCSV(String filename) { return state.exportStageThreeCSV(filename); }
 }
