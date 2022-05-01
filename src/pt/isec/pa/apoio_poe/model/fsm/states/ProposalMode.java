@@ -41,6 +41,15 @@ public class ProposalMode extends StateAdapter{
     }
 
     @Override
+    public String viewProposals() {
+        StringBuilder sb = new StringBuilder();
+        for (Proposal p : dl.getProposalsValues()) {
+            sb.append(p.proposalToString());
+        }
+        return sb.toString();
+    }
+
+    @Override
     public String importProposalsCSV(String filename) {
         StringBuilder sb = new StringBuilder();
         long assignedStudent = -1;

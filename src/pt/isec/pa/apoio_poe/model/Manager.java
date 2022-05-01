@@ -54,8 +54,23 @@ public class Manager {
     public String viewStudentsSelfProposals() { return ac.viewStudentsSelfProposals(); }
     public String viewStudentsWithApplication() { return ac.viewStudentsWithApplication(); }
     public String viewStudentsWithoutApplication() { return ac.viewStudentsWithoutApplication(); }
+    public String[] viewAssignments() { return ac.viewAssignments(); }
 
     public String filterProposals(Integer... filters) { return ac.filterProposals(filters); }
 
-    public boolean automaticAttributionSelfProposals() { return ac.automaticAttributionSelfProposals(); }
+    public boolean automaticAssignmentSelfProposals() { return ac.automaticAssignmentSelfProposals(); }
+    public String[] getAvailableProposals() { return ac.getAvailableProposals(); }
+    public String[] getAvailableStudents() { return ac.getAvailableStudents(); }
+    public boolean manuallyAssign(int proposalChosen, int studentChosen, String[] availableProposals, String[] availableStudents) { return ac.manuallyAssign(proposalChosen, studentChosen, availableProposals, availableStudents); }
+
+    public boolean removeAssignment(int assignmentToRemove) { return ac.removeAssignment(assignmentToRemove);}
+    public boolean removeAllAssignments() { return ac.removeAllAssignments(); }
+
+    public String viewStudentsAssigned() { return ac.viewStudentsAssigned(); }
+    public String viewStudentsUnassigned() { return ac.viewStudentsUnassigned(); }
+    public boolean automaticAssignment() { return ac.automaticAssignment();}
+    public String[] getConflictedCases(){ return ac.getConflictedCases(); }
+    public String getConflictedProposal() { return ac.getConflictedProposal(); }
+    public boolean resolveConflictedCases(int option) { return ac.resolveConflictedCases(option); }
+    public String exportStageThreeCSV(String filename) { return ac.exportStageThreeCSV(filename); }
 }

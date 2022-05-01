@@ -28,15 +28,15 @@ public class Project extends Proposal {
     public String toString() {
         StringBuilder sb = new StringBuilder();
 
-        sb.append("T2," + id + ",");
+        sb.append("T2," + getId() + ",");
         for(String b : destinedBranch) {
             if (destinedBranch.indexOf(b) != 0)
                 sb.append("|");
             sb.append(b);
         }
-        sb.append("," + title + "," + proposingTeacher.getEmail() );
-        if(assignedStudent != null)
-            sb.append("," + assignedStudent.getStudentNumber());
+        sb.append("," + getTitle() + "," + proposingTeacher.getEmail() );
+        if(hasAssignedStudent())
+            sb.append("," + getAssignedStudent().getStudentNumber());
 
         return sb.toString();
     }

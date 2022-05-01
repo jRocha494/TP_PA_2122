@@ -37,6 +37,15 @@ public class TeacherMode extends StateAdapter{
     }
 
     @Override
+    public String viewTeachers() {
+        StringBuilder sb = new StringBuilder();
+        for (Teacher t : dl.getTeachersValues()) {
+            sb.append(t.teacherToString());
+        }
+        return sb.toString();
+    }
+
+    @Override
     public String importTeachersCSV(String filename) {
         StringBuilder sb = new StringBuilder();
         String name, email, line;

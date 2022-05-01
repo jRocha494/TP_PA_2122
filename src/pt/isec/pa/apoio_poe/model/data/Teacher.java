@@ -4,11 +4,13 @@ public class Teacher {
     private String email;
     private String name;
     private boolean isAdvisor;  // True if this teacher is an advisor, False if this teacher is a project proposer
+    private boolean hasBeenAssigned;    // Flag on whether this teacher has been officially associated with an assignment or not
 
     public Teacher(String email, String name, boolean isAdvisor) {
         this.email = email;
         this.name = name;
         this.isAdvisor = isAdvisor;
+        this.hasBeenAssigned = false;
     }
 
     public String getEmail() {
@@ -17,6 +19,18 @@ public class Teacher {
 
     public String getName() {
         return name;
+    }
+
+    public boolean isAdvisor() {
+        return isAdvisor;
+    }
+
+    public boolean isHasBeenAssigned() {
+        return hasBeenAssigned;
+    }
+
+    public void setHasBeenAssigned(boolean hasBeenAssigned) {
+        this.hasBeenAssigned = hasBeenAssigned;
     }
 
     @Override

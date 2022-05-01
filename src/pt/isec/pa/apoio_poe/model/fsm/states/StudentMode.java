@@ -37,6 +37,15 @@ public class StudentMode extends StateAdapter{
     }
 
     @Override
+    public String viewStudents() {
+        StringBuilder sb = new StringBuilder();
+        for (Student s : dl.getStudentsValues()) {
+            sb.append(s.studentToString());
+        }
+        return sb.toString();
+    }
+
+    @Override
     public String importStudentsCSV(String filename) {
         StringBuilder sb = new StringBuilder();
         long studentNumber;
