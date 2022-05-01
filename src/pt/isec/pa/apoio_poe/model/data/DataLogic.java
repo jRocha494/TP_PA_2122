@@ -124,7 +124,7 @@ public class DataLogic {
     }
 
     public boolean applicationHasProposal(Application a, Proposal p){
-        return a.chosenProposals.contains(p);
+        return a.getChoosenProposals().contains(p);
     }
 
     public Collection<Proposal> getProposalsValues() {
@@ -140,18 +140,6 @@ public class DataLogic {
         return applicationsList.values();
     }
     public List<Assignment> getAssignmentList() { return assignmentList; }
-
-    public List<Student> getStudentsWithProposalInApplication(Proposal p) {
-        List<Student> studentsWithProposal = new ArrayList<>();
-
-        for (Application a : getApplicationsValues()) {
-            if (a.chosenProposals.contains(p)) {
-                studentsWithProposal.add(a.studentNumber);
-            }
-        }
-
-        return studentsWithProposal;
-    }
 
     public Proposal getFirstFreeProposal(Student student){
         for(Proposal p : applicationsList.get(student).getChoosenProposals()){
@@ -189,17 +177,6 @@ public class DataLogic {
         }
 
         return studentsWithProposal;
-    }
-
-    public Proposal getProposalByStudent(long id){
-        if(studentExists(id)) {
-            for (Proposal p : proposalsList.values()) {
-                if(p.hasAssignedStudent())
-                    if(p.getAssignedStudent().getStudentNumber() == id)
-                        return p;
-            }
-        }
-        return null;
     }
 
     public int getIndexofProposalInApplication(Proposal p, Student s){

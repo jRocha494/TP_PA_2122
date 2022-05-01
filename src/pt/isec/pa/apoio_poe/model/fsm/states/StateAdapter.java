@@ -87,10 +87,7 @@ public abstract class StateAdapter implements IState {
     }
 
     @Override
-    public boolean automaticAttributionSelfProposals() { return false; }
-
-    @Override
-    public boolean automaticAttributionsNotAssigned() { return false; }
+    public boolean automaticAssignment() { return false; }
 
     @Override
     public String[] getConflictedCases(){ return new String[0]; }
@@ -149,11 +146,6 @@ public abstract class StateAdapter implements IState {
 
     @Override
     public boolean automaticAssignmentSelfProposals() {
-        return false;
-    }
-
-    @Override
-    public boolean automaticAssignment() {
         return false;
     }
 

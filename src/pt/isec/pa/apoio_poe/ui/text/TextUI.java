@@ -154,7 +154,20 @@ public class TextUI {
 
     private void stageThreePrevClosedUI() {
         System.out.println("STAGE THREE PREV CLOSED, " + m.getState());
-        switch (PAInput.chooseOption("What do you pretend to do?", "Automatic assign self-proposals/proposals with a pre-defined student", "Automatic assign a student to an available proposal", "Manually assign proposal to student", "Remove an assignment", "Remove all assignments", "View students list with self-proposals", "View students with registered application", "View students assigned to proposal", "View students unassigned", "View proposals list", "Close stage", "Advance stage", "Quit")){
+        switch (PAInput.chooseOption("What do you pretend to do?",
+                "Automatic assign self-proposals/proposals with a pre-defined student",
+                "Automatic assign a student to an available proposal",
+                "Manually assign proposal to student",
+                "Remove an assignment", "Remove all assignments",
+                "View students list with self-proposals",
+                "View students with registered application",
+                "View students assigned to proposal",
+                "View students unassigned",
+                "View proposals list",
+                "Close stage",
+                "Advance stage",
+                "Export data to CSV file",
+                "Quit")) {
             case 1 -> m.automaticAssignmentSelfProposals();
             case 2 -> m.automaticAssignment();
             case 3 -> manuallyAssign();
@@ -167,19 +180,15 @@ public class TextUI {
             case 10 -> System.out.println(viewProposalsWithFiltersStageThree());
             case 11 -> m.closeStage();
             case 12 -> m.advanceStage();
+            case 13 -> m.exportStageThreeCSV(m.exportStageThreeCSV(PAInput.readString("Introduce the name of the file to write: ", true)));
             // TODO save()
-        switch (PAInput.chooseOption("What do you pretend to do?", "Automatic attribute self-proposals/proposals with a pre-defined student", "Automatic attribute proposals without an assigned student", "Export data to CSV file", "Quit")){
-            case 1 -> m.automaticAttributionSelfProposals();
-            case 2 -> m.automaticAttributionsNotAssigned();
-            case 3 -> m.exportStageThreeCSV(m.exportStageThreeCSV(PAInput.readString("Introduce the name of the file to write: ", true)));
-            default -> finish = true;
         }
     }
 
     private void stageThreePrevOpenUI() {
         System.out.println("STAGE THREE PREV OPEN, " + m.getState());
         switch (PAInput.chooseOption("What do you pretend to do?", "Automatic attribute self-proposals/proposals with a pre-defined student", "Export data to CSV file", "Quit")) {
-            case 1 -> m.automaticAttributionSelfProposals();
+            case 1 -> m.automaticAssignmentSelfProposals();
             case 2 -> m.exportStageThreeCSV(m.exportStageThreeCSV(PAInput.readString("Introduce the name of the file to write: ", true)));
             default -> finish = true;
         }
@@ -219,6 +228,4 @@ public class TextUI {
             }
         }
     }
-
-
 }

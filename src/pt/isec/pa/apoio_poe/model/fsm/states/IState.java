@@ -46,8 +46,6 @@ public interface IState {
 
     boolean automaticAssignmentSelfProposals();
 
-    boolean automaticAssignment();
-
     boolean manuallyAssign(int proposalChosen, int studentChosen, String[] availableProposals, String[] availableStudents);
 
     boolean removeAssignment(int assignmentToRemove);
@@ -57,8 +55,7 @@ public interface IState {
     String viewStudentsAssigned();
 
     String viewStudentsUnassigned();
-    boolean automaticAttributionSelfProposals();
-    boolean automaticAttributionsNotAssigned();
+    boolean automaticAssignment();
 
     String[] getConflictedCases();
     String getConflictedProposal();

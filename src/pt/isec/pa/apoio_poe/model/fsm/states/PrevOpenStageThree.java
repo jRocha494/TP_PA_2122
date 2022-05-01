@@ -1,6 +1,7 @@
 package pt.isec.pa.apoio_poe.model.fsm.states;
 
-import pt.isec.pa.apoio_poe.model.data.Attribution;
+import pt.isec.pa.apoio_poe.model.data.Assignment;
+import pt.isec.pa.apoio_poe.model.data.Assignment;
 import pt.isec.pa.apoio_poe.model.data.DataLogic;
 import pt.isec.pa.apoio_poe.model.data.Proposal;
 import pt.isec.pa.apoio_poe.model.data.Student;
@@ -20,14 +21,15 @@ public class PrevOpenStageThree extends StateAdapter{
     public String getStage() { return "Third Stage - Previous Stage Closed"; }
 
     @Override
-    public boolean automaticAttributionSelfProposals() {
-        //TODO: Adicionar flag que já foi atribuída às propostas? Senão no stage3 pode ser atribuida a um estudante,
+    public boolean automaticAssignmentSelfProposals() {
+        //TODO: Adicionar flag 'que já foi atribuída' às propostas? Senão no stage3 pode ser atribuida a um estudante,
         // e depois se for feita a atribuição das que têm aluno associado, volta a adicionar novamente...
-        for(Proposal p : dl.getProposalsValues()){
-            if(p.hasAssignedStudent() && !p.hasBeenAssigned() && !p.getAssignedStudent().hasBeenAssigned()){
-                dl.addAttribution(new Attribution(p.getAssignedStudent(), p));
-                p.getAssignedStudent().setHasBeenAssigned(true);
-                p.setHasBeenAssigned(true);
+        //TODO: as flags 'hasBeenAssigned' nas proposals, students e teachers devem ser usadas ao importar info?
+        for (Proposal p : dl.getProposalsValues()) {
+            if (p.hasAssignedStudent() && !p.hasBeenAssigned() && !p.getAssignedStudent().hasBeenAssigned()) { // if the proposal has a pre-assigned student, and checks if the proposal and the student haven't been officially assigned (as to add more protection)
+                dl.addAssignment(new Assignment(p.getAssignedStudent(), p));
+                p.setHasBeenAssigned(true); // sets the proposal's flag on whether it has been officially assigned to true
+                p.getAssignedStudent().setHasBeenAssigned(true);    // sets the students' flag on whether it has been officially assigned to true
             }
         }
         return true;

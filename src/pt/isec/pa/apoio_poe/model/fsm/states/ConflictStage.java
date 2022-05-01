@@ -42,7 +42,7 @@ public class ConflictStage extends StateAdapter {
 
     @Override
     public boolean resolveConflictedCases(int option) {
-        dl.addAttribution(new Attribution(students.get(option-1),proposal));
+        dl.addAssignment(new Assignment(students.get(option-1),proposal));
         students.get(option-1).setHasBeenAssigned(true);
         proposal.setHasBeenAssigned(students.get(option-1), true);
         changeState(AppState.PROPOSAL_ATTRIBUTION_PREV_CLOSED_STAGE_THREE);

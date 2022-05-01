@@ -32,12 +32,6 @@ public class Proposal {
     public void setAssignedStudent(Student assignedStudent) {
         this.assignedStudent = assignedStudent;
     }
-    public boolean hasBeenAssigned() {
-        return hasBeenAssigned;
-    }
-    public void setHasBeenAssigned(boolean hasBeenAssigned) {
-        this.hasBeenAssigned = hasBeenAssigned;
-    }
 
     public String proposalToString(){
         StringBuilder sb = new StringBuilder();

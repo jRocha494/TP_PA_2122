@@ -59,7 +59,6 @@ public class Manager {
     public String filterProposals(Integer... filters) { return ac.filterProposals(filters); }
 
     public boolean automaticAssignmentSelfProposals() { return ac.automaticAssignmentSelfProposals(); }
-    public boolean automaticAssignment() { return ac.automaticAssignment(); }
     public String[] getAvailableProposals() { return ac.getAvailableProposals(); }
     public String[] getAvailableStudents() { return ac.getAvailableStudents(); }
     public boolean manuallyAssign(int proposalChosen, int studentChosen, String[] availableProposals, String[] availableStudents) { return ac.manuallyAssign(proposalChosen, studentChosen, availableProposals, availableStudents); }
@@ -69,7 +68,7 @@ public class Manager {
 
     public String viewStudentsAssigned() { return ac.viewStudentsAssigned(); }
     public String viewStudentsUnassigned() { return ac.viewStudentsUnassigned(); }
-    public boolean automaticAttributionsNotAssigned() { return ac.automaticAttributionsNotAssigned();}
+    public boolean automaticAssignment() { return ac.automaticAssignment();}
     public String[] getConflictedCases(){ return ac.getConflictedCases(); }
     public String getConflictedProposal() { return ac.getConflictedProposal(); }
     public boolean resolveConflictedCases(int option) { return ac.resolveConflictedCases(option); }

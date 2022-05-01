@@ -8,6 +8,7 @@ import pt.isec.pa.apoio_poe.model.data.tiposProposta.Project;
 import pt.isec.pa.apoio_poe.model.data.tiposProposta.SelfProposal;
 import pt.isec.pa.apoio_poe.model.fsm.AppContext;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
@@ -44,14 +45,14 @@ public class PrevClosedStageThree extends StateAdapter {
     }
 
     @Override
-    public boolean automaticAttributionsNotAssigned(){
+    public boolean automaticAssignment(){
         for(Student s : dl.getStudentWithBestClassification()){
             if(s.hasApplication()){
                 Proposal p = dl.getFirstFreeProposal(s);
                 if(p != null) {
                     List<Student> studentsWithSameProposal = dl.getStudentsWithSameProposal(dl.getStudentWithBestClassification(),p);
                     if(studentsWithSameProposal.size()==1){
-                        dl.addAttribution(new Attribution(s,p));
+                        dl.addAssignment(new Assignment(s,p));
                         s.setHasBeenAssigned(true);
                         p.setHasBeenAssigned(p.getAssignedStudent(), true);
                     }else {
@@ -108,8 +109,8 @@ public class PrevClosedStageThree extends StateAdapter {
 
     @Override
     public boolean manuallyAssign(int proposalChosen, int studentChosen, String[] availableProposals, String[] availableStudents) {
-        Proposal pToAssign = dl.getProposal(availableProposals[proposalChosen]);
-        Student sToAssign = dl.getStudent(Long.parseLong(availableStudents[studentChosen]));
+        Proposal pToAssign = dl.getProposal(availableProposals[proposalChosen-1]);
+        Student sToAssign = dl.getStudent(Long.parseLong(availableStudents[studentChosen-11]));
         dl.addAssignment(new Assignment(sToAssign, pToAssign));
         pToAssign.setHasBeenAssigned(true);
         sToAssign.setHasBeenAssigned(true);

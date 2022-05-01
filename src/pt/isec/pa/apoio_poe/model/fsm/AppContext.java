@@ -73,7 +73,6 @@ public class AppContext {
     public String filterProposals(Integer... filters) { return state.filterProposals(filters);}
 
     public boolean automaticAssignmentSelfProposals() { return state.automaticAssignmentSelfProposals(); }
-    public boolean automaticAssignment() { return state.automaticAssignment();}
     public String[] getAvailableProposals() { return dl.getAvailableProposals(); }
     public String[] getAvailableStudents() { return dl.getAvailableStudents(); }
     public boolean manuallyAssign(int proposalChosen, int studentChosen, String[] availableProposals, String[] availableStudents) { return state.manuallyAssign(proposalChosen, studentChosen, availableProposals, availableStudents); }
@@ -83,7 +82,7 @@ public class AppContext {
 
     public String viewStudentsAssigned() { return state.viewStudentsAssigned(); }
 
-    public boolean automaticAttributionsNotAssigned() { return state.automaticAttributionsNotAssigned();}
+    public boolean automaticAssignment() { return state.automaticAssignment();}
 
     public String[] getConflictedCases(){ return state.getConflictedCases(); }
 
