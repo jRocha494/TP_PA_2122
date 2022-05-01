@@ -58,4 +58,9 @@ public class Manager {
     public String filterProposals(Integer... filters) { return ac.filterProposals(filters); }
 
     public boolean automaticAttributionSelfProposals() { return ac.automaticAttributionSelfProposals(); }
+    public boolean automaticAttributionsNotAssigned() { return ac.automaticAttributionsNotAssigned();}
+    public String[] getConflictedCases(){ return ac.getConflictedCases(); }
+    public String getConflictedProposal() { return ac.getConflictedProposal(); }
+    public boolean resolveConflictedCases(int option) { return ac.resolveConflictedCases(option); }
+    public String exportStageThreeCSV(String filename) { return ac.exportStageThreeCSV(filename); }
 }

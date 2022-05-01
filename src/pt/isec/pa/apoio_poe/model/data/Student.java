@@ -1,6 +1,6 @@
 package pt.isec.pa.apoio_poe.model.data;
 
-public class Student {
+public class Student implements Comparable<Student>{
     private long studentNumber;
     private String name;
     private String email;
@@ -10,6 +10,7 @@ public class Student {
     private boolean hasInternshipAccess;   // boolean representing whether this Student is eligible to apply for internships
     private boolean hasProposed;    // True if this student has proposed a project/internship, False if not (Students can only propose once)
     private boolean hasApplication; // True if this student has an associated application
+    private boolean hasBeenAssigned;    // Flag on whether this student has been officially associated with an assignment or not
 
     public Student(long studentNumber, String name, String email, String course, String branch, double classification, boolean hasInternshipAccess) {
         this.studentNumber = studentNumber;
@@ -21,54 +22,51 @@ public class Student {
         this.hasInternshipAccess = hasInternshipAccess;
         this.hasProposed = false;
         this.hasApplication = false;
+        this.hasBeenAssigned = false;
     }
 
     public long getStudentNumber() {
         return studentNumber;
     }
-
     public String getName() {
         return name;
     }
-
     public String getEmail() {
         return email;
     }
-
     public String getCourse() {
         return course;
     }
-
     public String getBranch() {
         return branch;
     }
-
     public double getClassification() {
         return classification;
     }
-
     public boolean hasInternshipAccess() {
         return hasInternshipAccess;
     }
-
     public boolean hasProposed() {
         return hasProposed;
     }
-
     public boolean hasApplication() {
         return hasApplication;
     }
-
     public void setHasProposed(boolean hasProposed) {
         this.hasProposed = hasProposed;
     }
-
     public void setHasApplication(boolean hasApplication) {
         this.hasApplication = hasApplication;
     }
+    public boolean hasBeenAssigned() {
+        return hasBeenAssigned;
+    }
+    public void setHasBeenAssigned(boolean hasBeenAssigned) {
+        this.hasBeenAssigned = hasBeenAssigned;
+    }
 
     @Override
-    public String toString() { 
+    public String toString() {
         StringBuilder sb = new StringBuilder();
 
         sb.append(studentNumber + "," + name + "," + email + "," + course +
@@ -79,7 +77,7 @@ public class Student {
 
     public String studentToString(){
         StringBuilder sb = new StringBuilder();
-        sb.append("|> " + name + " | " + studentNumber + " | " + email);
+        sb.append("|> ").append(name).append(" | ").append(studentNumber).append(" | ").append(email);
         sb.append(course + " | " + branch);
         sb.append("Classification: " + classification +
                 (hasInternshipAccess ? " can" : "can't") + " apply for internships, " +
@@ -87,5 +85,10 @@ public class Student {
                 (hasApplication ? "has already" : "hasn't") + " applied for a internship/project");
 
         return sb.toString();
+    }
+
+    @Override
+    public int compareTo(Student o) {
+        return Double.compare(getClassification(),o.getClassification());
     }
 }

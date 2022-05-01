@@ -1,10 +1,13 @@
 package pt.isec.pa.apoio_poe.model.fsm.states;
 
 import pt.isec.pa.apoio_poe.model.data.DataLogic;
+import pt.isec.pa.apoio_poe.model.data.Proposal;
+import pt.isec.pa.apoio_poe.model.data.Student;
 import pt.isec.pa.apoio_poe.model.fsm.AppContext;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.List;
 
 public abstract class StateAdapter implements IState{
     protected AppContext ac;
@@ -17,6 +20,10 @@ public abstract class StateAdapter implements IState{
 
     protected void changeState(AppState newState){
         ac.changeState(newState.createState(ac,dl));
+    }
+
+    protected void changeState(AppState newState, List<Student> students, Proposal proposal){
+        ac.changeState(newState.createState(ac,dl,students,proposal));
     }
 
     @Override
@@ -58,4 +65,19 @@ public abstract class StateAdapter implements IState{
 
     @Override
     public boolean automaticAttributionSelfProposals() { return false; }
+
+    @Override
+    public boolean automaticAttributionsNotAssigned() { return false; }
+
+    @Override
+    public String[] getConflictedCases(){ return new String[0]; }
+
+    @Override
+    public String getConflictedProposal() { return ""; }
+
+    @Override
+    public boolean resolveConflictedCases(int option) { return false; }
+
+    @Override
+    public String exportStageThreeCSV(String filename){ return ""; }
 }
