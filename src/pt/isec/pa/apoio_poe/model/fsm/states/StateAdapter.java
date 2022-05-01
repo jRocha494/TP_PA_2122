@@ -168,4 +168,7 @@ public abstract class StateAdapter implements IState {
     public String viewStudentsAssigned(){ return ""; }
     @Override
     public String viewStudentsUnassigned(){ return ""; }
+
+    @Override
+    public boolean automaticAssignmentAdvisors(){ return false; }
 }

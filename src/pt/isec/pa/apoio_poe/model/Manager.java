@@ -73,4 +73,6 @@ public class Manager {
     public String getConflictedProposal() { return ac.getConflictedProposal(); }
     public boolean resolveConflictedCases(int option) { return ac.resolveConflictedCases(option); }
     public String exportStageThreeCSV(String filename) { return ac.exportStageThreeCSV(filename); }
+
+    public boolean automaticAssignmentAdvisors() { return ac.automaticAssignmentAdvisors(); }
 }

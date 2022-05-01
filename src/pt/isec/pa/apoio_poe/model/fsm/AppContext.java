@@ -121,4 +121,6 @@ public class AppContext {
     }
 
     public String exportStageThreeCSV(String filename) { return state.exportStageThreeCSV(filename); }
+
+    public boolean automaticAssignmentAdvisors() { return state.automaticAssignmentAdvisors(); }
 }

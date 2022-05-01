@@ -60,4 +60,6 @@ public interface IState {
     String[] getConflictedCases();
     String getConflictedProposal();
     boolean resolveConflictedCases(int option);
+
+    boolean automaticAssignmentAdvisors();
 }
