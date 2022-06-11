@@ -5,12 +5,10 @@ import pt.isec.pa.apoio_poe.model.data.Proposal;
 import pt.isec.pa.apoio_poe.model.data.Student;
 import pt.isec.pa.apoio_poe.model.data.Teacher;
 import pt.isec.pa.apoio_poe.model.fsm.AppContext;
+import pt.isec.pa.apoio_poe.model.fsm.AppState;
+import pt.isec.pa.apoio_poe.model.fsm.StateAdapter;
 
-import java.io.*;
-import java.util.Scanner;
-import java.util.regex.Pattern;
-
-public class StageOne extends StateAdapter{
+public class StageOne extends StateAdapter {
     public StageOne(AppContext ac, DataLogic dl) {
         super(ac, dl);
         ac.setCloseStatus("Stage1", false);

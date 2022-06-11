@@ -2,20 +2,31 @@ package pt.isec.pa.apoio_poe.model;
 
 import pt.isec.pa.apoio_poe.model.data.DataLogic;
 import pt.isec.pa.apoio_poe.model.fsm.AppContext;
-import pt.isec.pa.apoio_poe.model.fsm.states.AppState;
+import pt.isec.pa.apoio_poe.model.fsm.AppState;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 public class Manager {
+    public static final String STATE = "state";
+    public static final String DATA = "data";
+
     AppContext ac;
     DataLogic dl;
+    PropertyChangeSupport pcs;
 
     public Manager(){
         dl = new DataLogic();
         ac = new AppContext(dl);
+        pcs = new PropertyChangeSupport(this);
+    }
+
+    public void addPropertyChangeListener(String property, PropertyChangeListener listener){
+        pcs.addPropertyChangeListener(property, listener);
     }
 
     public AppState getState() {
@@ -54,7 +65,12 @@ public class Manager {
 
     public boolean changeConfigurationMode(int option){ return ac.changeConfigurationMode(option); }
     public boolean closeStage() { return ac.closeStage(); }
-    public boolean advanceStage() { return ac.advanceStage(); }
+
+    public void advanceStage() {
+        ac.advanceStage();
+        pcs.firePropertyChange(STATE, null, null);
+
+    }
     public boolean returnStage() { return ac.returnStage(); }
     public String viewStudents() { return ac.viewStudents(); }
     public String viewTeachers() { return ac.viewTeachers(); }

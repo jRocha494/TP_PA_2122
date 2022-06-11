@@ -1,8 +1,6 @@
 package pt.isec.pa.apoio_poe.model.fsm;
 
 import pt.isec.pa.apoio_poe.model.data.DataLogic;
-import pt.isec.pa.apoio_poe.model.fsm.states.AppState;
-import pt.isec.pa.apoio_poe.model.fsm.states.IState;
 import pt.isec.pa.apoio_poe.model.fsm.states.StageOne;
 
 import java.io.Serializable;

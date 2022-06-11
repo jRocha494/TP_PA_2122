@@ -1,9 +1,12 @@
-package pt.isec.pa.apoio_poe.model.fsm.states;
+package pt.isec.pa.apoio_poe.model.fsm;
 
 import pt.isec.pa.apoio_poe.model.data.DataLogic;
 import pt.isec.pa.apoio_poe.model.data.Proposal;
 import pt.isec.pa.apoio_poe.model.data.Student;
 import pt.isec.pa.apoio_poe.model.fsm.AppContext;
+import pt.isec.pa.apoio_poe.model.fsm.IState;
+import pt.isec.pa.apoio_poe.model.fsm.states.ClosedStage;
+import pt.isec.pa.apoio_poe.model.fsm.states.*;
 
 import java.util.List;
 

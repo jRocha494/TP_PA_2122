@@ -1,13 +1,12 @@
-package pt.isec.pa.apoio_poe.model.fsm.states;
+package pt.isec.pa.apoio_poe.model.fsm;
 
 import pt.isec.pa.apoio_poe.model.data.DataLogic;
 import pt.isec.pa.apoio_poe.model.data.Proposal;
 import pt.isec.pa.apoio_poe.model.data.Student;
 import pt.isec.pa.apoio_poe.model.fsm.AppContext;
+import pt.isec.pa.apoio_poe.model.fsm.AppState;
+import pt.isec.pa.apoio_poe.model.fsm.IState;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.Serializable;
 import java.util.List;
 
 public abstract class StateAdapter implements IState {

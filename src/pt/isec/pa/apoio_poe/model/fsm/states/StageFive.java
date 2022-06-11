@@ -3,11 +3,12 @@ package pt.isec.pa.apoio_poe.model.fsm.states;
 import pt.isec.pa.apoio_poe.model.data.DataLogic;
 import pt.isec.pa.apoio_poe.model.data.Proposal;
 import pt.isec.pa.apoio_poe.model.data.Student;
-import pt.isec.pa.apoio_poe.model.data.tiposProposta.SelfProposal;
 import pt.isec.pa.apoio_poe.model.fsm.AppContext;
+import pt.isec.pa.apoio_poe.model.fsm.AppState;
+import pt.isec.pa.apoio_poe.model.fsm.StateAdapter;
 
-public class StageFive extends StateAdapter{
-    protected StageFive(AppContext ac, DataLogic dl) {
+public class StageFive extends StateAdapter {
+    public StageFive(AppContext ac, DataLogic dl) {
         super(ac, dl);
     }
 

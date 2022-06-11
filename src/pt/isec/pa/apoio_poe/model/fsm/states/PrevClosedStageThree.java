@@ -7,6 +7,8 @@ import pt.isec.pa.apoio_poe.model.data.Student;
 import pt.isec.pa.apoio_poe.model.data.tiposProposta.Project;
 import pt.isec.pa.apoio_poe.model.data.tiposProposta.SelfProposal;
 import pt.isec.pa.apoio_poe.model.fsm.AppContext;
+import pt.isec.pa.apoio_poe.model.fsm.AppState;
+import pt.isec.pa.apoio_poe.model.fsm.StateAdapter;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -15,7 +17,7 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class PrevClosedStageThree extends StateAdapter {
-    protected PrevClosedStageThree(AppContext ac, DataLogic dl) {
+    public PrevClosedStageThree(AppContext ac, DataLogic dl) {
         super(ac, dl);
     }
 

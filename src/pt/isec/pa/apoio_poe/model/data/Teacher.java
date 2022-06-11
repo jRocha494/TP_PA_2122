@@ -15,7 +15,6 @@ public class Teacher implements Serializable {
         this.isAdvisor = isAdvisor;
         this.hasBeenAssigned = false;
     }
-
     public String getEmail() {
         return email;
     }

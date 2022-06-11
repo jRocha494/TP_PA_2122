@@ -7,6 +7,8 @@ import pt.isec.pa.apoio_poe.model.data.Student;
 import pt.isec.pa.apoio_poe.model.data.tiposProposta.Project;
 import pt.isec.pa.apoio_poe.model.data.tiposProposta.SelfProposal;
 import pt.isec.pa.apoio_poe.model.fsm.AppContext;
+import pt.isec.pa.apoio_poe.model.fsm.AppState;
+import pt.isec.pa.apoio_poe.model.fsm.StateAdapter;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -15,8 +17,8 @@ import java.util.Scanner;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-public class StageTwo extends StateAdapter{
-    protected StageTwo(AppContext ac, DataLogic dl) {
+public class StageTwo extends StateAdapter {
+    public StageTwo(AppContext ac, DataLogic dl) {
         super(ac, dl);
         ac.setCloseStatus("Stage2", false);
     }

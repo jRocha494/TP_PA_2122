@@ -2,15 +2,14 @@ package pt.isec.pa.apoio_poe.model.fsm.states;
 
 import pt.isec.pa.apoio_poe.model.data.Assignment;
 import pt.isec.pa.apoio_poe.model.data.DataLogic;
-import pt.isec.pa.apoio_poe.model.data.Teacher;
 import pt.isec.pa.apoio_poe.model.data.Proposal;
-import pt.isec.pa.apoio_poe.model.data.Student;
 import pt.isec.pa.apoio_poe.model.data.tiposProposta.Project;
-import pt.isec.pa.apoio_poe.model.data.tiposProposta.SelfProposal;
 import pt.isec.pa.apoio_poe.model.fsm.AppContext;
+import pt.isec.pa.apoio_poe.model.fsm.AppState;
+import pt.isec.pa.apoio_poe.model.fsm.StateAdapter;
 
-public class StageFour extends StateAdapter{
-    protected StageFour(AppContext ac, DataLogic dl) {
+public class StageFour extends StateAdapter {
+    public StageFour(AppContext ac, DataLogic dl) {
         super(ac, dl);
     }
 

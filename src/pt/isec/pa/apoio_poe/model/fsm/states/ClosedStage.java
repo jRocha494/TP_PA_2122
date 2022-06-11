@@ -5,9 +5,11 @@ import pt.isec.pa.apoio_poe.model.data.Proposal;
 import pt.isec.pa.apoio_poe.model.data.Student;
 import pt.isec.pa.apoio_poe.model.data.Teacher;
 import pt.isec.pa.apoio_poe.model.fsm.AppContext;
+import pt.isec.pa.apoio_poe.model.fsm.AppState;
+import pt.isec.pa.apoio_poe.model.fsm.StateAdapter;
 
-public class ClosedStage extends StateAdapter{
-    protected ClosedStage(AppContext ac, DataLogic dl) {
+public class ClosedStage extends StateAdapter {
+    public ClosedStage(AppContext ac, DataLogic dl) {
         super(ac, dl);
     }
 

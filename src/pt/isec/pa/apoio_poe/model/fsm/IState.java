@@ -1,6 +1,4 @@
-package pt.isec.pa.apoio_poe.model.fsm.states;
-
-import java.io.Serializable;
+package pt.isec.pa.apoio_poe.model.fsm;
 
 public interface IState {
     String importProposalsCSV(String filename);

@@ -65,7 +65,6 @@ public class TextUI {
     private void stageOneUI() {
         System.out.println("STAGE ONE, " + m.getState());
         switch(PAInput.chooseOption("What do you pretend to do?", "Change configuration mode", "View students list", "View teachers list", "View proposals list", "Close stage", "Advance to next stage", "Save application state","Load application state","Quit")){
-            //TODO: ADD OPTIONS TO VIEW DATA (STUDENT, TEACHER, PROPOSALS)
             case 1 -> m.changeConfigurationMode(PAInput.chooseOption("Choose a configuration mode", "Students", "Teachers", "Proposals"));
             case 2 -> System.out.println(m.viewStudents());
             case 3 -> System.out.println(m.viewTeachers());
