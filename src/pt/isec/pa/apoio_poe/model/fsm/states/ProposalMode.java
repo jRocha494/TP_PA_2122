@@ -232,7 +232,7 @@ public class ProposalMode extends StateAdapter {
             pw = new PrintWriter(bw);
 
             for(var p : dl.getProposalsValues())
-                pw.println(p.toString());
+                pw.println(p.toStringExport());
 
             pw.close();
             bw.close();

@@ -8,8 +8,8 @@ import javafx.scene.paint.Color;
 import pt.isec.pa.apoio_poe.model.Manager;
 
 public class RootPane extends BorderPane {
-    Button btnExit, btnStart;
-    Manager manager;
+    private Button btnExit, btnStart;
+    private final Manager manager;
 
     public RootPane(Manager manager) {
         this.manager=manager;

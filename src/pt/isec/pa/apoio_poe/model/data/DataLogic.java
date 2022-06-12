@@ -286,6 +286,43 @@ public class DataLogic implements Serializable {
         return true;
     }
 
+    public List<Student> getStudents() {
+        List<Student> retLst = new ArrayList<>();
+        for(Student s : getStudentsValues()){
+            try{
+                retLst.add((Student) s.clone());
+
+            } catch (CloneNotSupportedException e) {
+                e.printStackTrace();
+            }
+        }
+        return retLst;
+    }
+    public List<Teacher> getTeachers() {
+        List<Teacher> retLst = new ArrayList<>();
+        for(Teacher t : getTeachersValues()){
+            try{
+                retLst.add((Teacher) t.clone());
+
+            } catch (CloneNotSupportedException e) {
+                e.printStackTrace();
+            }
+        }
+        return retLst;
+    }
+    public List<Proposal> getProposals() {
+        List<Proposal> retLst = new ArrayList<>();
+        for(Proposal p : getProposalsValues()){
+            try{
+                retLst.add((Proposal) p.clone());
+
+            } catch (CloneNotSupportedException e) {
+                e.printStackTrace();
+            }
+        }
+        return retLst;
+    }
+
     /*public boolean manuallyAssign(int proposalChosen, int studentChosen, String[] availableProposals, String[] availableStudents) {
         Proposal pToAssign = proposalsList.get(availableProposals[proposalChosen]);
         Student sToAssign = studentsList.get(availableStudents[studentChosen]);

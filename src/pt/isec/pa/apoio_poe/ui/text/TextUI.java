@@ -1,6 +1,7 @@
 package pt.isec.pa.apoio_poe.ui.text;
 
 import pt.isec.pa.apoio_poe.model.Manager;
+import pt.isec.pa.apoio_poe.model.fsm.AppState;
 import pt.isec.pa.apoio_poe.utils.PAInput;
 
 import java.util.ArrayList;
@@ -65,7 +66,14 @@ public class TextUI {
     private void stageOneUI() {
         System.out.println("STAGE ONE, " + m.getState());
         switch(PAInput.chooseOption("What do you pretend to do?", "Change configuration mode", "View students list", "View teachers list", "View proposals list", "Close stage", "Advance to next stage", "Save application state","Load application state","Quit")){
-            case 1 -> m.changeConfigurationMode(PAInput.chooseOption("Choose a configuration mode", "Students", "Teachers", "Proposals"));
+            case 1 -> {
+                int opt = PAInput.chooseOption("Choose a configuration mode", "Students", "Teachers", "Proposals");
+                switch(opt) {
+                    case 1 -> m.changeConfigurationMode(AppState.CONFIGURATIONS_STATE_STUDENT_MANAGER.ordinal());
+                    case 2 -> m.changeConfigurationMode(AppState.CONFIGURATIONS_STATE_TEACHER_MANAGER.ordinal());
+                    case 3 -> m.changeConfigurationMode(AppState.CONFIGURATIONS_STATE_PROPOSAL_MANAGER.ordinal());
+                }
+            }
             case 2 -> System.out.println(m.viewStudents());
             case 3 -> System.out.println(m.viewTeachers());
             case 4 -> System.out.println(m.viewProposals());
@@ -80,7 +88,13 @@ public class TextUI {
     private void proposalManagerUI() {
         System.out.println("PROPOSAL MANAGER, " + m.getState());
         switch(PAInput.chooseOption("What do you pretend to do?", "Change configuration mode", "View proposals list", "Import data from CSV file", "Export data to CSV file", "Close stage", "Advance to next stage", "Save application state", "Load application state","Quit")){
-            case 1 -> m.changeConfigurationMode(PAInput.chooseOption("Choose a configuration mode", "Students", "Teachers"));
+            case 1 -> {
+                int opt = PAInput.chooseOption("Choose a configuration mode", "Students", "Proposals");
+                switch(opt) {
+                    case 1 -> m.changeConfigurationMode(AppState.CONFIGURATIONS_STATE_STUDENT_MANAGER.ordinal());
+                    case 2 -> m.changeConfigurationMode(AppState.CONFIGURATIONS_STATE_TEACHER_MANAGER.ordinal());
+                }
+            }
             case 2 -> System.out.println(m.viewProposals());
             //case 3 -> System.out.println(m.importProposalsCSV(PAInput.readString("Introduce the name of the file to read: ", true)));
             case 3 -> System.out.println(m.importProposalsCSV("proposals1"));
@@ -96,7 +110,13 @@ public class TextUI {
     private void studentManagerUI() {
         System.out.println("STUDENT MANAGER, " + m.getState());
         switch(PAInput.chooseOption("What do you pretend to do?", "Change configuration mode", "View students list", "Import data from CSV file", "Export data to CSV file", "Close stage", "Advance to next stage", "Save application state", "Load application state","Quit")){
-            case 1 -> m.changeConfigurationMode(PAInput.chooseOption("Choose a configuration mode", "Teachers", "Proposals"));
+            case 1 -> {
+                int opt = PAInput.chooseOption("Choose a configuration mode", "Teachers", "Proposals");
+                switch(opt){
+                    case 1 -> m.changeConfigurationMode(AppState.CONFIGURATIONS_STATE_TEACHER_MANAGER.ordinal());
+                    case 2 -> m.changeConfigurationMode(AppState.CONFIGURATIONS_STATE_PROPOSAL_MANAGER.ordinal());
+                }
+            }
             case 2 -> System.out.println(m.viewStudents());
             //case 3 -> System.out.println(m.importStudentsCSV(PAInput.readString("Introduce the name of the file to read: ", true)));
             case 3 -> System.out.println(m.importStudentsCSV("students1"));
@@ -112,7 +132,13 @@ public class TextUI {
     private void teacherManagerUI() {
         System.out.println("TEACHER MANAGER, " + m.getState());
         switch(PAInput.chooseOption("What do you pretend to do?", "Change configuration mode", "View teachers list", "Import data from CSV file", "Export data to CSV file", "Close stage", "Advance to next stage", "Save application state", "Load application state","Quit")){
-            case 1 -> m.changeConfigurationMode(PAInput.chooseOption("Choose a configuration mode", "Students", "Proposals"));
+            case 1 -> {
+                int opt = PAInput.chooseOption("Choose a configuration mode", "Students", "Proposals");
+                switch(opt) {
+                    case 1 -> m.changeConfigurationMode(AppState.CONFIGURATIONS_STATE_STUDENT_MANAGER.ordinal());
+                    case 2 -> m.changeConfigurationMode(AppState.CONFIGURATIONS_STATE_PROPOSAL_MANAGER.ordinal());
+                }
+            }
             case 2 -> System.out.println(m.viewTeachers());
             //case 3 -> System.out.println(m.importTeachersCSV(PAInput.readString("Introduce the name of the file to read: ", true)));
             case 3 -> System.out.println(m.importTeachersCSV("teachers1"));

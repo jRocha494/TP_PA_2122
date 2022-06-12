@@ -1,23 +1,28 @@
 package pt.isec.pa.apoio_poe.model;
 
 import pt.isec.pa.apoio_poe.model.data.DataLogic;
+import pt.isec.pa.apoio_poe.model.data.Proposal;
+import pt.isec.pa.apoio_poe.model.data.Student;
+import pt.isec.pa.apoio_poe.model.data.Teacher;
 import pt.isec.pa.apoio_poe.model.fsm.AppContext;
 import pt.isec.pa.apoio_poe.model.fsm.AppState;
+import pt.isec.pa.apoio_poe.model.fsm.ListingType;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.*;
+import java.util.List;
 
 public class Manager {
     public static final String STATE = "state";
     public static final String DATA = "data";
+    public static final String LISTING = "listing";
 
     AppContext ac;
     DataLogic dl;
     PropertyChangeSupport pcs;
+
+    ListingType listingType;
 
     public Manager(){
         dl = new DataLogic();
@@ -27,6 +32,15 @@ public class Manager {
 
     public void addPropertyChangeListener(String property, PropertyChangeListener listener){
         pcs.addPropertyChangeListener(property, listener);
+    }
+
+    public void setListingType(ListingType listingType) {
+        this.listingType = listingType;
+        pcs.firePropertyChange(LISTING, null, null);
+    }
+
+    public ListingType getListingType() {
+        return listingType;
     }
 
     public AppState getState() {
@@ -63,14 +77,21 @@ public class Manager {
         return ac.exportApplicationsCSV(filename);
     }
 
-    public boolean changeConfigurationMode(int option){ return ac.changeConfigurationMode(option); }
+    public void changeConfigurationMode(int option){
+        ac.changeConfigurationMode(option);
+        pcs.firePropertyChange(STATE, null, null);
+    }
     public boolean closeStage() { return ac.closeStage(); }
 
     public void advanceStage() {
         ac.advanceStage();
         pcs.firePropertyChange(STATE, null, null);
-
     }
+
+    public List<Student> getStudents(){return ac.getStudents();}
+    public List<Teacher> getTeachers(){return ac.getTeachers();}
+    public List<Proposal> getProposals(){return ac.getProposals();}
+
     public boolean returnStage() { return ac.returnStage(); }
     public String viewStudents() { return ac.viewStudents(); }
     public String viewTeachers() { return ac.viewTeachers(); }
@@ -117,10 +138,21 @@ public class Manager {
         }
     }
 
+    public void save(File hFile){
+        try(ObjectOutputStream oos =
+                    new ObjectOutputStream(
+                            new FileOutputStream(hFile)))
+        {
+            oos.writeObject(ac);
+        } catch (Exception e) {
+            System.err.println("Error saving data: " + e.getMessage());
+        }
+    }
+
     public void loadAppContext(String filename){
         AppContext appContext = load(filename);
         if(appContext!=null) {
-            ac = load(filename);
+            ac = appContext;
             ac.changeState(AppState.values()[ac.getCurrentState()].createState(ac, ac.getDl()));
         }
     }
@@ -129,6 +161,26 @@ public class Manager {
         try(ObjectInputStream ois =
                     new ObjectInputStream(
                             new FileInputStream(filename)))
+        {
+            return (AppContext) ois.readObject();
+        } catch (Exception e) {
+            System.err.println("Error loading data: " + e.getMessage());
+        }
+        return null;
+    }
+
+    public void load(File hFile){
+        AppContext appContext = _load(hFile);
+        if(appContext!=null) {
+            this.ac = appContext;
+        }
+        pcs.firePropertyChange(DATA, null, null);
+    }
+
+    private AppContext _load(File hFile) {
+        try(ObjectInputStream ois =
+                    new ObjectInputStream(
+                            new FileInputStream(hFile)))
         {
             return (AppContext) ois.readObject();
         } catch (Exception e) {

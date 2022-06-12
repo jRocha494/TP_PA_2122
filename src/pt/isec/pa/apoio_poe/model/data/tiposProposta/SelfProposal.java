@@ -9,7 +9,14 @@ public class SelfProposal extends Proposal {
     }
 
     @Override
-    public String toString() {
+    public String toString(){
+        StringBuilder sb = new StringBuilder();
+        sb.append(getId() + " | " + getTitle());
+        return sb.toString();
+    }
+
+    @Override
+    public String toStringExport() {
         StringBuilder sb = new StringBuilder();
 
         sb.append("T3," + getId() + "," + getTitle() + "," + getAssignedStudent().getStudentNumber());

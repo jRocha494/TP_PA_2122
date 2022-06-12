@@ -86,7 +86,7 @@ public class PrevClosedStageThree extends StateAdapter {
             pw = new PrintWriter(bw);
 
             for(Student s : dl.getStudentsValues()){
-                pw.println(s.toString());
+                pw.println(s.toStringExport());
                 Proposal assignedProposal = dl.getProposalByStudent(s.getStudentNumber());
                 if(assignedProposal !=  null){
                     pw.println("," + assignedProposal.toString());

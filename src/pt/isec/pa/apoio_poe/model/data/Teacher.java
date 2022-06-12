@@ -2,7 +2,7 @@ package pt.isec.pa.apoio_poe.model.data;
 
 import java.io.Serializable;
 
-public class Teacher implements Serializable {
+public class Teacher implements Serializable, Cloneable {
     static final long serialVersionUID = 100L;
     private String email;
     private String name;
@@ -36,7 +36,13 @@ public class Teacher implements Serializable {
     }
 
     @Override
-    public String toString() {
+    public String toString(){
+        StringBuilder sb = new StringBuilder();
+        sb.append(email + " | " + name);
+        return sb.toString();
+    }
+
+    public String toStringExport() {
         StringBuilder sb = new StringBuilder();
 
         sb.append(name + "," + email);
@@ -62,5 +68,10 @@ public class Teacher implements Serializable {
 
         Teacher t = (Teacher) o;
         return email.equals(t.email);
+    }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException{
+        return super.clone();
     }
 }

@@ -1,17 +1,14 @@
 package pt.isec.pa.apoio_poe.ui.gui;
 
-import javafx.application.Platform;
-import javafx.geometry.Pos;
-import javafx.scene.control.Button;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.ToolBar;
+import javafx.scene.layout.*;
 import pt.isec.pa.apoio_poe.model.Manager;
 import pt.isec.pa.apoio_poe.model.fsm.AppState;
+import pt.isec.pa.apoio_poe.model.fsm.ListingType;
 
 public class StageOneUI extends BorderPane {
-    Manager manager;
-    Button btnAdvance;
-    Button btnExit;
+    private final Manager manager;
 
     public StageOneUI(Manager manager) {
         this.manager = manager;
@@ -21,21 +18,25 @@ public class StageOneUI extends BorderPane {
     }
 
     private void createViews() {
-        btnAdvance = new Button("Next Stage");
-        btnExit = new Button("Quit");
-        HBox hBox = new HBox(btnAdvance,btnExit);
-        hBox.setAlignment(Pos.CENTER);
-        hBox.setSpacing(10);
-        this.setCenter(hBox);
+        manager.setListingType(ListingType.NONE);
+
+        MenuBar menuBar = new MenuBarUI(manager);
+        this.setTop(menuBar);
+
+        ToolBar toolBar = new ToolBarUI(manager/*, this*/);
+        this.setBottom(toolBar);
+
+        StackPane centerPane = new StackPane(new ListPane(manager));
+        this.setCenter(centerPane);
     }
 
     private void registerHandlers() {
         manager.addPropertyChangeListener(Manager.STATE, evt -> update());
-        btnAdvance.setOnAction(event -> manager.advanceStage());
-        btnExit.setOnAction(event -> Platform.exit());
+//        manager.addPropertyChangeListener(Manager.DATA, evt -> update());
     }
 
     private void update() {
         this.setVisible(manager.getState() == AppState.CONFIGURATIONS_STATE_STAGE_ONE);
+
     }
 }

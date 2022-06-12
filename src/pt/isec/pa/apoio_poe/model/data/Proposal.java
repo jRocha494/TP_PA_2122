@@ -2,7 +2,7 @@ package pt.isec.pa.apoio_poe.model.data;
 
 import java.io.Serializable;
 
-public class Proposal implements Serializable {
+public class Proposal implements Serializable, Cloneable {
     static final long serialVersionUID = 100L;
     private String id;  // identification code
     private String title;
@@ -44,6 +44,10 @@ public class Proposal implements Serializable {
         return sb.toString();
     }
 
+    public String toStringExport(){
+        return "";
+    }
+
     public boolean hasAssignedStudent() { return assignedStudent!=null; }
 
     public void setHasBeenAssigned(boolean hasBeenAssigned) {
@@ -69,5 +73,10 @@ public class Proposal implements Serializable {
 
         Proposal p = (Proposal) o;
         return id.equals(p.id);
+    }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException{
+        return super.clone();
     }
 }

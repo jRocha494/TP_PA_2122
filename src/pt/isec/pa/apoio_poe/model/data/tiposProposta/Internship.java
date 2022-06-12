@@ -3,7 +3,6 @@ package pt.isec.pa.apoio_poe.model.data.tiposProposta;
 import pt.isec.pa.apoio_poe.model.data.Proposal;
 import pt.isec.pa.apoio_poe.model.data.Student;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Internship extends Proposal {
@@ -25,7 +24,14 @@ public class Internship extends Proposal {
     }
 
     @Override
-    public String toString() {
+    public String toString(){
+        StringBuilder sb = new StringBuilder();
+        sb.append(getId() + " | " + getTitle());
+        return sb.toString();
+    }
+
+    @Override
+    public String toStringExport() {
         StringBuilder sb = new StringBuilder();
 
         sb.append("T1," + getId() + ",");

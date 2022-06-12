@@ -2,7 +2,7 @@ package pt.isec.pa.apoio_poe.model.data;
 
 import java.io.Serializable;
 
-public class Student implements Comparable<Student>, Serializable {
+public class Student implements Comparable<Student>, Serializable, Cloneable {
     static final long serialVersionUID = 100L;
     private long studentNumber;
     private String name;
@@ -69,7 +69,13 @@ public class Student implements Comparable<Student>, Serializable {
     }
 
     @Override
-    public String toString() {
+    public String toString(){
+        StringBuilder sb = new StringBuilder();
+        sb.append(studentNumber + " | " + name);
+        return sb.toString();
+    }
+
+    public String toStringExport() {
         StringBuilder sb = new StringBuilder();
 
         sb.append(studentNumber + "," + name + "," + email + "," + course +
@@ -105,5 +111,10 @@ public class Student implements Comparable<Student>, Serializable {
 
         Student s = (Student) o;
         return studentNumber == s.studentNumber;
+    }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException{
+        return super.clone();
     }
 }

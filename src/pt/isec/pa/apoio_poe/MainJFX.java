@@ -20,8 +20,8 @@ public class MainJFX extends Application {
         RootPane root = new RootPane(manager);
         Scene scene = new Scene(root, 600, 400, Color.NAVAJOWHITE);
         stage.setScene(scene);
-        stage.setTitle("JavaFX");
-        stage.setResizable(false);
+        stage.setTitle("PIM - Projects/Internships Manager");
+        stage.setResizable(true);
         stage.show();
     }
 }

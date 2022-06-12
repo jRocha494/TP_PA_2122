@@ -1,10 +1,14 @@
 package pt.isec.pa.apoio_poe.model.fsm;
 
 import pt.isec.pa.apoio_poe.model.data.DataLogic;
+import pt.isec.pa.apoio_poe.model.data.Proposal;
+import pt.isec.pa.apoio_poe.model.data.Student;
+import pt.isec.pa.apoio_poe.model.data.Teacher;
 import pt.isec.pa.apoio_poe.model.fsm.states.StageOne;
 
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
@@ -32,6 +36,10 @@ public class AppContext implements Serializable {
     public void setCloseStatus(String stage, boolean status){   // Receives the name of the stage, and sets its close status if it finds the stage
         closeStatusStages.computeIfPresent(stage, (k, v) -> v = status);
     }
+
+    public List<Student> getStudents(){return dl.getStudents();}
+    public List<Teacher> getTeachers(){return dl.getTeachers();}
+    public List<Proposal> getProposals(){return dl.getProposals();}
 
     public void setCurrentState(int ordinal) { this.currentState = ordinal; }
 
