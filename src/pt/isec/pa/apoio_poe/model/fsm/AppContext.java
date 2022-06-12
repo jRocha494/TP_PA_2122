@@ -57,21 +57,9 @@ public class AppContext implements Serializable {
         return dl;
     }
 
-    public String importProposalsCSV(String filename){ return state.importProposalsCSV(filename); }
+    public String importCSV(String filename){ return state.importCSV(filename); }
 
-    public String exportProposalsCSV(String filename){ return state.exportProposalsCSV(filename); }
-
-    public String importStudentsCSV(String filename){ return state.importStudentsCSV(filename); }
-
-    public String exportStudentsCSV(String filename){ return state.exportStudentsCSV(filename); }
-
-    public String importTeachersCSV(String filename){ return state.importTeachersCSV(filename); }
-
-    public String exportTeachersCSV(String filename){ return state.exportTeachersCSV(filename); }
-
-    public String importApplicationsCSV(String filename){ return state.importApplicationsCSV(filename); }
-
-    public String exportApplicationsCSV(String filename){ return state.exportApplicationsCSV(filename); }
+    public String exportCSV(String filename){ return state.exportCSV(filename); }
 
     public void changeState(IState newState) { this.state = newState; }
 
@@ -107,37 +95,11 @@ public class AppContext implements Serializable {
 
     public boolean resolveConflictedCases(int option) { return state.resolveConflictedCases(option); }
 
-    public boolean filenameIsValid(String filename) {
-        String[] fn = filename.split("\\.");
+    public boolean filenameIsValid(String filename) { return dl.filenameIsValid(filename); }
 
-        if(fn.length > 1)
-            return false;
+    public boolean emailIsValid(String email) { return dl.emailIsValid(email); }
 
-        return true;
-    }
-
-    public boolean emailIsValid(String email) {
-        String regex = "^[a-zA-Z0-9_+&*-]+(?:\\."+
-                "[a-zA-Z0-9_+&*-]+)*@" +
-                "(?:[a-zA-Z0-9-]+\\.)+[a-z" +
-                "A-Z]{2,7}$";
-
-        Pattern pat = Pattern.compile(regex);
-        if (email == null)
-            return false;
-        return pat.matcher(email).matches();
-    }
-
-    public boolean proposalIdIsValid(String id) {
-        String regex = "[a-zA-Z]\\d\\d\\d";
-
-        Pattern pat = Pattern.compile(regex);
-        if (regex == null)
-            return false;
-        return pat.matcher(id).matches();
-    }
-
-    public String exportStageThreeCSV(String filename) { return state.exportStageThreeCSV(filename); }
+    public boolean proposalIdIsValid(String id) { return dl.proposalIdIsValid(id); }
 
     public boolean automaticAssignmentAdvisors() { return state.automaticAssignmentAdvisors(); }
 

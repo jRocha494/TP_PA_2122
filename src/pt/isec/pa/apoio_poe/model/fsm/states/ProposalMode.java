@@ -50,7 +50,7 @@ public class ProposalMode extends StateAdapter {
     }
 
     @Override
-    public String importProposalsCSV(String filename) {
+    public String importCSV(String filename) {
         StringBuilder sb = new StringBuilder();
         long assignedStudent = -1;
         double classification;
@@ -214,7 +214,7 @@ public class ProposalMode extends StateAdapter {
     }
 
     @Override
-    public String exportProposalsCSV(String filename) {
+    public String exportCSV(String filename) {
         StringBuilder sb = new StringBuilder();
         FileWriter fw = null;
         BufferedWriter bw = null;

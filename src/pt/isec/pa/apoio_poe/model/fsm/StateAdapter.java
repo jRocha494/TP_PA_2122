@@ -29,42 +29,12 @@ public abstract class StateAdapter implements IState {
     }
 
     @Override
-    public String importProposalsCSV(String filename) {
+    public String importCSV(String filename) {
         return "";
     }
 
     @Override
-    public String exportProposalsCSV(String filename) {
-        return "";
-    }
-
-    @Override
-    public String importStudentsCSV(String filename) {
-        return "";
-    }
-
-    @Override
-    public String exportStudentsCSV(String filename) {
-        return "";
-    }
-
-    @Override
-    public String importTeachersCSV(String filename) {
-        return "";
-    }
-
-    @Override
-    public String exportTeachersCSV(String filename) {
-        return "";
-    }
-
-    @Override
-    public String importApplicationsCSV(String filename) {
-        return "";
-    }
-
-    @Override
-    public String exportApplicationsCSV(String filename) {
+    public String exportCSV(String filename) {
         return "";
     }
 
@@ -100,8 +70,6 @@ public abstract class StateAdapter implements IState {
     @Override
     public boolean resolveConflictedCases(int option) { return false; }
 
-    @Override
-    public String exportStageThreeCSV(String filename){ return ""; }
     public String viewStudents() {
         return "";
     }

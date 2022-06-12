@@ -48,7 +48,7 @@ public class StudentMode extends StateAdapter {
     }
 
     @Override
-    public String importStudentsCSV(String filename) {
+    public String importCSV(String filename) {
         StringBuilder sb = new StringBuilder();
         long studentNumber;
         double classification;
@@ -189,7 +189,7 @@ public class StudentMode extends StateAdapter {
     }
 
     @Override
-    public String exportStudentsCSV(String filename) {
+    public String exportCSV(String filename) {
         StringBuilder sb = new StringBuilder();
         FileWriter fw = null;
         BufferedWriter bw = null;

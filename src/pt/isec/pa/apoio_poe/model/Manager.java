@@ -49,33 +49,9 @@ public class Manager {
 
     public String getStage(){return ac.getStage();}
 
-    public String importProposalsCSV(String filename) { return ac.importProposalsCSV(filename); }
+    public String importCSV(String filename) { return ac.importCSV(filename); }
 
-    public String exportProposalsCSV(String filename) { return ac.exportProposalsCSV(filename); }
-
-    public String importStudentsCSV(String filename){
-        return ac.importStudentsCSV(filename);
-    }
-
-    public String exportStudentsCSV(String filename) {
-        return ac.exportStudentsCSV(filename);
-    }
-
-    public String importTeachersCSV(String filename){
-        return ac.importTeachersCSV(filename);
-    }
-
-    public String exportTeachersCSV(String filename){
-        return ac.exportTeachersCSV(filename);
-    }
-
-    public String importApplicationsCSV(String filename){
-        return ac.importApplicationsCSV(filename);
-    }
-
-    public String exportApplicationsCSV(String filename){
-        return ac.exportApplicationsCSV(filename);
-    }
+    public String exportCSV(String filename) { return ac.exportCSV(filename); }
 
     public void changeConfigurationMode(int option){
         ac.changeConfigurationMode(option);
@@ -117,7 +93,6 @@ public class Manager {
     public String[] getConflictedCases(){ return ac.getConflictedCases(); }
     public String getConflictedProposal() { return ac.getConflictedProposal(); }
     public boolean resolveConflictedCases(int option) { return ac.resolveConflictedCases(option); }
-    public String exportStageThreeCSV(String filename) { return ac.exportStageThreeCSV(filename); }
 
     public boolean automaticAssignmentAdvisors() { return ac.automaticAssignmentAdvisors(); }
 

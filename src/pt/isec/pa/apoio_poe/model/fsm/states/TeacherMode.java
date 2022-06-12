@@ -48,7 +48,7 @@ public class TeacherMode extends StateAdapter {
     }
 
     @Override
-    public String importTeachersCSV(String filename) {
+    public String importCSV(String filename) {
         StringBuilder sb = new StringBuilder();
         String name, email, line;
         FileReader fr = null;
@@ -115,7 +115,7 @@ public class TeacherMode extends StateAdapter {
     }
 
     @Override
-    public String exportTeachersCSV(String filename) {
+    public String exportCSV(String filename) {
         StringBuilder sb = new StringBuilder();
         FileWriter fw = null;
         BufferedWriter bw = null;
