@@ -97,8 +97,8 @@ public class TextUI {
             }
             case 2 -> System.out.println(m.viewProposals());
             //case 3 -> System.out.println(m.importProposalsCSV(PAInput.readString("Introduce the name of the file to read: ", true)));
-            case 3 -> System.out.println(m.importProposalsCSV("proposals1"));
-            case 4 -> System.out.println(m.exportProposalsCSV(PAInput.readString("Introduce the name of the file to write: ", true)));
+            case 3 -> System.out.println(m.importCSV("proposals1"));
+            case 4 -> System.out.println(m.exportCSV(PAInput.readString("Introduce the name of the file to write: ", true)));
             case 5 -> m.closeStage();
             case 6 -> m.advanceStage();
             case 7 -> m.save(PAInput.readString("Introduce the name of the file to write: ", true));
@@ -119,8 +119,8 @@ public class TextUI {
             }
             case 2 -> System.out.println(m.viewStudents());
             //case 3 -> System.out.println(m.importStudentsCSV(PAInput.readString("Introduce the name of the file to read: ", true)));
-            case 3 -> System.out.println(m.importStudentsCSV("students1"));
-            case 4 -> System.out.println(m.exportStudentsCSV(PAInput.readString("Introduce the name of the file to write: ", true)));
+            case 3 -> System.out.println(m.importCSV("students1"));
+            case 4 -> System.out.println(m.exportCSV(PAInput.readString("Introduce the name of the file to write: ", true)));
             case 5 -> m.closeStage();
             case 6 -> m.advanceStage();
             case 7 -> m.save(PAInput.readString("Introduce the name of the file to write: ", true));
@@ -141,8 +141,8 @@ public class TextUI {
             }
             case 2 -> System.out.println(m.viewTeachers());
             //case 3 -> System.out.println(m.importTeachersCSV(PAInput.readString("Introduce the name of the file to read: ", true)));
-            case 3 -> System.out.println(m.importTeachersCSV("teachers1"));
-            case 4 -> System.out.println(m.exportTeachersCSV(PAInput.readString("Introduce the name of the file to write: ", true)));
+            case 3 -> System.out.println(m.importCSV("teachers1"));
+            case 4 -> System.out.println(m.exportCSV(PAInput.readString("Introduce the name of the file to write: ", true)));
             case 5 -> m.closeStage();
             case 6 -> m.advanceStage();
             case 7 -> m.save(PAInput.readString("Introduce the name of the file to write: ", true));
@@ -172,8 +172,8 @@ public class TextUI {
             case 2 -> System.out.println(m.viewStudentsWithApplication());
             case 3 -> System.out.println(m.viewStudentsWithoutApplication());
             case 4 -> System.out.println(viewProposalsWithFiltersStageTwo());
-            case 5 -> System.out.println(m.importApplicationsCSV(PAInput.readString("Introduce the name of the file to read: ", true)));
-            case 6 -> System.out.println(m.exportApplicationsCSV(PAInput.readString("Introduce the name of the file to write: ", true)));
+            case 5 -> System.out.println(m.importCSV(PAInput.readString("Introduce the name of the file to read: ", true)));
+            case 6 -> System.out.println(m.exportCSV(PAInput.readString("Introduce the name of the file to write: ", true)));
             case 7 -> m.closeStage();
             case 8 -> m.returnStage();
             case 9 -> m.advanceStage();
@@ -198,7 +198,7 @@ public class TextUI {
             case 10 -> System.out.println(viewProposalsWithFiltersStageThree());
             case 11 -> m.closeStage();
             case 12 -> m.advanceStage();
-            case 13 -> m.exportStageThreeCSV(m.exportStageThreeCSV(PAInput.readString("Introduce the name of the file to write: ", true)));
+            case 13 -> m.exportCSV(PAInput.readString("Introduce the name of the file to write: ", true));
             case 14 -> m.save(PAInput.readString("Introduce the name of the file to write: ", true));
             case 15 -> m.loadAppContext(PAInput.readString("Introduce the name of the file to read: ", true));
             default -> finish = true;
@@ -218,7 +218,7 @@ public class TextUI {
             case 8 -> System.out.println(viewProposalsWithFiltersStageThree());
             case 9 -> m.returnStage();
             case 10 -> m.advanceStage();
-            case 11 -> m.exportStageThreeCSV(m.exportStageThreeCSV(PAInput.readString("Introduce the name of the file to write: ", true)));
+            case 11 -> m.exportCSV(PAInput.readString("Introduce the name of the file to write: ", true));
             case 12 -> m.save(PAInput.readString("Introduce the name of the file to write: ", true));
             case 13 -> m.loadAppContext(PAInput.readString("Introduce the name of the file to read: ", true));
             default -> finish = true;

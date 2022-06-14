@@ -7,6 +7,7 @@ import pt.isec.pa.apoio_poe.model.data.tiposProposta.SelfProposal;
 import java.io.Serializable;
 import java.util.*;
 import java.util.function.Predicate;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class DataLogic implements Serializable {
@@ -321,6 +322,36 @@ public class DataLogic implements Serializable {
             }
         }
         return retLst;
+    }
+
+    public boolean filenameIsValid(String filename) {
+        String[] fn = filename.split("\\.");
+
+        if(fn.length > 1)
+            return false;
+
+        return true;
+    }
+
+    public boolean emailIsValid(String email) {
+        String regex = "^[a-zA-Z0-9_+&*-]+(?:\\."+
+                "[a-zA-Z0-9_+&*-]+)*@" +
+                "(?:[a-zA-Z0-9-]+\\.)+[a-z" +
+                "A-Z]{2,7}$";
+
+        Pattern pat = Pattern.compile(regex);
+        if (email == null)
+            return false;
+        return pat.matcher(email).matches();
+    }
+
+    public boolean proposalIdIsValid(String id) {
+        String regex = "[a-zA-Z]\\d\\d\\d";
+
+        Pattern pat = Pattern.compile(regex);
+        if (regex == null)
+            return false;
+        return pat.matcher(id).matches();
     }
 
     /*public boolean manuallyAssign(int proposalChosen, int studentChosen, String[] availableProposals, String[] availableStudents) {

@@ -1,22 +1,9 @@
 package pt.isec.pa.apoio_poe.model.fsm;
 
 public interface IState {
-    String importProposalsCSV(String filename);
+    String importCSV(String filename);
 
-    String exportProposalsCSV(String filename);
-
-    String importStudentsCSV(String filename);
-
-    String exportStudentsCSV(String filename);
-
-    String importTeachersCSV(String filename);
-
-    String exportTeachersCSV(String filename);
-
-    String importApplicationsCSV(String filename);
-
-    String exportApplicationsCSV(String filename);
-    String exportStageThreeCSV(String filename);
+    String exportCSV(String filename);
 
     AppState getState();
 

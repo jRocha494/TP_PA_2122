@@ -57,7 +57,7 @@ public class StageTwo extends StateAdapter {
     }
 
     @Override
-    public String importApplicationsCSV(String filename) {
+    public String importCSV(String filename) {
         StringBuilder sb = new StringBuilder();
         boolean flag = false;
         long studentNumber;
@@ -181,7 +181,7 @@ public class StageTwo extends StateAdapter {
     }
 
     @Override
-    public String exportApplicationsCSV(String filename) {
+    public String exportCSV(String filename) {
         StringBuilder sb = new StringBuilder();
         FileWriter fw = null;
         BufferedWriter bw = null;

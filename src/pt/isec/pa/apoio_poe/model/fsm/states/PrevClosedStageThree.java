@@ -68,7 +68,7 @@ public class PrevClosedStageThree extends StateAdapter {
     }
 
     @Override
-    public String exportStageThreeCSV(String filename){
+    public String exportCSV(String filename){
         StringBuilder sb = new StringBuilder();
         FileWriter fw = null;
         BufferedWriter bw = null;
