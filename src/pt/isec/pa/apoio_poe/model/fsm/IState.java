@@ -68,4 +68,6 @@ public interface IState {
     String viewStudentsUnassignedWithApplications();
     String viewProposalsUnassigned();
     String viewProposalsAssigned();
+
+    boolean add(String ... parameters);
 }

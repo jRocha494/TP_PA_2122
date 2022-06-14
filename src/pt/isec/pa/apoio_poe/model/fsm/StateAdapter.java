@@ -187,4 +187,7 @@ public abstract class StateAdapter implements IState {
     public String viewProposalsUnassigned(){return "";}
     @Override
     public String viewProposalsAssigned(){return "";}
+
+    @Override
+    public boolean add(String ... parameters){return false;}
 }

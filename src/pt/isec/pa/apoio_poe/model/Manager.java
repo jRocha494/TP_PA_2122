@@ -188,4 +188,12 @@ public class Manager {
         }
         return null;
     }
+
+    public boolean add(String ... parameters) {
+        if (ac.add(parameters)){
+            pcs.firePropertyChange(DATA, null, null);
+            return true;
+        }
+        return false;
+    }
 }

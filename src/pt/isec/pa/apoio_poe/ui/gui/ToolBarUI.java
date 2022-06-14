@@ -1,19 +1,27 @@
 package pt.isec.pa.apoio_poe.ui.gui;
 
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.stage.Popup;
+import javafx.stage.Stage;
+import javafx.util.Callback;
+import javafx.util.Pair;
 import pt.isec.pa.apoio_poe.model.Manager;
 import pt.isec.pa.apoio_poe.model.fsm.AppState;
 import pt.isec.pa.apoio_poe.model.fsm.ListingType;
+import pt.isec.pa.apoio_poe.ui.gui.util.ToastMessage;
+
+import java.util.Optional;
 
 public class ToolBarUI extends ToolBar {
     private final Manager manager;
     //private final BorderPane root;
-    private Button btnClose, btnAdvance, btnExit, btnListStudents, btnListTeachers, btnListProposals;
+    private Button btnClose, btnAdvance, btnExit, btnListStudents, btnListTeachers, btnListProposals, btnImportData, btnAdd;
     MenuButton btnChangeMode;
     MenuItem mniStudent, mniTeacher, mniProposal;
 
@@ -31,6 +39,8 @@ public class ToolBarUI extends ToolBar {
         btnListStudents = new Button("List Students");
         btnListTeachers = new Button("List Teachers");
         btnListProposals = new Button("List Proposals");
+        btnImportData = new Button("Import Data");
+        btnAdd = new Button("Add Data");
         btnExit = new Button("Quit");
 
         btnChangeMode = new MenuButton("Change Mode");
@@ -40,10 +50,12 @@ public class ToolBarUI extends ToolBar {
         btnChangeMode.getItems().addAll(mniStudent, mniTeacher, mniProposal);
 
         this.setBackground(new Background(new BackgroundFill(Color.TURQUOISE, CornerRadii.EMPTY, Insets.EMPTY)));
-        this.getItems().addAll(btnClose, btnAdvance, btnListStudents, btnListTeachers, btnListProposals, btnChangeMode, btnExit);
+        this.getItems().addAll(btnAdd, btnClose, btnAdvance, btnListStudents, btnListTeachers, btnListProposals, btnChangeMode, btnImportData, btnExit);
     }
 
     private void registerHandlers() {
+        manager.addPropertyChangeListener(Manager.STATE, evt -> update());
+
         btnClose.setOnAction(actionEvent -> manager.closeStage());
         btnAdvance.setOnAction(actionEvent -> manager.advanceStage());
         btnExit.setOnAction(actionEvent -> Platform.exit());
@@ -59,10 +71,30 @@ public class ToolBarUI extends ToolBar {
         mniStudent.setOnAction(actionEvent -> manager.changeConfigurationMode(AppState.CONFIGURATIONS_STATE_STUDENT_MANAGER.ordinal()));
         mniTeacher.setOnAction(actionEvent -> manager.changeConfigurationMode(AppState.CONFIGURATIONS_STATE_TEACHER_MANAGER.ordinal()));
         mniProposal.setOnAction(actionEvent -> manager.changeConfigurationMode(AppState.CONFIGURATIONS_STATE_PROPOSAL_MANAGER.ordinal()));
+
+        btnAdd.setOnAction(actionEvent -> {
+            Dialog dialog = new DialogAddStudent(manager);
+            dialog.showAndWait();
+        });
     }
 
     private void update() {
+        //btnAdd.setDisable(manager.getState() == AppState.CONFIGURATIONS_STATE_STAGE_ONE);
+        switch (manager.getState()){
+            case CONFIGURATIONS_STATE_STAGE_ONE -> {
+                btnAdd.setDisable(true);
+                btnListTeachers.setDisable(false);
+                btnListProposals.setDisable(false);
+                mniStudent.setDisable(false);
+                btnImportData.setDisable(true);
+            }
+            case CONFIGURATIONS_STATE_STUDENT_MANAGER -> {
+                btnAdd.setDisable(false);
+                btnListTeachers.setDisable(true);
+                btnListProposals.setDisable(true);
+                mniStudent.setDisable(true);
+                btnImportData.setDisable(false);
+            }
+        }
     }
-
-
 }

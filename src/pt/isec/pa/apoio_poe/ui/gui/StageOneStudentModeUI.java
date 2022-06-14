@@ -2,15 +2,16 @@ package pt.isec.pa.apoio_poe.ui.gui;
 
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.ToolBar;
-import javafx.scene.layout.*;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.StackPane;
 import pt.isec.pa.apoio_poe.model.Manager;
 import pt.isec.pa.apoio_poe.model.fsm.AppState;
 import pt.isec.pa.apoio_poe.model.fsm.ListingType;
 
-public class StageOneUI extends BorderPane {
+public class StageOneStudentModeUI extends BorderPane {
     private final Manager manager;
 
-    public StageOneUI(Manager manager) {
+    public StageOneStudentModeUI(Manager manager) {
         this.manager = manager;
         createViews();
         registerHandlers();
@@ -36,7 +37,7 @@ public class StageOneUI extends BorderPane {
     }
 
     private void update() {
-        this.setVisible(manager.getState() == AppState.CONFIGURATIONS_STATE_STAGE_ONE);
+        this.setVisible(manager.getState() == AppState.CONFIGURATIONS_STATE_STUDENT_MANAGER);
 
     }
 }

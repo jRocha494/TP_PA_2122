@@ -89,7 +89,7 @@ public class TextUI {
         System.out.println("PROPOSAL MANAGER, " + m.getState());
         switch(PAInput.chooseOption("What do you pretend to do?", "Change configuration mode", "View proposals list", "Import data from CSV file", "Export data to CSV file", "Close stage", "Advance to next stage", "Save application state", "Load application state","Quit")){
             case 1 -> {
-                int opt = PAInput.chooseOption("Choose a configuration mode", "Students", "Proposals");
+                int opt = PAInput.chooseOption("Choose a configuration mode", "Students", "Teachers");
                 switch(opt) {
                     case 1 -> m.changeConfigurationMode(AppState.CONFIGURATIONS_STATE_STUDENT_MANAGER.ordinal());
                     case 2 -> m.changeConfigurationMode(AppState.CONFIGURATIONS_STATE_TEACHER_MANAGER.ordinal());

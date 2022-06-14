@@ -146,4 +146,6 @@ public class AppContext implements Serializable {
     public String viewStudentsUnassignedWithApplications() { return state.viewStudentsUnassignedWithApplications(); }
     public String viewProposalsUnassigned() { return state.viewProposalsUnassigned(); }
     public String viewProposalsAssigned() { return state.viewProposalsAssigned(); }
+
+    public boolean add(String ... parameters) {return state.add(parameters);}
 }

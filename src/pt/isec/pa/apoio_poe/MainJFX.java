@@ -18,7 +18,7 @@ public class MainJFX extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         RootPane root = new RootPane(manager);
-        Scene scene = new Scene(root, 600, 400, Color.NAVAJOWHITE);
+        Scene scene = new Scene(root, 1000, 600, Color.NAVAJOWHITE);
         stage.setScene(scene);
         stage.setTitle("PIM - Projects/Internships Manager");
         stage.setResizable(true);

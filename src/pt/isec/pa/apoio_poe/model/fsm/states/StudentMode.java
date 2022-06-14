@@ -48,6 +48,50 @@ public class StudentMode extends StateAdapter {
     }
 
     @Override
+//    public boolean add(String number, String name, String email, String course, String branch, String classification, String internshipAccess){
+    public boolean add(String ... parameters){
+        if (parameters.length != 7)
+            return false;
+
+        String number = parameters[0];
+        String name = parameters[1];
+        String email = parameters[2];
+        String course = parameters[3];
+        String branch = parameters[4];
+        String classification = parameters[5];
+        String internshipAccess = parameters[6];
+
+        //validates student number
+        try {
+            if (number.length() != 10)
+                return false;
+            long studentNumber = Long.parseLong(number);
+            if (dl.studentExists(studentNumber))
+                return false;
+
+            //Email
+            if(!ac.emailIsValid(email))
+                return false;
+            if (dl.studentExists(email))
+                return false;
+
+            //Classification
+            double classif = Double.parseDouble(classification);
+            if(classif>1 || classif<0)
+                return false;
+
+            //InternshipAccess
+            boolean iAccess = Boolean.parseBoolean(internshipAccess);
+
+            dl.addStudent(studentNumber, name, email, course.toUpperCase(), branch.toUpperCase(), classif, iAccess);
+
+        }catch (Exception e){
+            return false;
+        }
+        return true;
+    }
+
+    @Override
     public String importStudentsCSV(String filename) {
         StringBuilder sb = new StringBuilder();
         long studentNumber;

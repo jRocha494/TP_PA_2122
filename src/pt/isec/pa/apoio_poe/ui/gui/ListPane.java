@@ -1,6 +1,7 @@
 package pt.isec.pa.apoio_poe.ui.gui;
 
 import javafx.geometry.Insets;
+import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -10,6 +11,7 @@ import pt.isec.pa.apoio_poe.model.Manager;
 
 public class ListPane extends ListView<Object> {
     private final Manager manager;
+    Button teste;
 
     public ListPane(Manager manager) {
         this.manager = manager;
@@ -19,6 +21,8 @@ public class ListPane extends ListView<Object> {
     }
 
     private void createViews() {
+        teste = new Button("teste");
+        this.getItems().add(teste);
         this.setBackground(new Background(new BackgroundFill(Color.CRIMSON, CornerRadii.EMPTY, Insets.EMPTY)));
     }
 
@@ -35,7 +39,7 @@ public class ListPane extends ListView<Object> {
             case STUDENTS -> this.getItems().addAll(manager.getStudents());
             case TEACHERS -> this.getItems().addAll(manager.getTeachers());
             case PROPOSALS -> this.getItems().addAll(manager.getProposals());
-            default -> this.setVisible(false);
+            //default -> this.setVisible(false);
         }
     }
 }
