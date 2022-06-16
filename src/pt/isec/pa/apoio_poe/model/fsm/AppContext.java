@@ -10,7 +10,6 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Pattern;
 
 public class AppContext implements Serializable {
     static final long serialVersionUID = 100L;
@@ -40,6 +39,10 @@ public class AppContext implements Serializable {
     public List<Student> getStudents(){return dl.getStudents();}
     public List<Teacher> getTeachers(){return dl.getTeachers();}
     public List<Proposal> getProposals(){return dl.getProposals();}
+    public List<Student> getStudentsSelfProposals(){return dl.getStudentsSelfProposals();}
+    public List<Student> getStudentsWithApplication(){return dl.getStudentsWithApplication();}
+    public List<Student> getStudentsWithoutApplication(){return dl.getStudentsWithoutApplication();}
+    public List<Proposal> getProposalsWithFilters(){return dl.getProposalsWithFilters();}
 
     public void setCurrentState(int ordinal) { this.currentState = ordinal; }
 
@@ -80,6 +83,7 @@ public class AppContext implements Serializable {
     public boolean automaticAssignmentSelfProposals() { return state.automaticAssignmentSelfProposals(); }
     public String[] getAvailableProposals() { return dl.getAvailableProposals(); }
     public String[] getAvailableStudents() { return dl.getAvailableStudents(); }
+    public String[] getAvailableStudentsWithoutApplication() { return dl.getAvailableStudentsWithoutApplication(); }
     public boolean manuallyAssign(int proposalChosen, int studentChosen, String[] availableProposals, String[] availableStudents) { return state.manuallyAssign(proposalChosen, studentChosen, availableProposals, availableStudents); }
     public boolean removeAssignment(int assignmentToRemove) { return state.removeAssignment(assignmentToRemove); }
     public boolean removeAllAssignments() { return state.removeAllAssignments(); }
@@ -110,4 +114,6 @@ public class AppContext implements Serializable {
     public String viewProposalsAssigned() { return state.viewProposalsAssigned(); }
 
     public boolean add(String ... parameters) {return state.add(parameters);}
+
+    public void setFilters(boolean[] filters) { dl.setFilters(filters); }
 }

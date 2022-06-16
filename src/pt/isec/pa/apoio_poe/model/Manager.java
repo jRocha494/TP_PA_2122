@@ -67,6 +67,10 @@ public class Manager {
     public List<Student> getStudents(){return ac.getStudents();}
     public List<Teacher> getTeachers(){return ac.getTeachers();}
     public List<Proposal> getProposals(){return ac.getProposals();}
+    public List<Student> getStudentsSelfProposals() {return ac.getStudentsSelfProposals();}
+    public List<Student> getStudentsWithApplication() {return ac.getStudentsWithApplication();}
+    public List<Student> getStudentsWithoutApplication() {return ac.getStudentsWithoutApplication();}
+    public List<Proposal> getProposalsWithFilters() {return ac.getProposalsWithFilters();}
 
     public boolean returnStage() { return ac.returnStage(); }
     public String viewStudents() { return ac.viewStudents(); }
@@ -82,6 +86,7 @@ public class Manager {
     public boolean automaticAssignmentSelfProposals() { return ac.automaticAssignmentSelfProposals(); }
     public String[] getAvailableProposals() { return ac.getAvailableProposals(); }
     public String[] getAvailableStudents() { return ac.getAvailableStudents(); }
+    public String[] getAvailableStudentsWithoutApplication() { return ac.getAvailableStudentsWithoutApplication(); }
     public boolean manuallyAssign(int proposalChosen, int studentChosen, String[] availableProposals, String[] availableStudents) { return ac.manuallyAssign(proposalChosen, studentChosen, availableProposals, availableStudents); }
 
     public boolean removeAssignment(int assignmentToRemove) { return ac.removeAssignment(assignmentToRemove);}
@@ -148,6 +153,7 @@ public class Manager {
         AppContext appContext = _load(hFile);
         if(appContext!=null) {
             this.ac = appContext;
+            ac.changeState(AppState.values()[ac.getCurrentState()].createState(ac, ac.getDl()));
         }
         pcs.firePropertyChange(DATA, null, null);
     }
@@ -170,5 +176,9 @@ public class Manager {
             return true;
         }
         return false;
+    }
+
+    public void setFilters(boolean[] filters){
+        ac.setFilters(filters);
     }
 }

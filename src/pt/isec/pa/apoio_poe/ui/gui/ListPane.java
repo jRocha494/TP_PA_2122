@@ -39,7 +39,11 @@ public class ListPane extends ListView<Object> {
             case STUDENTS -> this.getItems().addAll(manager.getStudents());
             case TEACHERS -> this.getItems().addAll(manager.getTeachers());
             case PROPOSALS -> this.getItems().addAll(manager.getProposals());
-            //default -> this.setVisible(false);
+            case STUDENTS_SELFPROPOSALS -> this.getItems().addAll(manager.getStudentsSelfProposals());
+            case PROPOSALS_STUDENTS_WITH_APPLICATION -> this.getItems().addAll(manager.getStudentsWithApplication());
+            case PROPOSALS_STUDENTS_WITHOUT_APPLICATION -> this.getItems().addAll(manager.getStudentsWithoutApplication());
+            case PROPOSALS_FILTERS -> this.getItems().addAll(manager.getProposalsWithFilters());
+            default -> this.setVisible(false);
         }
     }
 }

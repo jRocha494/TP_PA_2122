@@ -33,7 +33,8 @@ public class RootPane extends BorderPane {
 
         StackPane stackPane = new StackPane(
                 new StageOneUI(manager),
-                new StageOneStudentModeUI(manager)
+                new StageOneStudentModeUI(manager),
+                new StageTwoUI(manager)
         );
         this.setCenter(stackPane);
     }

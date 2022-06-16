@@ -244,6 +244,7 @@ public class TextUI {
                 "View students assigned to proposals without advisors",
                 "Close stage",
                 "Return to previous stage",
+                "Export data to CSV file",
                 "Save application state",
                 "Load application state",
                 "Quit")) {
@@ -253,19 +254,31 @@ public class TextUI {
             case 4 -> System.out.println(m.viewStudentsAssignedWithoutAdvisor());
             case 5 -> m.closeStage();
             case 6 -> m.returnStage();
-            case 7 -> m.save(PAInput.readString("Introduce the name of the file to write: ", true));
-            case 8 -> m.loadAppContext(PAInput.readString("Introduce the name of the file to read: ", true));
+            case 7 -> m.exportCSV(PAInput.readString("Introduce the name of the file to write: ", true));
+            case 8 -> m.save(PAInput.readString("Introduce the name of the file to write: ", true));
+            case 9 -> m.loadAppContext(PAInput.readString("Introduce the name of the file to read: ", true));
             default -> finish = true;
         }
     }
 
     private void stageFiveUI() {
         System.out.println("STAGE FIVE, " + m.getState());
-        switch(PAInput.chooseOption("What do you pretend to do?", "View students assigned to proposals", "View students unassigned with applications", "View available proposals", "View assigned proposals", "Save application state", "Load application state", "Quit")){
+        switch(PAInput.chooseOption("What do you pretend to do?",
+                "View students assigned to proposals",
+                "View students unassigned with applications",
+                "View available proposals",
+                "View assigned proposals",
+                "Export data to CSV file",
+                "Save application state",
+                "Load application state",
+                "Quit")){
             case 1 -> System.out.println(m.viewStudentsAssigned());
             case 2 -> System.out.println(m.viewStudentsUnassignedWithApplications());
             case 3 -> System.out.println(m.viewProposalsUnassigned());
             case 4 -> System.out.println(m.viewProposalsAssigned());
+            case 5 -> m.exportCSV(PAInput.readString("Introduce the name of the file to write: ", true));
+            case 6 -> m.save(PAInput.readString("Introduce the name of the file to write: ", true));
+            case 7 -> m.loadAppContext(PAInput.readString("Introduce the name of the file to read: ", true));
             default -> finish = true;
         }
     }

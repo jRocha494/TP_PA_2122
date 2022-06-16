@@ -1,27 +1,18 @@
 package pt.isec.pa.apoio_poe.ui.gui;
 
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.stage.Popup;
-import javafx.stage.Stage;
-import javafx.util.Callback;
-import javafx.util.Pair;
 import pt.isec.pa.apoio_poe.model.Manager;
 import pt.isec.pa.apoio_poe.model.fsm.AppState;
 import pt.isec.pa.apoio_poe.model.fsm.ListingType;
-import pt.isec.pa.apoio_poe.ui.gui.util.ToastMessage;
-
-import java.util.Optional;
 
 public class ToolBarUI extends ToolBar {
     private final Manager manager;
     //private final BorderPane root;
-    private Button btnClose, btnAdvance, btnExit, btnListStudents, btnListTeachers, btnListProposals, btnImportData, btnAdd;
+    private Button btnClose, btnAdvance, btnExit, btnListStudents, btnListTeachers, btnListProposals, btnImportData, btnExportData, btnAdd;
     MenuButton btnChangeMode;
     MenuItem mniStudent, mniTeacher, mniProposal;
 
@@ -40,6 +31,7 @@ public class ToolBarUI extends ToolBar {
         btnListTeachers = new Button("List Teachers");
         btnListProposals = new Button("List Proposals");
         btnImportData = new Button("Import Data");
+        btnExportData = new Button("Export Data");
         btnAdd = new Button("Add Data");
         btnExit = new Button("Quit");
 
@@ -50,7 +42,7 @@ public class ToolBarUI extends ToolBar {
         btnChangeMode.getItems().addAll(mniStudent, mniTeacher, mniProposal);
 
         this.setBackground(new Background(new BackgroundFill(Color.TURQUOISE, CornerRadii.EMPTY, Insets.EMPTY)));
-        this.getItems().addAll(btnAdd, btnClose, btnAdvance, btnListStudents, btnListTeachers, btnListProposals, btnChangeMode, btnImportData, btnExit);
+        this.getItems().addAll(btnAdd, btnClose, btnAdvance, btnListStudents, btnListTeachers, btnListProposals, btnChangeMode, btnImportData, btnExportData, btnExit);
     }
 
     private void registerHandlers() {
@@ -87,6 +79,7 @@ public class ToolBarUI extends ToolBar {
                 btnListProposals.setDisable(false);
                 mniStudent.setDisable(false);
                 btnImportData.setDisable(true);
+                btnExportData.setDisable(true);
             }
             case CONFIGURATIONS_STATE_STUDENT_MANAGER -> {
                 btnAdd.setDisable(false);
@@ -94,6 +87,7 @@ public class ToolBarUI extends ToolBar {
                 btnListProposals.setDisable(true);
                 mniStudent.setDisable(true);
                 btnImportData.setDisable(false);
+                btnExportData.setDisable(false);
             }
         }
     }

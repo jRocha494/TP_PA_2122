@@ -4,7 +4,9 @@ import pt.isec.pa.apoio_poe.model.data.tiposProposta.Internship;
 import pt.isec.pa.apoio_poe.model.data.tiposProposta.Project;
 import pt.isec.pa.apoio_poe.model.data.tiposProposta.SelfProposal;
 
+import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
+import java.lang.reflect.Array;
 import java.util.*;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
@@ -21,6 +23,7 @@ public class DataLogic implements Serializable {
     private List<Assignment> assignmentList;  // List containing information about attributions (contains references to the correspondent student, proposal and advisor)
     private List<Student> conflictStudents;
     private Proposal conflictProposal;
+    private boolean[] filters;
 
     public DataLogic() {
         this.numberStudentsAndProposals = new HashMap<>();
@@ -29,12 +32,14 @@ public class DataLogic implements Serializable {
         this.teachersList = new HashMap<>();
         this.applicationsList = new HashMap<>();
         this.assignmentList = new ArrayList<>();
+        this.filters = new boolean[4];
         setup();
     }
     private void setup(){
         this.numberStudentsAndProposals.put("DA", new Wrapper(0, 0));   // each branch starts with 0 students and 0 proposals -> to be incremented as they're created
         this.numberStudentsAndProposals.put("RAS", new Wrapper(0, 0));   // each branch starts with 0 students and 0 proposals -> to be incremented as they're created
         this.numberStudentsAndProposals.put("SI", new Wrapper(0, 0));   // each branch starts with 0 students and 0 proposals -> to be incremented as they're created
+        Arrays.fill(filters, false);
     }
 
     public void addInternship(String id, String title, Student assignedStudent, List<String> destinedBranch, String hostingEntity){
@@ -89,6 +94,18 @@ public class DataLogic implements Serializable {
         }
         return null;
     }
+
+    public Teacher getAssignedTeacherByStudent(long id) {
+        if (studentExists(id)) {
+            for (Assignment a : assignmentList) {
+                if (a.hasStudent())
+                    if (a.getStudent().getStudentNumber() == id && a.hasAdvisor())
+                        return a.getAdvisor();
+            }
+        }
+        return null;
+    }
+
     public boolean proposalExists(String id){ return proposalsList.containsKey(id);}
     public boolean proposalWithStudentExists(long assignedStudent){
         if (studentExists(assignedStudent))
@@ -222,7 +239,7 @@ public class DataLogic implements Serializable {
         List<String> result = new ArrayList<>();
 
         for(Map.Entry<String, Proposal> entry : proposalsList.entrySet()){
-            if(!entry.getValue().hasBeenAssigned()) // if the proposal hasn't been assigned yet... adds its key to the array
+            if(!entry.getValue().hasBeenAssigned() || !entry.getValue().hasAssignedStudent()) // if the proposal hasn't been assigned yet... adds its key to the array
                 result.add(entry.getKey());
         }
         return result.toArray(new String[result.size()]);
@@ -232,7 +249,7 @@ public class DataLogic implements Serializable {
         List<String> result = new ArrayList<>();
 
         for(Map.Entry<Long, Student> entry : studentsList.entrySet()){
-            if(!entry.getValue().hasBeenAssigned()); // if the proposal hasn't been assigned yet... adds its key to the array
+            if(!entry.getValue().hasBeenAssigned()) // if the proposal hasn't been assigned yet... adds its key to the array
                 result.add(entry.getKey().toString());
         }
 
@@ -299,6 +316,7 @@ public class DataLogic implements Serializable {
         }
         return retLst;
     }
+
     public List<Teacher> getTeachers() {
         List<Teacher> retLst = new ArrayList<>();
         for(Teacher t : getTeachersValues()){
@@ -311,6 +329,7 @@ public class DataLogic implements Serializable {
         }
         return retLst;
     }
+
     public List<Proposal> getProposals() {
         List<Proposal> retLst = new ArrayList<>();
         for(Proposal p : getProposalsValues()){
@@ -322,6 +341,94 @@ public class DataLogic implements Serializable {
             }
         }
         return retLst;
+    }
+
+    public List<Student> getStudentsSelfProposals(){
+        List<Student> retLst = new ArrayList<>();
+
+        for (Student s : getStudentsValues()) {
+            if(s.hasProposed()) {
+                try {
+                    retLst.add((Student) s.clone());
+                } catch (CloneNotSupportedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return retLst;
+    }
+
+    public List<Student> getStudentsWithApplication(){
+        List<Student> retLst = new ArrayList<>();
+
+        for (Student s : getStudentsValues()) {
+            if(s.hasApplication()) {
+                try {
+                    retLst.add((Student) s.clone());
+                } catch (CloneNotSupportedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return retLst;
+    }
+
+    public List<Student> getStudentsWithoutApplication(){
+        List<Student> retLst = new ArrayList<>();
+
+        for (Student s : getStudentsValues()) {
+            if(!s.hasApplication()) {
+                try {
+                    retLst.add((Student) s.clone());
+                } catch (CloneNotSupportedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return retLst;
+    }
+
+    public List<Proposal> getProposalsWithFilters() {
+        Predicate<Proposal> bySelfProposals = proposal -> proposal instanceof SelfProposal;
+        Predicate<Proposal> byTeacherProposals = proposal -> proposal instanceof Project;
+        Predicate<Proposal> byProposalInApplication = proposal -> applicationHasProposal(proposal);
+        Predicate<Proposal> byProposalNotInApplication = proposal -> applicationHasProposal(proposal) == false;
+
+        List<Proposal> results = new ArrayList();
+        List<Proposal> retLst = new ArrayList();
+
+        results.addAll(getProposalsValues());
+        for(int i=0; i < filters.length; i++){
+            if(filters[i]) {
+                switch (i) {
+                    case 0 -> results = results.stream().filter(bySelfProposals).collect(Collectors.toList());
+                    case 1 -> results = results.stream().filter(byTeacherProposals).collect(Collectors.toList());
+                    case 2 -> results = results.stream().filter(byProposalInApplication).collect(Collectors.toList());
+                    case 3 -> results = results.stream().filter(byProposalNotInApplication).collect(Collectors.toList());
+                }
+            }
+        }
+
+        for(Proposal p : results) {
+            try {
+                retLst.add((Proposal) p.clone());
+            } catch (CloneNotSupportedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return retLst;
+    }
+
+    public String[] getAvailableStudentsWithoutApplication() {
+        List<String> result = new ArrayList<>();
+
+        for(Map.Entry<Long, Student> entry : studentsList.entrySet()){
+            if(!entry.getValue().hasBeenAssigned() && !entry.getValue().hasApplication()) // if the proposal hasn't been assigned yet... adds its key to the array
+                result.add(entry.getKey().toString());
+        }
+
+        return result.toArray(new String[result.size()]);
     }
 
     public boolean filenameIsValid(String filename) {
@@ -353,6 +460,8 @@ public class DataLogic implements Serializable {
             return false;
         return pat.matcher(id).matches();
     }
+
+    public void setFilters(boolean[] filters) { this.filters = filters; }
 
     /*public boolean manuallyAssign(int proposalChosen, int studentChosen, String[] availableProposals, String[] availableStudents) {
         Proposal pToAssign = proposalsList.get(availableProposals[proposalChosen]);

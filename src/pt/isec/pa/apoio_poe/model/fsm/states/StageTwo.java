@@ -12,6 +12,7 @@ import pt.isec.pa.apoio_poe.model.fsm.StateAdapter;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 import java.util.function.Predicate;
@@ -24,15 +25,19 @@ public class StageTwo extends StateAdapter {
     }
 
     @Override
-    public AppState getState() { return AppState.APPLICATION_OPTIONS_STAGE_TWO; }
+    public AppState getState() {
+        return AppState.APPLICATION_OPTIONS_STAGE_TWO;
+    }
 
     @Override
-    public String getStage() { return "Second Stage - Application Options"; }
+    public String getStage() {
+        return "Second Stage - Application Options";
+    }
 
     @Override
-    public boolean closeStage(){
+    public boolean closeStage() {
         // in case previous stage (stage 1) is closed... closes this stage
-        if(ac.isStageClosed("Stage1")){
+        if (ac.isStageClosed("Stage1")) {
             ac.setCloseStatus("Stage2", true);
             changeState(AppState.PROPOSAL_ATTRIBUTION_PREV_CLOSED_STAGE_THREE);
             return true;
@@ -41,9 +46,9 @@ public class StageTwo extends StateAdapter {
     }
 
     @Override
-    public boolean returnStage(){
+    public boolean returnStage() {
         // in case previous stage (stage 1) is NOT closed, returns to it
-        if(!ac.isStageClosed("Stage1")){
+        if (!ac.isStageClosed("Stage1")) {
             changeState(AppState.CONFIGURATIONS_STATE_STAGE_ONE);
             return true;
         }
@@ -51,7 +56,7 @@ public class StageTwo extends StateAdapter {
     }
 
     @Override
-    public boolean advanceStage(){
+    public boolean advanceStage() {
         changeState(AppState.PROPOSAL_ATTRIBUTION_PREV_OPEN_STAGE_THREE);
         return true;
     }
@@ -67,13 +72,13 @@ public class StageTwo extends StateAdapter {
         BufferedReader br = null;
         Scanner sc = null;
 
-        if(!ac.filenameIsValid(filename)){
+        if (!ac.filenameIsValid(filename)) {
             sb.append("File name is not valid");
             return sb.toString();
-        }else if(!filename.endsWith(".csv"))
+        } else if (!filename.endsWith(".csv"))
             filename += ".csv";
 
-        try{
+        try {
             fr = new FileReader(filename);
             br = new BufferedReader(fr);
 
@@ -84,7 +89,7 @@ public class StageTwo extends StateAdapter {
                 //Student Number
                 if (sc.hasNext()) {
                     String snString = sc.next();
-                    if(snString.length()!=10){
+                    if (snString.length() != 10) {
                         sb.append("Student Number is not valid");
                         break;
                     }
@@ -106,7 +111,7 @@ public class StageTwo extends StateAdapter {
                         break;
                     }
 
-                    if(dl.proposalWithStudentExists(studentNumber)){
+                    if (dl.proposalWithStudentExists(studentNumber)) {
                         sb.append("Student with number " + studentNumber + " already is assigned to a Proposal\n");
                         break;
                     }
@@ -116,7 +121,7 @@ public class StageTwo extends StateAdapter {
                 }
 
                 //Chosen Proposals
-                for(int i=0; i<6 && sc.hasNext(); i++) {
+                for (int i = 0; i < 6 && sc.hasNext(); i++) {
                     id = sc.next();
                     if (!ac.proposalIdIsValid(id)) {
                         sb.append("Proposal id is not valid");
@@ -130,19 +135,19 @@ public class StageTwo extends StateAdapter {
                         break;
                     }
 
-                    if(chosenProposals.contains(id)){
+                    if (chosenProposals.contains(dl.getProposal(id))) {
                         sb.append("Proposal with id " + id + " is already selected\n");
                         flag = true;
                         break;
                     }
 
-                    if(dl.hasAssignedStudent(id)){
+                    if (dl.hasAssignedStudent(id)) {
                         sb.append("Proposal with id " + id + " already has a Student assigned to it\n");
                         flag = true;
                         break;
                     }
 
-                    if(dl.isInternship(id) && !dl.hasInternshipAccess(studentNumber)){
+                    if (dl.isInternship(id) && !dl.hasInternshipAccess(studentNumber)) {
                         sb.append("Internship with id " + id + " cant be assigned to student." + studentNumber + " not allowed to have access\n");
                         flag = true;
                         break;
@@ -150,30 +155,30 @@ public class StageTwo extends StateAdapter {
                     chosenProposals.add(dl.getProposal(id));
                 }
 
-                if(flag)
+                if (flag)
                     break;
 
-                if(chosenProposals.isEmpty()){
+                if (chosenProposals.isEmpty()) {
                     sb.append("Proposal id not found\n");
                     break;
                 }
 
                 //Add Application
-                if(!sc.hasNext())
+                if (!sc.hasNext())
                     dl.addApplication(dl.getStudent(studentNumber), chosenProposals);
                 else
                     sb.append("More fields than expected\n");
 
             }
 
-            if(sc!=null) sc.close();
+            if (sc != null) sc.close();
             br.close();
             fr.close();
-        }catch (FileNotFoundException e){
+        } catch (FileNotFoundException e) {
             sb.append("The specified file was not found\n");
-        }catch (NumberFormatException e){
+        } catch (NumberFormatException e) {
             sb.append("Argument should be a number but it was not\n");
-        }catch (IOException e){
+        } catch (IOException e) {
             sb.append("There was an error (IOException)\n");
         }
 
@@ -187,36 +192,37 @@ public class StageTwo extends StateAdapter {
         BufferedWriter bw = null;
         PrintWriter pw = null;
 
-        if(!ac.filenameIsValid(filename)){
+        if (!ac.filenameIsValid(filename)) {
             sb.append("File name is not valid");
             return sb.toString();
-        }else if(!filename.endsWith(".csv"))
+        } else if (!filename.endsWith(".csv"))
             filename += ".csv";
 
-        try{
+        try {
             fw = new FileWriter(filename);
             bw = new BufferedWriter(fw);
             pw = new PrintWriter(bw);
 
-            for(Application a : dl.getApplicationsValues()){
+            for (Application a : dl.getApplicationsValues()) {
                 pw.println(a.toString());
             }
 
             pw.close();
             bw.close();
             fw.close();
-        }catch (FileNotFoundException e){
+        } catch (FileNotFoundException e) {
             sb.append("The specified file was not found");
-        }catch (IOException e){
+        } catch (IOException e) {
             sb.append("There was an error (IOException)");
         }
 
         return sb.toString();
     }
+
     public String viewStudentsWithoutApplication() {
         StringBuilder sb = new StringBuilder();
         for (Student s : dl.getStudentsValues()) {
-            if(!s.hasApplication())
+            if (!s.hasApplication())
                 sb.append(s.studentToString());
         }
         return sb.toString();
@@ -226,25 +232,72 @@ public class StageTwo extends StateAdapter {
     Predicate<Proposal> byTeacherProposals = proposal -> proposal instanceof Project;
     Predicate<Proposal> byProposalInApplication = proposal -> dl.applicationHasProposal(proposal);
     Predicate<Proposal> byProposalNotInApplication = proposal -> dl.applicationHasProposal(proposal) == false;
+
     @Override
-    public String filterProposals(Integer... filters){
+    public String filterProposals(Integer... filters) {
         StringBuilder sb = new StringBuilder();
 
         List<Proposal> results = new ArrayList();
         results.addAll(dl.getProposalsValues());
-        for(int element : filters){
-            switch (element){
+        for (int element : filters) {
+            switch (element) {
                 case 1 -> results = results.stream().filter(bySelfProposals).collect(Collectors.toList());
                 case 2 -> results = results.stream().filter(byTeacherProposals).collect(Collectors.toList());
                 case 3 -> results = results.stream().filter(byProposalInApplication).collect(Collectors.toList());
                 case 4 -> results = results.stream().filter(byProposalNotInApplication).collect(Collectors.toList());
-                default -> { return ""; }
+                default -> {
+                    return "";
+                }
             }
         }
         sb.append("\n[FILTERED PROPOSALS]");
-        for(var proposal : results){
+        for (var proposal : results) {
             sb.append(proposal.proposalToString());
         }
         return sb.toString();
+    }
+
+    @Override
+//    public boolean add(String number, String name, String email, String course, String branch, String classification, String internshipAccess){
+    public boolean add(String... parameters) {
+        List<Proposal> chosenProposals = new ArrayList<>();
+        long studentNumber;
+
+        if (parameters.length < 2 || parameters.length > 7)
+            return false;
+
+        String student = parameters[0];
+        String[] proposals = Arrays.copyOfRange(parameters,1,parameters.length-1);
+
+        try {
+            if (student.length() != 10)
+                return false;
+            studentNumber = Long.parseLong(student);
+            if (!dl.studentExists(studentNumber) ||
+                dl.getStudent(studentNumber).hasApplication() ||
+                dl.getStudent(studentNumber).hasProposed() ||
+                dl.proposalWithStudentExists(studentNumber))
+                return false;
+
+            //Chosen Proposals
+            for (int i = 0; i < proposals.length-1 && proposals[i] != null ; i++) {
+                if (!ac.proposalIdIsValid(proposals[i])) {
+                    return false;
+                }
+
+                if (!dl.proposalExists(proposals[i]) ||
+                    chosenProposals.contains(dl.getProposal(proposals[i])) ||
+                    dl.hasAssignedStudent(proposals[i]) ||
+                    (dl.isInternship(proposals[i]) && !dl.hasInternshipAccess(studentNumber))) {
+                    return false;
+                }
+                chosenProposals.add(dl.getProposal(proposals[i]));
+            }
+        } catch (NumberFormatException e) {
+            return false;
+        }
+
+        dl.addApplication(dl.getStudent(studentNumber), chosenProposals);
+        return true;
     }
 }
