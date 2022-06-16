@@ -1,22 +1,16 @@
 package pt.isec.pa.apoio_poe.ui.gui;
 
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.stage.Popup;
-import javafx.stage.Stage;
-import javafx.util.Callback;
-import javafx.util.Pair;
 import pt.isec.pa.apoio_poe.model.Manager;
 import pt.isec.pa.apoio_poe.model.fsm.AppState;
 import pt.isec.pa.apoio_poe.model.fsm.ListingType;
-import pt.isec.pa.apoio_poe.ui.gui.util.ToastMessage;
-
-import java.util.Optional;
+import pt.isec.pa.apoio_poe.ui.gui.StageOne.DialogAddProposal;
+import pt.isec.pa.apoio_poe.ui.gui.StageOne.DialogAddStudent;
+import pt.isec.pa.apoio_poe.ui.gui.StageOne.DialogAddTeacher;
 
 public class ToolBarUI extends ToolBar {
     private final Manager manager;
@@ -73,9 +67,13 @@ public class ToolBarUI extends ToolBar {
         mniProposal.setOnAction(actionEvent -> manager.changeConfigurationMode(AppState.CONFIGURATIONS_STATE_PROPOSAL_MANAGER.ordinal()));
 
         btnAdd.setOnAction(actionEvent -> {
-            Dialog dialog = new DialogAddStudent(manager);
-            dialog.showAndWait();
+            switch (manager.getState()){
+                case CONFIGURATIONS_STATE_STUDENT_MANAGER -> new DialogAddStudent(manager).showAndWait();
+                case CONFIGURATIONS_STATE_TEACHER_MANAGER -> new DialogAddTeacher(manager).showAndWait();
+                case CONFIGURATIONS_STATE_PROPOSAL_MANAGER -> new DialogAddProposal(manager).showAndWait();
+            }
         });
+
     }
 
     private void update() {
@@ -83,16 +81,42 @@ public class ToolBarUI extends ToolBar {
         switch (manager.getState()){
             case CONFIGURATIONS_STATE_STAGE_ONE -> {
                 btnAdd.setDisable(true);
+                btnListStudents.setDisable(false);
                 btnListTeachers.setDisable(false);
                 btnListProposals.setDisable(false);
                 mniStudent.setDisable(false);
+                mniTeacher.setDisable(false);
+                mniProposal.setDisable(false);
                 btnImportData.setDisable(true);
             }
             case CONFIGURATIONS_STATE_STUDENT_MANAGER -> {
                 btnAdd.setDisable(false);
+                btnListStudents.setDisable(false);
                 btnListTeachers.setDisable(true);
                 btnListProposals.setDisable(true);
                 mniStudent.setDisable(true);
+                mniTeacher.setDisable(false);
+                mniProposal.setDisable(false);
+                btnImportData.setDisable(false);
+            }
+            case CONFIGURATIONS_STATE_TEACHER_MANAGER -> {
+                btnAdd.setDisable(false);
+                btnListStudents.setDisable(true);
+                btnListTeachers.setDisable(false);
+                btnListProposals.setDisable(true);
+                mniStudent.setDisable(false);
+                mniTeacher.setDisable(true);
+                mniProposal.setDisable(false);
+                btnImportData.setDisable(false);
+            }
+            case CONFIGURATIONS_STATE_PROPOSAL_MANAGER -> {
+                btnAdd.setDisable(false);
+                btnListStudents.setDisable(true);
+                btnListTeachers.setDisable(true);
+                btnListProposals.setDisable(false);
+                mniStudent.setDisable(false);
+                mniTeacher.setDisable(false);
+                mniProposal.setDisable(true);
                 btnImportData.setDisable(false);
             }
         }

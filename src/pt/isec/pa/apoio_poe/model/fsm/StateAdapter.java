@@ -158,4 +158,10 @@ public abstract class StateAdapter implements IState {
 
     @Override
     public boolean add(String ... parameters){return false;}
+
+    @Override
+    public boolean delete(Object selectedItem){return false;}
+
+    @Override
+    public boolean update(String ... parameters){return false;}
 }

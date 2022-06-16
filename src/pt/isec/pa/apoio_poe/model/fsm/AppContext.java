@@ -110,4 +110,8 @@ public class AppContext implements Serializable {
     public String viewProposalsAssigned() { return state.viewProposalsAssigned(); }
 
     public boolean add(String ... parameters) {return state.add(parameters);}
+
+    public boolean delete(Object selectedItem) {return state.delete(selectedItem);}
+
+    public boolean update(String ... parameters) {return state.update(parameters);}
 }

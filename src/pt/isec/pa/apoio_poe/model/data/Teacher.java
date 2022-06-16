@@ -15,6 +15,9 @@ public class Teacher implements Serializable, Cloneable {
         this.isAdvisor = isAdvisor;
         this.hasBeenAssigned = false;
     }
+    public Teacher(String email, String name){this(email,name,false);}
+
+
     public String getEmail() {
         return email;
     }

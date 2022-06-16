@@ -148,6 +148,7 @@ public class Manager {
         AppContext appContext = _load(hFile);
         if(appContext!=null) {
             this.ac = appContext;
+            this.ac.changeState(AppState.values()[this.ac.getCurrentState()].createState(ac, ac.getDl()));
         }
         pcs.firePropertyChange(DATA, null, null);
     }
@@ -166,6 +167,22 @@ public class Manager {
 
     public boolean add(String ... parameters) {
         if (ac.add(parameters)){
+            pcs.firePropertyChange(DATA, null, null);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean delete(Object selectedItem) {
+        if (ac.delete(selectedItem)) {
+            pcs.firePropertyChange(DATA, null, null);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean update(String ... parameters) {
+        if (ac.update(parameters)){
             pcs.firePropertyChange(DATA, null, null);
             return true;
         }

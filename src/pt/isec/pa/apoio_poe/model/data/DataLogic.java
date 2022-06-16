@@ -16,7 +16,7 @@ public class DataLogic implements Serializable {
     private Map<String, Wrapper> numberStudentsAndProposals; // Number of students and proposals by branch
     private Map<String, Proposal> proposalsList; // Map with the list of proposals (Key: Proposal ID, Value: Proposal Object)
     private Map<Long, Student> studentsList; // Map with the list of students (Key: Student Number, Value: Student Object)
-    private Map<String, Teacher> teachersList; // Map with the list of proposals (Key: Teacher email, Value: Teacher Object)
+    private Map<String, Teacher> teachersList; // Map with the list of teachers (Key: Teacher email, Value: Teacher Object)
     private Map<Student, Application> applicationsList; // Map with the list of applications (Key: Student Object, Value: Application Object)
     private List<Assignment> assignmentList;  // List containing information about attributions (contains references to the correspondent student, proposal and advisor)
     private List<Student> conflictStudents;
@@ -58,6 +58,9 @@ public class DataLogic implements Serializable {
     }
     public void addTeacher(String email, String name, boolean isAdvisor){
         teachersList.put(email, new Teacher(email, name, isAdvisor));
+    }
+    public void addTeacher(String email, String name){
+        teachersList.put(email, new Teacher(email, name));
     }
     public void addApplication(Student studentNumber, List<Proposal> chosenProposals){
         applicationsList.put(studentNumber, new Application(chosenProposals, studentNumber));
@@ -352,6 +355,16 @@ public class DataLogic implements Serializable {
         if (regex == null)
             return false;
         return pat.matcher(id).matches();
+    }
+
+    public boolean deleteStudent(long studentNumber) {
+        if (studentsList.remove(studentNumber) == null)
+            return false;
+        return true;
+    }
+
+    public void updateStudent(long studentNumber, String name, String email, String course, String branch, double classification, boolean internshipAccess) {
+        studentsList.put(studentNumber, new Student(studentNumber, name, email, course, branch, classification, internshipAccess));
     }
 
     /*public boolean manuallyAssign(int proposalChosen, int studentChosen, String[] availableProposals, String[] availableStudents) {
