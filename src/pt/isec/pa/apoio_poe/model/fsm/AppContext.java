@@ -116,4 +116,8 @@ public class AppContext implements Serializable {
     public boolean add(String ... parameters) {return state.add(parameters);}
 
     public void setFilters(boolean[] filters) { dl.setFilters(filters); }
+
+    public boolean delete(Object selectedItem) {return state.delete(selectedItem);}
+
+    public boolean update(String ... parameters) {return state.update(parameters);}
 }

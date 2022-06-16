@@ -1,11 +1,12 @@
 package pt.isec.pa.apoio_poe.ui.gui;
 
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
 import pt.isec.pa.apoio_poe.model.Manager;
+import pt.isec.pa.apoio_poe.ui.gui.StageOne.StageOneProposalModeUI;
+import pt.isec.pa.apoio_poe.ui.gui.StageOne.StageOneStudentModeUI;
+import pt.isec.pa.apoio_poe.ui.gui.StageOne.StageOneTeacherModeUI;
+import pt.isec.pa.apoio_poe.ui.gui.StageOne.StageOneUI;
 
 public class RootPane extends BorderPane {
     private Button btnExit, btnStart;
@@ -34,6 +35,8 @@ public class RootPane extends BorderPane {
         StackPane stackPane = new StackPane(
                 new StageOneUI(manager),
                 new StageOneStudentModeUI(manager),
+                new StageOneTeacherModeUI(manager),
+                new StageOneProposalModeUI(manager)
                 new StageTwoUI(manager)
         );
         this.setCenter(stackPane);

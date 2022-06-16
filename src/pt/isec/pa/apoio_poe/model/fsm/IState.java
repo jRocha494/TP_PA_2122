@@ -57,4 +57,8 @@ public interface IState {
     String viewProposalsAssigned();
 
     boolean add(String ... parameters);
+
+    boolean delete(Object selectedItem);
+
+    boolean update(String ... parameters);
 }

@@ -16,7 +16,7 @@ public class ProposalMode extends StateAdapter {
 
     @Override
     public boolean changeConfigurationMode(int option){
-        switch(option){ // following the same order set on TextUI (student, teacher)
+        switch(option){ // following the same order set on TextUI (student, teacher, proposal)
             case 1 -> changeState(AppState.CONFIGURATIONS_STATE_STUDENT_MANAGER);
             case 2 -> changeState(AppState.CONFIGURATIONS_STATE_TEACHER_MANAGER);
             case 3 -> changeState(AppState.CONFIGURATIONS_STATE_PROPOSAL_MANAGER);

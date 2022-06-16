@@ -14,7 +14,7 @@ public class TeacherMode extends StateAdapter {
 
     @Override
     public boolean changeConfigurationMode(int option){
-        switch(option){ // following the same order set on TextUI (student, proposal)
+        switch(option){ // following the same order set on TextUI (student, teacher, proposal)
             case 1 -> changeState(AppState.CONFIGURATIONS_STATE_STUDENT_MANAGER);
             case 2 -> changeState(AppState.CONFIGURATIONS_STATE_TEACHER_MANAGER);
             case 3 -> changeState(AppState.CONFIGURATIONS_STATE_PROPOSAL_MANAGER);
@@ -46,6 +46,27 @@ public class TeacherMode extends StateAdapter {
             sb.append(t.teacherToString());
         }
         return sb.toString();
+    }
+
+    @Override
+//    public boolean add(String number, String name, String email, String course, String branch, String classification, String internshipAccess){
+    public boolean add(String ... parameters){
+        if (parameters.length != 2)
+            return false;
+
+        String email = parameters[0];
+        String name = parameters[1];
+        try {
+            //Email
+            if(!ac.emailIsValid(email))
+                return false;
+            if (dl.teacherExists(email))
+                return false;
+            dl.addTeacher(email, name);
+        }catch (Exception e){
+            return false;
+        }
+        return true;
     }
 
     @Override
