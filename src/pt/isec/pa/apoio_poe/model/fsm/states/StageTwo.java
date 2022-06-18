@@ -61,6 +61,141 @@ public class StageTwo extends StateAdapter {
         return true;
     }
 
+
+    @Override
+    public boolean boolImportCSV(String filename) {
+        boolean flag = false;
+        long studentNumber;
+        String line, id;
+        List<Proposal> chosenProposals = new ArrayList<>();
+        FileReader fr = null;
+        BufferedReader br = null;
+        Scanner sc = null;
+
+        if (!ac.filenameIsValid(filename)) {
+            return false;
+        } else if (!filename.endsWith(".csv"))
+            filename += ".csv";
+
+        try {
+            fr = new FileReader(filename);
+            br = new BufferedReader(fr);
+
+            while ((line = br.readLine()) != null) {
+                sc = new Scanner(line);
+                sc.useDelimiter(",");
+
+                //Student Number
+                if (sc.hasNext()) {
+                    String snString = sc.next();
+                    if (snString.length() != 10) {
+                        break;
+                    }
+
+                    studentNumber = Long.parseLong(snString);
+
+                    if (!dl.studentExists(studentNumber)) {
+                        break;
+                    }
+
+                    if (dl.getStudent(studentNumber).hasApplication()) {
+                        break;
+                    }
+
+                    if (dl.getStudent(studentNumber).hasProposed()) {
+                        break;
+                    }
+
+                    if (dl.proposalWithStudentExists(studentNumber)) {
+                        break;
+                    }
+                } else {
+                    break;
+                }
+
+                //Chosen Proposals
+                for (int i = 0; i < 6 && sc.hasNext(); i++) {
+                    id = sc.next();
+                    if (!ac.proposalIdIsValid(id)) {
+                        flag = true;
+                        break;
+                    }
+
+                    if (!dl.proposalExists(id)) {
+                        flag = true;
+                        break;
+                    }
+
+                    if (chosenProposals.contains(dl.getProposal(id))) {
+                        flag = true;
+                        break;
+                    }
+
+                    if (dl.hasAssignedStudent(id)) {
+                        flag = true;
+                        break;
+                    }
+
+                    if (dl.isInternship(id) && !dl.hasInternshipAccess(studentNumber)) {
+                        flag = true;
+                        break;
+                    }
+                    chosenProposals.add(dl.getProposal(id));
+                }
+
+                if (flag)
+                    break;
+
+                if (chosenProposals.isEmpty()) {
+                    break;
+                }
+
+                //Add Application
+                if (!sc.hasNext())
+                    dl.addApplication(dl.getStudent(studentNumber), chosenProposals);
+
+            }
+
+            if (sc != null) sc.close();
+            br.close();
+            fr.close();
+        } catch (NumberFormatException | IOException e) {
+            return false;
+        }
+
+        return true;
+    }
+
+    @Override
+    public boolean boolExportCSV(String filename) {
+        FileWriter fw = null;
+        BufferedWriter bw = null;
+        PrintWriter pw = null;
+
+        if (!ac.filenameIsValid(filename)) {
+            return false;
+        } else if (!filename.endsWith(".csv"))
+            filename += ".csv";
+
+        try {
+            fw = new FileWriter(filename);
+            bw = new BufferedWriter(fw);
+            pw = new PrintWriter(bw);
+
+            for (Application a : dl.getApplicationsValues()) {
+                pw.println(a.toString());
+            }
+
+            pw.close();
+            bw.close();
+            fw.close();
+        } catch (IOException e) {
+            return false;
+        }
+
+        return true;
+    }
+
     @Override
     public String importCSV(String filename) {
         StringBuilder sb = new StringBuilder();

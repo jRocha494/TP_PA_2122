@@ -1,9 +1,6 @@
 package pt.isec.pa.apoio_poe.model.fsm;
 
-import pt.isec.pa.apoio_poe.model.data.DataLogic;
-import pt.isec.pa.apoio_poe.model.data.Proposal;
-import pt.isec.pa.apoio_poe.model.data.Student;
-import pt.isec.pa.apoio_poe.model.data.Teacher;
+import pt.isec.pa.apoio_poe.model.data.*;
 import pt.isec.pa.apoio_poe.model.fsm.states.StageOne;
 
 import java.io.Serializable;
@@ -39,6 +36,7 @@ public class AppContext implements Serializable {
     public List<Student> getStudents(){return dl.getStudents();}
     public List<Teacher> getTeachers(){return dl.getTeachers();}
     public List<Proposal> getProposals(){return dl.getProposals();}
+    public List<Application> getApplications(){return dl.getApplications();}
     public List<Student> getStudentsSelfProposals(){return dl.getStudentsSelfProposals();}
     public List<Student> getStudentsWithApplication(){return dl.getStudentsWithApplication();}
     public List<Student> getStudentsWithoutApplication(){return dl.getStudentsWithoutApplication();}
@@ -59,6 +57,10 @@ public class AppContext implements Serializable {
     public DataLogic getDl() {
         return dl;
     }
+
+    public boolean boolImportCSV(String filename){ return state.boolImportCSV(filename); }
+
+    public boolean boolExportCSV(String filename){ return state.boolExportCSV(filename); }
 
     public String importCSV(String filename){ return state.importCSV(filename); }
 

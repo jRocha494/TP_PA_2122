@@ -346,6 +346,19 @@ public class DataLogic implements Serializable {
         return retLst;
     }
 
+    public List<Application> getApplications() {
+        List<Application> retLst = new ArrayList<>();
+        for(Application a : getApplicationsValues()){
+            try{
+                retLst.add((Application) a.clone());
+
+            } catch (CloneNotSupportedException e) {
+                e.printStackTrace();
+            }
+        }
+        return retLst;
+    }
+
     public List<Student> getStudentsSelfProposals(){
         List<Student> retLst = new ArrayList<>();
 

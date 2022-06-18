@@ -1,4 +1,4 @@
-package pt.isec.pa.apoio_poe.ui.gui;
+package pt.isec.pa.apoio_poe.ui.gui.StageTwo;
 
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -26,7 +26,7 @@ public class DialogAddApplication extends Dialog{
 
     private void createViews() {
 //        dialog = new Dialog();
-        this.setTitle("Add a new Student");
+        this.setTitle("Add a new Application");
 //            dialog.setHeaderText("Insert Student data");
         //ButtonType btApply = new ButtonType("Apply");
         this.getDialogPane().getButtonTypes().addAll(ButtonType.APPLY, ButtonType.CANCEL);
@@ -72,7 +72,10 @@ public class DialogAddApplication extends Dialog{
     private void registerHandlers() {
         final Button btnApply = (Button) this.getDialogPane().lookupButton(ButtonType.APPLY);
         btnApply.addEventFilter(ActionEvent.ACTION, event -> {
-            if(!manager.add(
+            if(!buttonsAreSelected()) {
+                event.consume();
+                ToastMessage.show(grid.getScene().getWindow(), "Some buttons are not correctly selected.");
+            } else if(!manager.add(
                     (String) studentCB.getValue(),
                     (String) proposalCB1.getValue(),
                     (String) proposalCB2.getValue(),
@@ -88,5 +91,27 @@ public class DialogAddApplication extends Dialog{
     }
 
     private void update() {
+    }
+
+    private boolean buttonsAreSelected(){
+
+        if(studentCB.getValue() == null)
+            return false;
+        else if(proposalCB2.getValue() != null && proposalCB1.getValue() == null)
+            return false;
+        else if(proposalCB3.getValue() != null &&
+                (proposalCB2.getValue() == null || proposalCB1 == null))
+            return false;
+        else if(proposalCB4.getValue() != null &&
+                (proposalCB3.getValue() ==null || proposalCB2.getValue() == null || proposalCB1 == null))
+            return false;
+        else if(proposalCB5.getValue() != null &&
+                (proposalCB4.getValue() == null || proposalCB3.getValue() == null || proposalCB2.getValue() == null || proposalCB1 == null))
+            return false;
+        else if(proposalCB6.getValue() != null &&
+                (proposalCB5.getValue() == null || proposalCB4.getValue() == null || proposalCB3.getValue() == null || proposalCB2.getValue() == null || proposalCB1 == null))
+            return false;
+
+        return true;
     }
 }

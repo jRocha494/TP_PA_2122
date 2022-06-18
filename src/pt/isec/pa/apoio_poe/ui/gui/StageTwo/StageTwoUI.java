@@ -1,13 +1,13 @@
-package pt.isec.pa.apoio_poe.ui.gui;
+package pt.isec.pa.apoio_poe.ui.gui.StageTwo;
 
 import javafx.scene.control.MenuBar;
-import javafx.scene.control.ToolBar;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import pt.isec.pa.apoio_poe.model.Manager;
 import pt.isec.pa.apoio_poe.model.fsm.AppState;
 import pt.isec.pa.apoio_poe.model.fsm.ListingType;
-import pt.isec.pa.apoio_poe.model.fsm.states.StageTwo;
+import pt.isec.pa.apoio_poe.ui.gui.ListPane;
+import pt.isec.pa.apoio_poe.ui.gui.MenuBarUI;
 
 public class StageTwoUI  extends BorderPane {
     private final Manager manager;

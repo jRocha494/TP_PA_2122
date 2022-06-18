@@ -1,9 +1,6 @@
 package pt.isec.pa.apoio_poe.model;
 
-import pt.isec.pa.apoio_poe.model.data.DataLogic;
-import pt.isec.pa.apoio_poe.model.data.Proposal;
-import pt.isec.pa.apoio_poe.model.data.Student;
-import pt.isec.pa.apoio_poe.model.data.Teacher;
+import pt.isec.pa.apoio_poe.model.data.*;
 import pt.isec.pa.apoio_poe.model.fsm.AppContext;
 import pt.isec.pa.apoio_poe.model.fsm.AppState;
 import pt.isec.pa.apoio_poe.model.fsm.ListingType;
@@ -49,6 +46,10 @@ public class Manager {
 
     public String getStage(){return ac.getStage();}
 
+    public boolean boolImportCSV(String filename) { return ac.boolImportCSV(filename); }
+
+    public boolean boolExportCSV(String filename) { return ac.boolExportCSV(filename); }
+
     public String importCSV(String filename) { return ac.importCSV(filename); }
 
     public String exportCSV(String filename) { return ac.exportCSV(filename); }
@@ -57,7 +58,10 @@ public class Manager {
         ac.changeConfigurationMode(option);
         pcs.firePropertyChange(STATE, null, null);
     }
-    public boolean closeStage() { return ac.closeStage(); }
+    public boolean closeStage() {
+        pcs.firePropertyChange(STATE, null, null);
+        return ac.closeStage();
+    }
 
     public void advanceStage() {
         ac.advanceStage();
@@ -67,12 +71,16 @@ public class Manager {
     public List<Student> getStudents(){return ac.getStudents();}
     public List<Teacher> getTeachers(){return ac.getTeachers();}
     public List<Proposal> getProposals(){return ac.getProposals();}
+    public List<Application> getApplications(){return ac.getApplications();}
     public List<Student> getStudentsSelfProposals() {return ac.getStudentsSelfProposals();}
     public List<Student> getStudentsWithApplication() {return ac.getStudentsWithApplication();}
     public List<Student> getStudentsWithoutApplication() {return ac.getStudentsWithoutApplication();}
     public List<Proposal> getProposalsWithFilters() {return ac.getProposalsWithFilters();}
 
-    public boolean returnStage() { return ac.returnStage(); }
+    public boolean returnStage() {
+        pcs.firePropertyChange(STATE, null, null);
+        return ac.returnStage();
+    }
     public String viewStudents() { return ac.viewStudents(); }
     public String viewTeachers() { return ac.viewTeachers(); }
     public String viewProposals() { return ac.viewProposals(); }

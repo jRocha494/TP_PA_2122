@@ -1,6 +1,10 @@
 package pt.isec.pa.apoio_poe.model.fsm;
 
 public interface IState {
+    boolean boolImportCSV(String filename);
+
+    boolean boolExportCSV(String filename);
+
     String importCSV(String filename);
 
     String exportCSV(String filename);

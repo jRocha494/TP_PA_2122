@@ -7,6 +7,7 @@ import pt.isec.pa.apoio_poe.ui.gui.StageOne.StageOneProposalModeUI;
 import pt.isec.pa.apoio_poe.ui.gui.StageOne.StageOneStudentModeUI;
 import pt.isec.pa.apoio_poe.ui.gui.StageOne.StageOneTeacherModeUI;
 import pt.isec.pa.apoio_poe.ui.gui.StageOne.StageOneUI;
+import pt.isec.pa.apoio_poe.ui.gui.StageTwo.StageTwoUI;
 
 public class RootPane extends BorderPane {
     private Button btnExit, btnStart;
@@ -36,7 +37,7 @@ public class RootPane extends BorderPane {
                 new StageOneUI(manager),
                 new StageOneStudentModeUI(manager),
                 new StageOneTeacherModeUI(manager),
-                new StageOneProposalModeUI(manager)
+                new StageOneProposalModeUI(manager),
                 new StageTwoUI(manager)
         );
         this.setCenter(stackPane);

@@ -54,6 +54,21 @@ public class ToolBarUI extends ToolBar {
         btnClose.setOnAction(actionEvent -> manager.closeStage());
         btnAdvance.setOnAction(actionEvent -> manager.advanceStage());
         btnExit.setOnAction(actionEvent -> Platform.exit());
+
+        btnImportData.setOnAction(actionEvent -> {
+            TextField filename = new TextField();
+
+            GridPane gridPane = new GridPane();
+            gridPane.add(new Label("File name:"), 0, 0);
+            gridPane.add(filename, 1, 0);
+
+            Alert alert = new Alert(Alert.AlertType.NONE);
+            alert.getDialogPane().getButtonTypes().addAll(ButtonType.APPLY, ButtonType.CANCEL);
+            alert.setHeaderText("Import Data");
+            alert.getDialogPane().setContent(gridPane);
+            alert.showAndWait();
+        });
+
         btnListStudents.setOnAction(actionEvent -> {
             manager.setListingType(ListingType.STUDENTS);
         });

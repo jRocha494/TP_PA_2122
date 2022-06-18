@@ -27,6 +27,15 @@ public abstract class StateAdapter implements IState {
         ac.setCurrentState(newState.ordinal());
         ac.changeState(newState.createState(ac,dl,students,proposal));
     }
+    @Override
+    public boolean boolImportCSV(String filename) {
+        return false;
+    }
+
+    @Override
+    public boolean boolExportCSV(String filename) {
+        return false;
+    }
 
     @Override
     public String importCSV(String filename) {

@@ -71,6 +71,7 @@ public class ListPane extends ListView<Object> {
             case STUDENTS -> this.getItems().addAll(manager.getStudents());
             case TEACHERS -> this.getItems().addAll(manager.getTeachers());
             case PROPOSALS -> this.getItems().addAll(manager.getProposals());
+            case APPLICATIONS -> this.getItems().addAll(manager.getApplications());
             case STUDENTS_SELFPROPOSALS -> this.getItems().addAll(manager.getStudentsSelfProposals());
             case PROPOSALS_STUDENTS_WITH_APPLICATION -> this.getItems().addAll(manager.getStudentsWithApplication());
             case PROPOSALS_STUDENTS_WITHOUT_APPLICATION -> this.getItems().addAll(manager.getStudentsWithoutApplication());

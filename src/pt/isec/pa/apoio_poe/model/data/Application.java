@@ -3,7 +3,7 @@ package pt.isec.pa.apoio_poe.model.data;
 import java.io.Serializable;
 import java.util.List;
 
-public class Application implements Serializable {
+public class Application implements Serializable, Cloneable {
     static final long serialVersionUID = 100L;
     private List<Proposal> chosenProposals;
     private Student studentNumber;
@@ -31,5 +31,10 @@ public class Application implements Serializable {
             sb.append("," + p.getId());
 
         return sb.toString();
+    }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException{
+        return super.clone();
     }
 }
