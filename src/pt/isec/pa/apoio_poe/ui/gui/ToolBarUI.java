@@ -1,6 +1,7 @@
 package pt.isec.pa.apoio_poe.ui.gui;
 
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
@@ -11,6 +12,7 @@ import pt.isec.pa.apoio_poe.model.fsm.ListingType;
 import pt.isec.pa.apoio_poe.ui.gui.StageOne.DialogAddProposal;
 import pt.isec.pa.apoio_poe.ui.gui.StageOne.DialogAddStudent;
 import pt.isec.pa.apoio_poe.ui.gui.StageOne.DialogAddTeacher;
+import pt.isec.pa.apoio_poe.ui.gui.util.ToastMessage;
 
 public class ToolBarUI extends ToolBar {
     private final Manager manager;
@@ -67,6 +69,15 @@ public class ToolBarUI extends ToolBar {
             alert.getDialogPane().getButtonTypes().addAll(ButtonType.APPLY, ButtonType.CANCEL);
             alert.setHeaderText("Import Data");
             alert.getDialogPane().setContent(gridPane);
+
+            final Button btnApply = (Button) alert.getDialogPane().lookupButton(ButtonType.APPLY);
+            btnApply.addEventFilter(ActionEvent.ACTION, event -> {
+                if(!manager.boolImportCSV(filename.getText())){
+                    event.consume();
+                    ToastMessage.show(gridPane.getScene().getWindow(), "Something went wrong");
+                }
+            });
+
             alert.showAndWait();
         });
 
@@ -154,6 +165,7 @@ public class ToolBarUI extends ToolBar {
                 btnReturn.setDisable(false);
             }
             case CLOSED_STAGE -> {
+                btnClose.setDisable(true);
                 btnAdd.setDisable(true);
                 btnListStudents.setDisable(false);
                 btnListTeachers.setDisable(false);
@@ -162,7 +174,6 @@ public class ToolBarUI extends ToolBar {
                 mniTeacher.setDisable(true);
                 mniProposal.setDisable(true);
                 btnImportData.setDisable(true);
-                btnExportData.setDisable(true);
                 btnReturn.setDisable(true);
             }
         }

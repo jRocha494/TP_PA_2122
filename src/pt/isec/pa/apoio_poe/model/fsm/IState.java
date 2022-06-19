@@ -37,6 +37,8 @@ public interface IState {
 
     boolean automaticAssignmentSelfProposals();
 
+    boolean manuallyAssign(String student, String proposal);
+
     boolean manuallyAssign(int proposalChosen, int studentChosen, String[] availableProposals, String[] availableStudents);
 
     boolean removeAssignment(int assignmentToRemove);

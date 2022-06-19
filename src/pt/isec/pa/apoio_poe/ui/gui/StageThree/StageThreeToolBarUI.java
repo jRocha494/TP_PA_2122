@@ -20,10 +20,9 @@ public class StageThreeToolBarUI extends ToolBar {
     private final Manager manager;
     //private final BorderPane root;
     private Button btnClose, btnAdvance, btnExit, btnReturn, btnExportData,
-            btnSelfProposalAttribution, btnPreDefinedProposalsAttribution,
-            btnRemoveAssignement, btnRemoveAllAssignments,
+            btnSelfProposalAttribution, btnRemoveAssignement, btnRemoveAllAssignments,
             btnListStudentsWithSelfProposals, btnListStudentsWithApplication,
-            btnListStudentsAssigned, btnListStudentsUnassigned;
+            btnListStudentsAssigned, btnListStudentsUnassigned, btnManuallyAssign;
     MenuButton btnListProposalsWithFilters;
     MenuItem mniApplyFilters;
     CustomMenuItem filter1, filter2, filter3, filter4;
@@ -54,6 +53,7 @@ public class StageThreeToolBarUI extends ToolBar {
         btnListStudentsWithApplication = new Button("View students with registered application");
         btnListStudentsAssigned = new Button("View students assigned to proposal");
         btnListStudentsUnassigned = new Button("View students unassigned");
+        btnManuallyAssign = new Button("Manually assign proposal to student");
 
         btnListProposalsWithFilters = new MenuButton("List Proposals (With Filters)");
         filterCbs[0] = new CheckBox("Students Self-Proposals");
@@ -74,7 +74,7 @@ public class StageThreeToolBarUI extends ToolBar {
         this.setBackground(new Background(new BackgroundFill(Color.TURQUOISE, CornerRadii.EMPTY, Insets.EMPTY)));
         this.getItems().addAll(btnClose, btnAdvance, btnReturn, btnSelfProposalAttribution, btnRemoveAssignement,
                 btnRemoveAllAssignments, btnListStudentsWithSelfProposals, btnListStudentsWithApplication,
-                btnListStudentsAssigned, btnListStudentsUnassigned, btnListProposalsWithFilters, btnExportData, btnExit);
+                btnListStudentsAssigned, btnListStudentsUnassigned, btnListProposalsWithFilters, btnManuallyAssign, btnExportData, btnExit);
     }
 
     private void registerHandlers() {
@@ -148,8 +148,41 @@ public class StageThreeToolBarUI extends ToolBar {
             manager.setFiltersStageThree(filters);
             manager.setListingType(ListingType.PROPOSALS_FILTERS_STAGE_THREE);
         });
+
+        btnManuallyAssign.setOnAction(actionEvent -> {
+            ChoiceBox studentCB = new ChoiceBox();
+            studentCB.getItems().addAll(manager.viewAssignments());
+            ChoiceBox proposalCB = new ChoiceBox();
+            proposalCB.getItems().addAll(manager.viewAssignments());
+
+            GridPane gridPane = new GridPane();
+            gridPane.add(new Label("Student"), 0, 0);
+            gridPane.add(studentCB, 1, 0);
+            gridPane.add(new Label("Proposal"), 0, 1);
+            gridPane.add(proposalCB, 1, 1);
+
+            Alert alert = new Alert(Alert.AlertType.NONE);
+            alert.getDialogPane().getButtonTypes().addAll(ButtonType.APPLY, ButtonType.CANCEL);
+            alert.setHeaderText("Manually Assign");
+            alert.getDialogPane().setContent(gridPane);
+
+            final Button btnApply = (Button) alert.getDialogPane().lookupButton(ButtonType.APPLY);
+            btnApply.addEventFilter(ActionEvent.ACTION, event -> {
+                if(!manager.manuallyAssign((String) studentCB.getValue(), (String) proposalCB.getValue())){
+                    event.consume();
+                    ToastMessage.show(gridPane.getScene().getWindow(), "Something went wrong");
+                }
+            });
+
+            alert.showAndWait();
+        });
     }
 
     private void update() {
+        if (manager.isStageClosed("Stage3")) {
+            btnClose.setDisable(true);
+        } else {
+            btnClose.setDisable(false);
+        }
     }
 }

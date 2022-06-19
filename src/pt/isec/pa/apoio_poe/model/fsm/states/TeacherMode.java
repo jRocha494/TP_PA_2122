@@ -104,6 +104,97 @@ public class TeacherMode extends StateAdapter {
     }
 
     @Override
+    public boolean boolImportCSV(String filename) {
+        String name, email, line;
+        FileReader fr = null;
+        BufferedReader br = null;
+        Scanner sc = null;
+
+        if(!ac.filenameIsValid(filename)){
+            return false;
+        }else if(!filename.endsWith(".csv"))
+            filename += ".csv";
+
+        try{
+            fr = new FileReader(filename);
+            br = new BufferedReader(fr);
+
+            while ((line = br.readLine()) != null) {
+                sc = new Scanner(line);
+                sc.useDelimiter(",");
+
+                //Name
+                if (sc.hasNext()) {
+                    name = sc.next();
+                } else {
+                    break;
+                }
+
+                //Email
+                if (sc.hasNext()) {
+                    email = sc.next();
+                    if(!ac.emailIsValid(email)) {
+                        break;
+                    }
+
+                    if (dl.teacherExists(email)) {
+                        break;
+                    }
+                } else {
+                    break;
+                }
+
+                //Adds Teacher
+                if(!sc.hasNext())
+                    dl.addTeacher(email, name, false);
+
+            }
+
+            if(sc!=null) sc.close();
+            br.close();
+            fr.close();
+        }catch (FileNotFoundException e){
+            return false;
+        }catch (IOException e){
+            return false;
+        }
+
+        return true;
+    }
+
+    @Override
+    public boolean boolExportCSV(String filename) {
+        FileWriter fw = null;
+        BufferedWriter bw = null;
+        PrintWriter pw = null;
+
+        if(!ac.filenameIsValid(filename)){
+            return false;
+        }else if(!filename.endsWith(".csv"))
+            filename += ".csv";
+
+        try{
+            fw = new FileWriter(filename);
+            bw = new BufferedWriter(fw);
+            pw = new PrintWriter(bw);
+
+            for(Teacher t : dl.getTeachersValues()){
+                pw.println(t.toStringExport());
+            }
+
+            pw.close();
+            bw.close();
+            fw.close();
+        }catch (FileNotFoundException e){
+            return false;
+        }catch (IOException e){
+            return false;
+        }
+
+        return true;
+    }
+
+    @Override
     public String importCSV(String filename) {
         StringBuilder sb = new StringBuilder();
         String name, email, line;

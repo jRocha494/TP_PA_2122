@@ -90,6 +90,7 @@ public class AppContext implements Serializable {
     public String[] getAvailableProposals() { return dl.getAvailableProposals(); }
     public String[] getAvailableStudents() { return dl.getAvailableStudents(); }
     public List<Student> getAvailableStudentsWithoutApplication() { return dl.getAvailableStudentsWithoutApplication(); }
+    public boolean manuallyAssign(String student, String proposal){ return state.manuallyAssign(student, proposal); }
     public boolean manuallyAssign(int proposalChosen, int studentChosen, String[] availableProposals, String[] availableStudents) { return state.manuallyAssign(proposalChosen, studentChosen, availableProposals, availableStudents); }
     public boolean removeAssignment(int assignmentToRemove) { return state.removeAssignment(assignmentToRemove); }
     public boolean removeAllAssignments() { return state.removeAllAssignments(); }

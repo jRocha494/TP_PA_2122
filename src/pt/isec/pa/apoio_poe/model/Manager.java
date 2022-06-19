@@ -106,6 +106,7 @@ public class Manager {
     public String[] getAvailableProposals() { return ac.getAvailableProposals(); }
     public String[] getAvailableStudents() { return ac.getAvailableStudents(); }
     public List<Student> getAvailableStudentsWithoutApplication() { return ac.getAvailableStudentsWithoutApplication(); }
+    public boolean manuallyAssign(String student, String proposal){ return ac.manuallyAssign(student, proposal); }
     public boolean manuallyAssign(int proposalChosen, int studentChosen, String[] availableProposals, String[] availableStudents) { return ac.manuallyAssign(proposalChosen, studentChosen, availableProposals, availableStudents); }
 
     public boolean removeAssignment(int assignmentToRemove) { return ac.removeAssignment(assignmentToRemove);}

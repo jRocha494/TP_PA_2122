@@ -79,6 +79,7 @@ public abstract class StateAdapter implements IState {
     @Override
     public boolean resolveConflictedCases(int option) { return false; }
 
+    @Override
     public String viewStudents() {
         return "";
     }
@@ -125,6 +126,11 @@ public abstract class StateAdapter implements IState {
 
     @Override
     public boolean automaticAssignmentSelfProposals() {
+        return false;
+    }
+
+    @Override
+    public boolean manuallyAssign(String student, String proposal) {
         return false;
     }
 

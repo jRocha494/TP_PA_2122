@@ -217,6 +217,176 @@ public class ProposalMode extends StateAdapter {
     }
 
     @Override
+    public boolean boolImportCSV(String filename) {
+        long assignedStudent = -1;
+        double classification;
+        boolean internshipAccess;
+        String pType, id, title, hostingEntity=null, proposingTeacher=null, line;
+        List<String> destinedBranch = new ArrayList<>();;
+        FileReader fr = null;
+        BufferedReader br = null;
+        Scanner sc = null;
+
+        if(!ac.filenameIsValid(filename)){
+            return false;
+        }else if(!filename.endsWith(".csv"))
+            filename += ".csv";
+
+        try{
+            fr = new FileReader(filename);
+            br = new BufferedReader(fr);
+
+            while ((line = br.readLine()) != null) {
+                sc = new Scanner(line);
+                sc.useDelimiter(",");
+
+                //Proposal type
+                if (sc.hasNext()) {
+                    pType = sc.next();
+                    if(!(pType.equalsIgnoreCase("T1") || pType.equalsIgnoreCase("T2") || pType.equalsIgnoreCase("T3"))){
+                        break;
+                    }
+                } else {
+                    break;
+                }
+
+                //Proposal id
+                if (sc.hasNext()) {
+                    id = sc.next();
+                    if(!ac.proposalIdIsValid(id)) {
+                        break;
+                    }
+
+                    if (dl.proposalExists(id)) {
+                        break;
+                    }
+                } else {
+                    break;
+                }
+
+                //Branch - only for Internships and Projects
+                if(!pType.equalsIgnoreCase("T3")) {
+                    if (sc.hasNext()) {
+                        String[] branches = sc.next().trim().split("\\|"); // Removes whitespaces and splits when a "|" is found
+                        destinedBranch = new ArrayList<>();
+                        for (String branch : branches) {
+                            if (!(branch.equalsIgnoreCase("DA") || branch.equalsIgnoreCase("RAS") || branch.equalsIgnoreCase("SI"))) {
+                                break;
+                            }
+                            destinedBranch.add(branch);
+                        }
+                    } else {
+                        break;
+                    }
+                }
+
+                //Title
+                if (sc.hasNext()) {
+                    title = sc.next();
+                } else {
+                    break;
+                }
+
+                if(pType.equalsIgnoreCase("T1")){
+                    //Internship - Hosting Entity and possibly Student Number
+
+                    //Hosting Entity
+                    if (sc.hasNext()) {
+                        hostingEntity = sc.next();
+                    } else {
+                        break;
+                    }
+
+                }else if(pType.equalsIgnoreCase("T2")){
+                    //Proposals - Teacher Email and possibly Student Number
+                    //Teacher Email
+                    if (sc.hasNext()) {
+                        proposingTeacher = sc.next();
+                        if(!dl.teacherExists(proposingTeacher)) {
+                            break;
+                        }
+                    } else {
+                        break;
+                    }
+                }
+
+                //Student Number if exists
+                if (sc.hasNext()) {
+                    String snString = sc.next();
+                    if(snString.length()!=10){
+                        break;
+                    }
+
+                    assignedStudent = Long.parseLong(snString);
+
+                    if (!dl.studentExists(assignedStudent)) {
+                        break;
+                    }
+
+                    if(pType.equalsIgnoreCase("T1") && !dl.hasInternshipAccess(assignedStudent)){
+                        break;
+                    }
+
+                    if(dl.proposalWithStudentExists(assignedStudent)){
+                        break;
+                    }
+                } else if(pType.equalsIgnoreCase("T3")){
+                    break;
+                }
+
+                //Add Student
+                if(!sc.hasNext()) {
+                    if(pType.equalsIgnoreCase("T1"))
+                        dl.addInternship(id, title, dl.getStudent(assignedStudent), destinedBranch, hostingEntity);
+                    if(pType.equalsIgnoreCase("T2"))
+                        dl.addProject(id, title, dl.getStudent(assignedStudent), destinedBranch, dl.getTeacher(proposingTeacher));
+                    if(pType.equalsIgnoreCase("T3"))
+                        dl.addSelfProposal(id, title, dl.getStudent(assignedStudent));
+                }
+
+                assignedStudent=-1;
+            }
+
+            if(sc!=null) sc.close();
+            br.close();
+            fr.close();
+        } catch (NumberFormatException | IOException e){
+            return false;
+        }
+
+        return true;
+    }
+
+    @Override
+    public boolean boolExportCSV(String filename) {
+        FileWriter fw = null;
+        BufferedWriter bw = null;
+        PrintWriter pw = null;
+
+        if(!ac.filenameIsValid(filename)){
+            return false;
+        }else if(!filename.endsWith(".csv"))
+            filename += ".csv";
+
+        try{
+            fw = new FileWriter(filename);
+            bw = new BufferedWriter(fw);
+            pw = new PrintWriter(bw);
+
+            for(var p : dl.getProposalsValues())
+                pw.println(p.toStringExport());
+
+            pw.close();
+            bw.close();
+            fw.close();
+        } catch (IOException e){
+            return false;
+        }
+
+        return true;
+    }
+
+    @Override
     public String importCSV(String filename) {
         StringBuilder sb = new StringBuilder();
         long assignedStudent = -1;

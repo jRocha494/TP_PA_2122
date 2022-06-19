@@ -39,6 +39,6 @@ public class StageThreeUI extends BorderPane {
     }
 
     private void update() {
-        this.setVisible(manager.getState() == AppState.PROPOSAL_ATTRIBUTION_PREV_OPEN_STAGE_THREE || manager.getState() == AppState.PROPOSAL_ATTRIBUTION_PREV_CLOSED_STAGE_THREE);
+        this.setVisible(manager.getState() == AppState.PROPOSAL_ATTRIBUTION_STAGE_THREE);
     }
 }

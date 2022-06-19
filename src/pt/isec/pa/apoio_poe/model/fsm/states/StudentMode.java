@@ -146,6 +146,160 @@ public class StudentMode extends StateAdapter {
     }
 
     @Override
+    public boolean boolImportCSV(String filename) {
+        long studentNumber;
+        double classification;
+        boolean internshipAccess;
+        String name, email, line, course, branch;
+        FileReader fr = null;
+        BufferedReader br = null;
+        Scanner sc = null;
+
+        if(!ac.filenameIsValid(filename)){
+            return false;
+        }else if(!filename.endsWith(".csv"))
+            filename += ".csv";
+
+        try{
+            fr = new FileReader(filename);
+            br = new BufferedReader(fr);
+
+            while ((line = br.readLine()) != null) {
+                sc = new Scanner(line);
+                sc.useDelimiter(",");
+
+                //Student Number
+                if (sc.hasNext()) {
+                    String snString = sc.next();
+                    if(snString.length()!=10){
+                        break;
+                    }
+
+                    studentNumber = Long.parseLong(snString);
+
+                    if (dl.studentExists(studentNumber)) {
+                        break;
+                    }
+                } else {
+                    break;
+                }
+
+                //Name
+                if (sc.hasNext()) {
+                    name = sc.next();
+                } else {
+                    break;
+                }
+
+                //Email
+                if (sc.hasNext()) {
+                    email = sc.next();
+                    if(!ac.emailIsValid(email)) {
+                        break;
+                    }
+
+                    if (dl.studentExists(email)) {
+                        break;
+                    }
+                } else {
+                    break;
+                }
+
+                //Course
+                if (sc.hasNext()) {
+                    course = sc.next();
+                    if(!(course.equalsIgnoreCase("LEI") || course.equalsIgnoreCase("LEI-PL"))){
+                        break;
+                    }
+                } else {
+                    break;
+                }
+
+                //Branch
+                if (sc.hasNext()) {
+                    branch = sc.next();
+                    if(!(branch.equalsIgnoreCase("DA") || branch.equalsIgnoreCase("RAS") || branch.equalsIgnoreCase("SI"))){
+                        break;
+                    }
+                } else {
+                    break;
+                }
+
+                //Classification
+                if (sc.hasNext()) {
+                    String cString = sc.next();
+                    classification = Double.parseDouble(cString);
+                    if(classification>1 || classification<0){
+                        break;
+                    }
+                } else {
+                    break;
+                }
+
+                //Internship Access
+                if (sc.hasNext()) {
+                    String iaString = sc.next();
+                    if(!(iaString.equalsIgnoreCase("TRUE") || iaString.equalsIgnoreCase("FALSE"))){
+                        break;
+                    }
+                    internshipAccess = Boolean.parseBoolean(iaString);
+                } else {
+                    break;
+                }
+
+                //Add Student
+                if(!sc.hasNext())
+                    dl.addStudent(studentNumber, name, email, course.toUpperCase(), branch.toUpperCase(), classification, internshipAccess);
+
+            }
+
+            if(sc!=null) sc.close();
+            br.close();
+            fr.close();
+        }catch (FileNotFoundException e){
+            return false;
+        }catch (NumberFormatException e){
+            return false;
+        }catch (IOException e){
+            return false;
+        }
+
+        return true;
+    }
+
+    @Override
+    public boolean boolExportCSV(String filename) {
+        FileWriter fw = null;
+        BufferedWriter bw = null;
+        PrintWriter pw = null;
+
+        if(!ac.filenameIsValid(filename)){
+            return false;
+        }else if(!filename.endsWith(".csv"))
+            filename += ".csv";
+
+        try{
+            fw = new FileWriter(filename);
+            bw = new BufferedWriter(fw);
+            pw = new PrintWriter(bw);
+
+            for(Student s : dl.getStudentsValues()){
+                pw.println(s.toStringExport());
+            }
+
+            pw.close();
+            bw.close();
+            fw.close();
+        }catch (FileNotFoundException e){
+            return false;
+        }catch (IOException e){
+            return false;
+        }
+
+        return true;
+    }
+
+    @Override
     public String importCSV(String filename) {
         StringBuilder sb = new StringBuilder();
         long studentNumber;

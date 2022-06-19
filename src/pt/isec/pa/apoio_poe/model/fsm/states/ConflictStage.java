@@ -44,7 +44,8 @@ public class ConflictStage extends StateAdapter {
         dl.addAssignment(new Assignment(dl.getConflictStudents().get(option-1),dl.getConflictProposal()));
         dl.getConflictStudents().get(option-1).setHasBeenAssigned(true);
         dl.getConflictProposal().setHasBeenAssigned(dl.getConflictStudents().get(option-1), true);
-        changeState(AppState.PROPOSAL_ATTRIBUTION_PREV_CLOSED_STAGE_THREE);
+        //changeState(AppState.PROPOSAL_ATTRIBUTION_PREV_CLOSED_STAGE_THREE);
+        changeState(AppState.PROPOSAL_ATTRIBUTION_STAGE_THREE);
         return true;
     }
 
