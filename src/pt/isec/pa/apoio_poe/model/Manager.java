@@ -229,4 +229,6 @@ public class Manager {
     public List<Student> getStudentsForInternships() {return ac.getStudentsForInternships();}
     public List<Student> getStudentsUnassigned() {return ac.getStudentsUnassigned();}
     public List<Student> getStudentsWithoutProposal(){return ac.getStudentsWithoutProposal();}
+
+    public boolean isStageClosed(String stage){ return ac.isStageClosed(stage); }
 }

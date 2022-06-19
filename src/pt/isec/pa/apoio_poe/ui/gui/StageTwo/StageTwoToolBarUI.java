@@ -148,5 +148,14 @@ public class StageTwoToolBarUI extends ToolBar {
     }
 
     private void update() {
+        if (manager.isStageClosed("Stage2")) {
+            btnClose.setDisable(true);
+            btnAdd.setDisable(true);
+            btnImportData.setDisable(true);
+        } else {
+            btnClose.setDisable(false);
+            btnAdd.setDisable(false);
+            btnImportData.setDisable(false);
+        }
     }
 }
