@@ -6,18 +6,25 @@ import java.util.List;
 public class Application implements Serializable, Cloneable {
     static final long serialVersionUID = 100L;
     private List<Proposal> chosenProposals;
-    private Student studentNumber;
+    private Student student;
 
-    public Application(List<Proposal> chosenProposals, Student studentNumber) {
+    public Application(List<Proposal> chosenProposals, Student student) {
         this.chosenProposals = chosenProposals;
-        this.studentNumber = studentNumber;
+        this.student = student;
     }
 
-    public List<Proposal> getChoosenProposals() {
+    public List<Proposal> getChosenProposals() {
         return chosenProposals;
     }
-    public Student getStudentNumber() {
-        return studentNumber;
+    public Student getStudent() {
+        Student student = null;
+        try {
+            student = (Student) student.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            return null;
+        }
+        return student;
     }
     public boolean chosenProposalsContains(Proposal p) { return chosenProposals.contains(p); }
     public int getIndexProposal(Proposal p){ return chosenProposals.indexOf(p)+1;}
@@ -26,7 +33,7 @@ public class Application implements Serializable, Cloneable {
     public String toString() {
         StringBuilder sb = new StringBuilder();
 
-        sb.append(studentNumber.getStudentNumber());
+        sb.append(student.getStudentNumber());
         for (Proposal p : chosenProposals)
             sb.append("," + p.getId());
 

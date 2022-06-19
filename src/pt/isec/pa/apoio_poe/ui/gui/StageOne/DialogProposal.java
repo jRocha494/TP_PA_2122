@@ -12,6 +12,7 @@ import pt.isec.pa.apoio_poe.model.data.Teacher;
 import pt.isec.pa.apoio_poe.model.data.tiposProposta.Internship;
 import pt.isec.pa.apoio_poe.model.data.tiposProposta.Project;
 import pt.isec.pa.apoio_poe.model.data.tiposProposta.SelfProposal;
+import pt.isec.pa.apoio_poe.model.fsm.AppState;
 import pt.isec.pa.apoio_poe.ui.gui.util.ToastMessage;
 
 import java.lang.reflect.Array;
@@ -42,7 +43,10 @@ public class DialogProposal extends Dialog {
         this.setTitle(String.format("Edit %s", selectedProposal.getClass().getSimpleName()));
         btnEdit = new ButtonType("Edit");
         btnDelete = new ButtonType("Delete");
-        this.getDialogPane().getButtonTypes().addAll(btnEdit, btnDelete, ButtonType.CANCEL);
+        if (manager.getState() != AppState.CONFIGURATIONS_STATE_STAGE_ONE) {
+            this.getDialogPane().getButtonTypes().addAll(btnEdit, btnDelete, ButtonType.CANCEL);
+        } else
+            this.getDialogPane().getButtonTypes().addAll(ButtonType.CANCEL);
 
         grid = new GridPane();
         grid.setHgap(10);
@@ -204,7 +208,6 @@ public class DialogProposal extends Dialog {
         });
 
         this.getDialogPane().lookupButton(btnEdit).addEventFilter(ActionEvent.ACTION, actionEvent -> {
-            System.out.println("BUTTON EDIT PRESSED");
             if (this.selectedProposal instanceof Internship) {
                 Student studentAssigned = proposalAssignedStudent.getValue() instanceof Student ? (Student) proposalAssignedStudent.getValue() : null;
                 List<String> branchesSelected = new ArrayList<>();

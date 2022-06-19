@@ -7,6 +7,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import pt.isec.pa.apoio_poe.model.Manager;
 import pt.isec.pa.apoio_poe.model.data.Teacher;
+import pt.isec.pa.apoio_poe.model.fsm.AppState;
 import pt.isec.pa.apoio_poe.ui.gui.util.ToastMessage;
 
 public class DialogTeacher extends Dialog {
@@ -28,7 +29,10 @@ public class DialogTeacher extends Dialog {
         this.setTitle("Edit Teacher");
         btnEdit = new ButtonType("Edit");
         btnDelete = new ButtonType("Delete");
-        this.getDialogPane().getButtonTypes().addAll(btnEdit, btnDelete, ButtonType.CANCEL);
+        if (manager.getState() != AppState.CONFIGURATIONS_STATE_STAGE_ONE) {
+            this.getDialogPane().getButtonTypes().addAll(btnEdit, btnDelete, ButtonType.CANCEL);
+        } else
+            this.getDialogPane().getButtonTypes().addAll(ButtonType.CANCEL);
 
         grid = new GridPane();
         grid.setHgap(10);

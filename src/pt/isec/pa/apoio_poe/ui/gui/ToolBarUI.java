@@ -153,6 +153,18 @@ public class ToolBarUI extends ToolBar {
                 btnImportData.setDisable(false);
                 btnReturn.setDisable(false);
             }
+            case CLOSED_STAGE -> {
+                btnAdd.setDisable(true);
+                btnListStudents.setDisable(false);
+                btnListTeachers.setDisable(false);
+                btnListProposals.setDisable(false);
+                mniStudent.setDisable(true);
+                mniTeacher.setDisable(true);
+                mniProposal.setDisable(true);
+                btnImportData.setDisable(true);
+                btnExportData.setDisable(true);
+                btnReturn.setDisable(true);
+            }
         }
     }
 }

@@ -13,6 +13,7 @@ import pt.isec.pa.apoio_poe.ui.gui.StageOne.DialogAddStudent;
 import pt.isec.pa.apoio_poe.ui.gui.StageOne.DialogProposal;
 import pt.isec.pa.apoio_poe.ui.gui.StageOne.DialogStudent;
 import pt.isec.pa.apoio_poe.ui.gui.StageOne.DialogTeacher;
+import pt.isec.pa.apoio_poe.ui.gui.StageTwo.DialogApplication;
 
 public class ListPane extends ListView<Object> {
     private final Manager manager;
@@ -34,7 +35,8 @@ public class ListPane extends ListView<Object> {
         manager.addPropertyChangeListener(Manager.DATA, evt -> update());
 
         this.setOnMouseClicked(mouseEvent -> {
-            if(mouseEvent.getClickCount() == 2 /*&& manager.getState() != AppState.CONFIGURATIONS_STATE_STAGE_ONE*/){
+            System.out.println(manager.getState());
+            if(mouseEvent.getClickCount() == 2/* && manager.getState() != AppState.CLOSED_STAGE*/){
                 Object object = this.getSelectionModel().getSelectedItem();
                 if (object != null) {
                     switch(manager.getListingType()){
@@ -48,6 +50,10 @@ public class ListPane extends ListView<Object> {
                         }
                         case PROPOSALS -> {
                             Dialog dialog = new DialogProposal(manager, object);
+                            dialog.showAndWait();
+                        }
+                        case APPLICATIONS -> {
+                            Dialog dialog = new DialogApplication(manager, object);
                             dialog.showAndWait();
                         }
                     }

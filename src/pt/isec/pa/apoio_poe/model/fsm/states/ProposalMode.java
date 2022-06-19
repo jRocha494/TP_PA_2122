@@ -66,7 +66,6 @@ public class ProposalMode extends StateAdapter {
 
     @Override
     public boolean update(Object ... parameters){
-        System.out.println("NO UPDATE DO PROPOSAL MODE");
         try{
             //Proposal id
             String id = (String) parameters[1];

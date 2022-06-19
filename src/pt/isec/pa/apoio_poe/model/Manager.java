@@ -8,7 +8,6 @@ import pt.isec.pa.apoio_poe.model.fsm.ListingType;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.*;
-import java.util.HashMap;
 import java.util.List;
 
 public class Manager {
@@ -103,9 +102,10 @@ public class Manager {
     public String filterProposals(Integer... filters) { return ac.filterProposals(filters); }
 
     public boolean automaticAssignmentSelfProposals() { return ac.automaticAssignmentSelfProposals(); }
+    public List<Proposal> getAvailableProposalsList() { return ac.getAvailableProposalsList(); }
     public String[] getAvailableProposals() { return ac.getAvailableProposals(); }
     public String[] getAvailableStudents() { return ac.getAvailableStudents(); }
-    public String[] getAvailableStudentsWithoutApplication() { return ac.getAvailableStudentsWithoutApplication(); }
+    public List<Student> getAvailableStudentsWithoutApplication() { return ac.getAvailableStudentsWithoutApplication(); }
     public boolean manuallyAssign(int proposalChosen, int studentChosen, String[] availableProposals, String[] availableStudents) { return ac.manuallyAssign(proposalChosen, studentChosen, availableProposals, availableStudents); }
 
     public boolean removeAssignment(int assignmentToRemove) { return ac.removeAssignment(assignmentToRemove);}

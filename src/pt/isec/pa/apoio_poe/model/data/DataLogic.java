@@ -114,9 +114,9 @@ public class DataLogic implements Serializable {
     public void addTeacher(String email, String name){
         teachersList.put(email, new Teacher(email, name));
     }
-    public void addApplication(Student studentNumber, List<Proposal> chosenProposals){
-        applicationsList.put(studentNumber, new Application(chosenProposals, studentNumber));
-        studentsList.get(studentNumber.getStudentNumber()).setHasApplication(true);
+    public void addApplication(Student student, List<Proposal> chosenProposals){
+        applicationsList.put(student, new Application(chosenProposals, student));
+        studentsList.get(student.getStudentNumber()).setHasApplication(true);
     }
     public void addAssignment(Assignment assignment) { assignmentList.add(assignment); }
     public void removeAssignment(int assignmentToRemove) { assignmentList.remove(assignmentToRemove); }
@@ -206,7 +206,7 @@ public class DataLogic implements Serializable {
     }
 
     public boolean applicationHasProposal(Application a, Proposal p){
-        return a.getChoosenProposals().contains(p);
+        return a.getChosenProposals().contains(p);
     }
 
     public Collection<Proposal> getProposalsValues() {
@@ -224,7 +224,7 @@ public class DataLogic implements Serializable {
     public List<Assignment> getAssignmentList() { return assignmentList; }
 
     public Proposal getFirstFreeProposal(Student student){
-        for(Proposal p : applicationsList.get(student).getChoosenProposals()){
+        for(Proposal p : applicationsList.get(student).getChosenProposals()){
             if(!p.hasAssignedStudent())
                 return p;
         }
@@ -236,7 +236,7 @@ public class DataLogic implements Serializable {
         List<Student> students = new ArrayList<>();
         double bestClassification = -1;
 
-        for(Student s : getStudentsValues()){
+        for(Student s : getStudents()){
             if(!s.hasBeenAssigned() && !s.hasProposed() && s.hasApplication()) {
                 if (s.getClassification() > bestClassification) {
                     students.clear();
@@ -280,7 +280,7 @@ public class DataLogic implements Serializable {
     public int getIndexofProposalInApplication(Proposal p, Student s){
         if(proposalExists(p.getId()) && studentExists(s.getStudentNumber())){
             if(applicationHasProposal(applicationsList.get(s),p)){
-                return applicationsList.get(s).getChoosenProposals().indexOf(p) + 1;
+                return applicationsList.get(s).getChosenProposals().indexOf(p) + 1;
             }
         }
 
@@ -293,6 +293,16 @@ public class DataLogic implements Serializable {
                 return false;
         }
         return true;
+    }
+
+    public List<Proposal> getAvailableProposalsList(){
+        List<Proposal> result = new ArrayList<>();
+
+        for(Proposal p : getProposals()){
+            if(!p.hasBeenAssigned() || !p.hasAssignedStudent()) // if the proposal hasn't been assigned yet... adds its key to the array
+                result.add(p);
+        }
+        return result;
     }
 
     public String[] getAvailableProposals(){
@@ -419,7 +429,7 @@ public class DataLogic implements Serializable {
     public List<Student> getStudentsSelfProposals(){
         List<Student> retLst = new ArrayList<>();
 
-        for (Student s : getStudentsValues()) {
+        for (Student s : getStudents()) {
             if(s.hasProposed()) {
                 try {
                     retLst.add((Student) s.clone());
@@ -434,7 +444,7 @@ public class DataLogic implements Serializable {
     public List<Student> getStudentsWithApplication(){
         List<Student> retLst = new ArrayList<>();
 
-        for (Student s : getStudentsValues()) {
+        for (Student s : getStudents()) {
             if(s.hasApplication()) {
                 try {
                     retLst.add((Student) s.clone());
@@ -449,7 +459,7 @@ public class DataLogic implements Serializable {
     public List<Student> getStudentsWithoutApplication(){
         List<Student> retLst = new ArrayList<>();
 
-        for (Student s : getStudentsValues()) {
+        for (Student s : getStudents()) {
             if(!s.hasApplication()) {
                 try {
                     retLst.add((Student) s.clone());
@@ -521,7 +531,6 @@ public class DataLogic implements Serializable {
                 e.printStackTrace();
             }
         }
-
         return retLst;
     }
 
@@ -529,7 +538,7 @@ public class DataLogic implements Serializable {
         List <String> result = new ArrayList<>();
         StringBuilder sb;
 
-        for (Student s : getStudentsValues()) {
+        for (Student s : getStudents()) {
             sb = new StringBuilder();
             if(s.hasBeenAssigned()) {
                 sb.append(s.studentToString());
@@ -542,33 +551,39 @@ public class DataLogic implements Serializable {
                 result.add(sb.toString());
             }
         }
-
         return result.toArray(new String[result.size()]);
     }
 
     public String[] getListStudentsUnassigned(){
         List <String> result = new ArrayList<>();
 
-        for (Student s : getStudentsValues()) {
+        for (Student s : getStudents()) {
             if(!s.hasBeenAssigned()) {
                 result.add(s.studentToString());
             }
-
-
         }
-
         return result.toArray(new String[result.size()]);
     }
 
-    public String[] getAvailableStudentsWithoutApplication() {
-        List<String> result = new ArrayList<>();
+//    public String[] getAvailableStudentsWithoutApplication() {
+//        List<String> result = new ArrayList<>();
+//
+//        for(Map.Entry<Long, Student> entry : studentsList.entrySet()){
+//            if(!entry.getValue().hasBeenAssigned() && !entry.getValue().hasApplication()) // if the proposal hasn't been assigned yet... adds its key to the array
+//                result.add(entry.getKey().toString());
+//        }
+//
+//        return result.toArray(new String[result.size()]);
+//    }
 
-        for(Map.Entry<Long, Student> entry : studentsList.entrySet()){
-            if(!entry.getValue().hasBeenAssigned() && !entry.getValue().hasApplication()) // if the proposal hasn't been assigned yet... adds its key to the array
-                result.add(entry.getKey().toString());
+    public List<Student> getAvailableStudentsWithoutApplication() {
+        List<Student> result = new ArrayList<>();
+
+        for (Student s : getStudents()){
+            if (!s.hasBeenAssigned() && !s.hasApplication())
+                result.add(s);
         }
-
-        return result.toArray(new String[result.size()]);
+        return result;
     }
 
     public boolean filenameIsValid(String filename) {
@@ -630,7 +645,7 @@ public class DataLogic implements Serializable {
     public List<Student> getStudentsForInternships() {
         List<Student> students = new ArrayList<>();
 
-        for (Student student : getStudentsValues()){
+        for (Student student : getStudents()){
             if(student.hasInternshipAccess() && !student.hasBeenAssigned() && !student.hasProposed() && !student.isAssociatedWithProposal())
                 students.add(student);
         }
@@ -640,7 +655,7 @@ public class DataLogic implements Serializable {
     public List<Student> getStudentsUnassigned() {
         List<Student> students = new ArrayList<>();
 
-        for (Student student : getStudentsValues()){
+        for (Student student : getStudents()){
             if(!student.hasBeenAssigned() && !student.hasProposed() && !student.isAssociatedWithProposal())
                 students.add(student);
         }
@@ -650,7 +665,7 @@ public class DataLogic implements Serializable {
     public List<Student> getStudentsWithoutProposal() {
         List<Student> students = new ArrayList<>();
 
-        for (Student student : getStudentsValues()){
+        for (Student student : getStudents()){
             if(!student.hasProposed() && !student.hasBeenAssigned() && !student.isAssociatedWithProposal())
                 students.add(student);
         }
@@ -712,6 +727,15 @@ public class DataLogic implements Serializable {
                 return ((Project) p).getProposingTeacher();
         }
         return null;
+    }
+
+    public boolean deleteApplication(long studentNumber) {
+        Student s = getStudent(studentNumber);
+        if(applicationsList.remove(s)!=null) {
+            s.setHasApplication(false);
+            return true;
+        }
+        return false;
     }
 //
 //    public void setStudentHasProposedByProposal(String id, boolean b) {

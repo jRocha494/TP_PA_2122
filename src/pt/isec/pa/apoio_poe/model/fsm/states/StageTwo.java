@@ -48,11 +48,11 @@ public class StageTwo extends StateAdapter {
     @Override
     public boolean returnStage() {
         // in case previous stage (stage 1) is NOT closed, returns to it
-        if (!ac.isStageClosed("Stage1")) {
+        if (!ac.isStageClosed("Stage1"))
             changeState(AppState.CONFIGURATIONS_STATE_STAGE_ONE);
-            return true;
-        }
-        return false;
+        else
+            changeState(AppState.CLOSED_STAGE);
+        return true;
     }
 
     @Override
@@ -393,7 +393,52 @@ public class StageTwo extends StateAdapter {
     }
 
     @Override
-//    public boolean add(String number, String name, String email, String course, String branch, String classification, String internshipAccess){
+    public boolean delete(Object selectedObject){
+        Student s = ((Application) selectedObject).getStudent();
+        return dl.deleteApplication(s.getStudentNumber());
+    }
+//
+//    @Override
+//    public boolean update(Object ... parameters){
+//        List<Proposal> chosenProposals = new ArrayList<>();
+//        long studentNumber;
+//
+//        if (parameters.length < 2 || parameters.length > 7)
+//            return false;
+//
+//        Student student = (Student) parameters[0];
+//        Proposal[] proposals = Arrays.copyOfRange((Proposal[]) parameters,1,parameters.length-1);
+//
+//        try{
+//            studentNumber = student.getStudentNumber();
+//            if (!dl.studentExists(studentNumber) ||
+//                    dl.getStudent(studentNumber).hasApplication() ||
+//                    dl.getStudent(studentNumber).hasProposed() ||
+//                    dl.proposalWithStudentExists(studentNumber))
+//                return false;
+//
+//            //Chosen Proposals
+//            for (int i = 0; i < proposals.length-1 && proposals[i] != null ; i++) {
+//                if (!ac.proposalIdIsValid(proposals[i].getId())) {
+//                    return false;
+//                }
+//
+//                if (!dl.proposalExists(proposals[i].getId()) ||
+//                        chosenProposals.contains(proposals[i]) ||
+//                        dl.hasAssignedStudent(proposals[i].getId()) ||
+//                        (dl.isInternship(proposals[i].getId()) && !dl.hasInternshipAccess(studentNumber))) {
+//                    return false;
+//                }
+//                chosenProposals.add(proposals[i]);
+//            }
+//            dl.updateApplication(dl.getStudent(studentNumber), chosenProposals);
+//        }catch (NumberFormatException e){
+//            return false;
+//        }
+//        return true;
+//    }
+
+    @Override
     public boolean add(Object ... parameters) {
         List<Proposal> chosenProposals = new ArrayList<>();
         long studentNumber;
@@ -401,13 +446,11 @@ public class StageTwo extends StateAdapter {
         if (parameters.length < 2 || parameters.length > 7)
             return false;
 
-        String student = (String) parameters[0];
-        String[] proposals = Arrays.copyOfRange((String[]) parameters,1,parameters.length-1);
+        Student student = (Student) parameters[0];
+        Proposal[] proposals = Arrays.copyOfRange((Proposal[]) parameters,1,parameters.length-1);
 
         try {
-            if (student.length() != 10)
-                return false;
-            studentNumber = Long.parseLong(student);
+            studentNumber = student.getStudentNumber();
             if (!dl.studentExists(studentNumber) ||
                 dl.getStudent(studentNumber).hasApplication() ||
                 dl.getStudent(studentNumber).hasProposed() ||
@@ -416,23 +459,22 @@ public class StageTwo extends StateAdapter {
 
             //Chosen Proposals
             for (int i = 0; i < proposals.length-1 && proposals[i] != null ; i++) {
-                if (!ac.proposalIdIsValid(proposals[i])) {
+                if (!ac.proposalIdIsValid(proposals[i].getId())) {
                     return false;
                 }
 
-                if (!dl.proposalExists(proposals[i]) ||
-                    chosenProposals.contains(dl.getProposal(proposals[i])) ||
-                    dl.hasAssignedStudent(proposals[i]) ||
-                    (dl.isInternship(proposals[i]) && !dl.hasInternshipAccess(studentNumber))) {
+                if (!dl.proposalExists(proposals[i].getId()) ||
+                    chosenProposals.contains(proposals[i]) ||
+                    dl.hasAssignedStudent(proposals[i].getId()) ||
+                    (dl.isInternship(proposals[i].getId()) && !dl.hasInternshipAccess(studentNumber))) {
                     return false;
                 }
-                chosenProposals.add(dl.getProposal(proposals[i]));
+                chosenProposals.add(proposals[i]);
             }
+            dl.addApplication(dl.getStudent(studentNumber), chosenProposals);
         } catch (NumberFormatException e) {
             return false;
         }
-
-        dl.addApplication(dl.getStudent(studentNumber), chosenProposals);
         return true;
     }
 }

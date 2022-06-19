@@ -86,9 +86,10 @@ public class AppContext implements Serializable {
     public String filterProposals(Integer... filters) { return state.filterProposals(filters);}
 
     public boolean automaticAssignmentSelfProposals() { return state.automaticAssignmentSelfProposals(); }
+    public List<Proposal> getAvailableProposalsList() { return dl.getAvailableProposalsList(); }
     public String[] getAvailableProposals() { return dl.getAvailableProposals(); }
     public String[] getAvailableStudents() { return dl.getAvailableStudents(); }
-    public String[] getAvailableStudentsWithoutApplication() { return dl.getAvailableStudentsWithoutApplication(); }
+    public List<Student> getAvailableStudentsWithoutApplication() { return dl.getAvailableStudentsWithoutApplication(); }
     public boolean manuallyAssign(int proposalChosen, int studentChosen, String[] availableProposals, String[] availableStudents) { return state.manuallyAssign(proposalChosen, studentChosen, availableProposals, availableStudents); }
     public boolean removeAssignment(int assignmentToRemove) { return state.removeAssignment(assignmentToRemove); }
     public boolean removeAllAssignments() { return state.removeAllAssignments(); }

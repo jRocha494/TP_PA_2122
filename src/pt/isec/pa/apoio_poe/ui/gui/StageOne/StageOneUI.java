@@ -39,7 +39,7 @@ public class StageOneUI extends BorderPane {
     }
 
     private void update() {
-        this.setVisible(manager.getState() == AppState.CONFIGURATIONS_STATE_STAGE_ONE);
+        this.setVisible(manager.getState() == AppState.CONFIGURATIONS_STATE_STAGE_ONE || manager.getState() == AppState.CLOSED_STAGE);
 
     }
 }
