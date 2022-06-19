@@ -408,19 +408,16 @@ public class StageTwo extends StateAdapter {
         if (parameters.length < 2 || parameters.length > 7)
             return false;
 
-        long studentNumber = (long) parameters[0];
-        Proposal[] proposals = Arrays.copyOfRange((Proposal[]) parameters,1,parameters.length-1);
+        long studentNumber = Long.parseLong((String) parameters[0]);
+        Proposal[] proposals = new Proposal[parameters.length-1];
+        for (int i = 0; i < parameters.length-1; i++) {
+            proposals[i] = (Proposal) parameters[i+1];
+        }
 
         try{
-//            studentNumber = dl.getStudent(Long.parseLong(student));
-            if (!dl.studentExists(studentNumber) ||
-                    dl.getStudent(studentNumber).hasApplication() ||
-                    dl.getStudent(studentNumber).hasProposed() ||
-                    dl.proposalWithStudentExists(studentNumber))
-                return false;
 
             //Chosen Proposals
-            for (int i = 0; i < proposals.length-1 && proposals[i] != null ; i++) {
+            for (int i = 0; i < proposals.length && proposals[i] != null ; i++) {
                 if (!ac.proposalIdIsValid(proposals[i].getId())) {
                     return false;
                 }

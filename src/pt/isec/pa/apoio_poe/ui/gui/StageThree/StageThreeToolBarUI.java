@@ -22,7 +22,7 @@ public class StageThreeToolBarUI extends ToolBar {
     private Button btnClose, btnAdvance, btnExit, btnReturn, btnExportData,
             btnSelfProposalAttribution, btnRemoveAssignement, btnRemoveAllAssignments,
             btnListStudentsWithSelfProposals, btnListStudentsWithApplication,
-            btnListStudentsAssigned, btnListStudentsUnassigned, btnManuallyAssign;
+            btnListStudentsAssigned, btnListStudentsUnassigned, btnManuallyAssign, btnAutomaticAssign;
     MenuButton btnListProposalsWithFilters;
     MenuItem mniApplyFilters;
     CustomMenuItem filter1, filter2, filter3, filter4;
@@ -54,6 +54,7 @@ public class StageThreeToolBarUI extends ToolBar {
         btnListStudentsAssigned = new Button("View students assigned to proposal");
         btnListStudentsUnassigned = new Button("View students unassigned");
         btnManuallyAssign = new Button("Manually assign proposal to student");
+        btnAutomaticAssign = new Button("Automatic assign a student to an available proposal");
 
         btnListProposalsWithFilters = new MenuButton("List Proposals (With Filters)");
         filterCbs[0] = new CheckBox("Students Self-Proposals");
@@ -74,7 +75,8 @@ public class StageThreeToolBarUI extends ToolBar {
         this.setBackground(new Background(new BackgroundFill(Color.TURQUOISE, CornerRadii.EMPTY, Insets.EMPTY)));
         this.getItems().addAll(btnClose, btnAdvance, btnReturn, btnSelfProposalAttribution, btnRemoveAssignement,
                 btnRemoveAllAssignments, btnListStudentsWithSelfProposals, btnListStudentsWithApplication,
-                btnListStudentsAssigned, btnListStudentsUnassigned, btnListProposalsWithFilters, btnManuallyAssign, btnExportData, btnExit);
+                btnListStudentsAssigned, btnListStudentsUnassigned, btnListProposalsWithFilters, btnManuallyAssign,
+                btnAutomaticAssign, btnExportData, btnExit);
     }
 
     private void registerHandlers() {
@@ -176,13 +178,16 @@ public class StageThreeToolBarUI extends ToolBar {
 
             alert.showAndWait();
         });
+        btnAutomaticAssign.setOnAction(actionEvent -> manager.automaticAssignment());
     }
 
     private void update() {
-        if (manager.isStageClosed("Stage3")) {
+        if (manager.isStageClosed("Stage2")) {
             btnClose.setDisable(true);
+            btnAutomaticAssign.setDisable(false);
         } else {
             btnClose.setDisable(false);
+            btnAutomaticAssign.setDisable(true);
         }
     }
 }

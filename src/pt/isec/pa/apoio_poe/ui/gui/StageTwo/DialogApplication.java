@@ -38,7 +38,7 @@ public class DialogApplication extends Dialog {
         this.setTitle("Edit Application");
         btnEdit = new ButtonType("Edit");
         btnDelete = new ButtonType("Delete");
-        if (manager.isStageClosed("Stage2")) {
+        if (!manager.isStageClosed("Stage2")) {
             this.getDialogPane().getButtonTypes().addAll(btnEdit, btnDelete, ButtonType.CANCEL);
         } else
             this.getDialogPane().getButtonTypes().addAll(ButtonType.CANCEL);
@@ -70,16 +70,19 @@ public class DialogApplication extends Dialog {
             applicationProposals[i] = new ChoiceBox();
         }
         List<Proposal> proposalsList = manager.getAvailableProposalsList();
-        for(int i=0; i<applicationProposals.length-1; i++){
+        for(int i=0; i<applicationProposals.length; i++){
             if(proposalsList.size() > 0){
                 applicationProposals[i].getItems().add("None");
                 applicationProposals[i].getItems().addAll(proposalsList);
             }else
                 applicationProposals[i].getItems().add("None");
-            Proposal p = selectedApplication.getChosenProposals().get(i);
-            if (p!=null)
-                applicationProposals[i].setValue(p);
-            else
+            if(i<selectedApplication.getChosenProposals().size()) {
+                Proposal p = selectedApplication.getChosenProposals().get(i);
+                if (p != null)
+                    applicationProposals[i].setValue(p);
+                else
+                    applicationProposals[i].setValue("None");
+            } else
                 applicationProposals[i].setValue("None");
         }
 
@@ -105,52 +108,56 @@ public class DialogApplication extends Dialog {
         // Requests focus on the student number field by default
         Platform.runLater(() -> applicationProposals[0].requestFocus());
 
-        this.getDialogPane().lookupButton(btnDelete).addEventFilter(ActionEvent.ACTION, actionEvent -> {
-            manager.delete(selectedApplication);
-        });
+        if(this.getDialogPane().lookupButton(btnDelete) != null) {
+            this.getDialogPane().lookupButton(btnDelete).addEventFilter(ActionEvent.ACTION, actionEvent -> {
+                manager.delete(selectedApplication);
+            });
+        }
 
-        this.getDialogPane().lookupButton(btnEdit).addEventFilter(ActionEvent.ACTION, actionEvent -> {
-            if(!buttonsAreSelected()) {
-                actionEvent.consume();
-                ToastMessage.show(grid.getScene().getWindow(), "Some buttons are not correctly selected.");
-            } else {
-                Proposal[] chosenProposals = new Proposal[6];
-                for (int i = 0; i < applicationProposals.length; i++) {
-                    chosenProposals[i] = applicationProposals[i].getValue() instanceof Proposal ? (Proposal) applicationProposals[i].getValue() : null;
-                }
-                if (!manager.update(
-                        applicationStudent.getText(),
-                        chosenProposals[0],
-                        chosenProposals[1],
-                        chosenProposals[2],
-                        chosenProposals[3],
-                        chosenProposals[4],
-                        chosenProposals[5]
-                )) {
+        if(this.getDialogPane().lookupButton(btnEdit) != null) {
+            this.getDialogPane().lookupButton(btnEdit).addEventFilter(ActionEvent.ACTION, actionEvent -> {
+                if (!buttonsAreSelected()) {
                     actionEvent.consume();
-                    ToastMessage.show(grid.getScene().getWindow(), "Incorrect parameters.");
+                    ToastMessage.show(grid.getScene().getWindow(), "Some buttons are not correctly selected.");
+                } else {
+                    Proposal[] chosenProposals = new Proposal[6];
+                    for (int i = 0; i < applicationProposals.length; i++) {
+                        chosenProposals[i] = applicationProposals[i].getValue() instanceof Proposal ? (Proposal) applicationProposals[i].getValue() : null;
+                    }
+                    if (!manager.update(
+                            applicationStudent.getText(),
+                            chosenProposals[0],
+                            chosenProposals[1],
+                            chosenProposals[2],
+                            chosenProposals[3],
+                            chosenProposals[4],
+                            chosenProposals[5]
+                    )) {
+                        actionEvent.consume();
+                        ToastMessage.show(grid.getScene().getWindow(), "Incorrect parameters.");
+                    }
                 }
-            }
-        });
+            });
+        }
     }
 
     private void update() {
     }
 
     private boolean buttonsAreSelected(){
-        if(applicationProposals[1].getValue() != null && applicationProposals[0].getValue() == null)
+        if(applicationProposals[1].getValue() != "None" && applicationProposals[0].getValue() == "None")
             return false;
-        else if(applicationProposals[2].getValue() != null &&
-                (applicationProposals[1].getValue() == null || applicationProposals[0] == null))
+        else if(applicationProposals[2].getValue() != "None" &&
+                (applicationProposals[1].getValue() == "None" || applicationProposals[0].getValue() == "None"))
             return false;
-        else if(applicationProposals[3].getValue() != null &&
-                (applicationProposals[2].getValue() ==null || applicationProposals[1].getValue() == null || applicationProposals[0] == null))
+        else if(applicationProposals[3].getValue() != "None" &&
+                (applicationProposals[2].getValue() =="None" || applicationProposals[1].getValue() == "None" || applicationProposals[0].getValue() == "None"))
             return false;
-        else if(applicationProposals[4].getValue() != null &&
-                (applicationProposals[3].getValue() == null || applicationProposals[2].getValue() == null || applicationProposals[1].getValue() == null || applicationProposals[0] == null))
+        else if(applicationProposals[4].getValue() != "None" &&
+                (applicationProposals[3].getValue() == "None" || applicationProposals[2].getValue() == "None" || applicationProposals[1].getValue() == "None" || applicationProposals[0].getValue() == "None"))
             return false;
-        else if(applicationProposals[5].getValue() != null &&
-                (applicationProposals[4].getValue() == null || applicationProposals[3].getValue() == null || applicationProposals[2].getValue() == null || applicationProposals[1].getValue() == null || applicationProposals[0] == null))
+        else if(applicationProposals[5].getValue() != "None" &&
+                (applicationProposals[4].getValue() == "None"|| applicationProposals[3].getValue() == "None" || applicationProposals[2].getValue() == "None" || applicationProposals[1].getValue() == "None" || applicationProposals[0].getValue() == "None"))
             return false;
         return true;
     }

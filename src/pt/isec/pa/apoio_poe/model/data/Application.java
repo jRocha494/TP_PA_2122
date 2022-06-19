@@ -19,7 +19,7 @@ public class Application implements Serializable, Cloneable {
     public Student getStudent() {
         Student student = null;
         try {
-            student = (Student) student.clone();
+            student = (Student) this.student.clone();
         } catch (CloneNotSupportedException e) {
             e.printStackTrace();
             return null;
