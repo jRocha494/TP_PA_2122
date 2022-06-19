@@ -4,9 +4,7 @@ import pt.isec.pa.apoio_poe.model.data.tiposProposta.Internship;
 import pt.isec.pa.apoio_poe.model.data.tiposProposta.Project;
 import pt.isec.pa.apoio_poe.model.data.tiposProposta.SelfProposal;
 
-import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
-import java.lang.reflect.Array;
 import java.util.*;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
@@ -23,7 +21,8 @@ public class DataLogic implements Serializable {
     private List<Assignment> assignmentList;  // List containing information about attributions (contains references to the correspondent student, proposal and advisor)
     private List<Student> conflictStudents;
     private Proposal conflictProposal;
-    private boolean[] filters;
+    private boolean[] filtersStageTwo;
+    private boolean[] filtersStageThree;
 
     public DataLogic() {
         this.numberStudentsAndProposals = new HashMap<>();
@@ -32,14 +31,16 @@ public class DataLogic implements Serializable {
         this.teachersList = new HashMap<>();
         this.applicationsList = new HashMap<>();
         this.assignmentList = new ArrayList<>();
-        this.filters = new boolean[4];
+        this.filtersStageTwo = new boolean[4];
+        this.filtersStageThree = new boolean[4];
         setup();
     }
     private void setup(){
         this.numberStudentsAndProposals.put("DA", new Wrapper(0, 0));   // each branch starts with 0 students and 0 proposals -> to be incremented as they're created
         this.numberStudentsAndProposals.put("RAS", new Wrapper(0, 0));   // each branch starts with 0 students and 0 proposals -> to be incremented as they're created
         this.numberStudentsAndProposals.put("SI", new Wrapper(0, 0));   // each branch starts with 0 students and 0 proposals -> to be incremented as they're created
-        Arrays.fill(filters, false);
+        Arrays.fill(filtersStageTwo, false);
+        Arrays.fill(filtersStageThree, false);
     }
 
     public void addInternship(String id, String title, Student assignedStudent, List<String> destinedBranch, String hostingEntity){
@@ -404,7 +405,7 @@ public class DataLogic implements Serializable {
         return retLst;
     }
 
-    public List<Proposal> getProposalsWithFilters() {
+    public List<Proposal> getProposalsWithFiltersStageTwo() {
         Predicate<Proposal> bySelfProposals = proposal -> proposal instanceof SelfProposal;
         Predicate<Proposal> byTeacherProposals = proposal -> proposal instanceof Project;
         Predicate<Proposal> byProposalInApplication = proposal -> applicationHasProposal(proposal);
@@ -414,8 +415,8 @@ public class DataLogic implements Serializable {
         List<Proposal> retLst = new ArrayList();
 
         results.addAll(getProposalsValues());
-        for(int i=0; i < filters.length; i++){
-            if(filters[i]) {
+        for(int i = 0; i < filtersStageTwo.length; i++){
+            if(filtersStageTwo[i]) {
                 switch (i) {
                     case 0 -> results = results.stream().filter(bySelfProposals).collect(Collectors.toList());
                     case 1 -> results = results.stream().filter(byTeacherProposals).collect(Collectors.toList());
@@ -434,6 +435,73 @@ public class DataLogic implements Serializable {
         }
 
         return retLst;
+    }
+
+    public List<Proposal> getProposalsWithFiltersStageThree() {
+        Predicate<Proposal> bySelfProposals = proposal -> proposal instanceof SelfProposal;
+        Predicate<Proposal> byTeacherProposals = proposal -> proposal instanceof Project;
+        Predicate<Proposal> byProposalUnassigned = proposal -> proposal.hasBeenAssigned() == false;
+        Predicate<Proposal> byProposalAssigned = proposal -> proposal.hasBeenAssigned();
+
+        List<Proposal> results = new ArrayList();
+        List<Proposal> retLst = new ArrayList();
+
+        results.addAll(getProposalsValues());
+        for(int i = 0; i < filtersStageThree.length; i++){
+            if (filtersStageThree[i]){
+                switch (i) {
+                    case 0 -> results = results.stream().filter(bySelfProposals).collect(Collectors.toList());
+                    case 1 -> results = results.stream().filter(byTeacherProposals).collect(Collectors.toList());
+                    case 2 -> results = results.stream().filter(byProposalUnassigned).collect(Collectors.toList());
+                    case 3 -> results = results.stream().filter(byProposalAssigned).collect(Collectors.toList());
+                }
+            }
+        }
+
+        for(Proposal p : results) {
+            try {
+                retLst.add((Proposal) p.clone());
+            } catch (CloneNotSupportedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return retLst;
+    }
+
+    public String[] getStudentsAssigned(){
+        List <String> result = new ArrayList<>();
+        StringBuilder sb;
+
+        for (Student s : getStudentsValues()) {
+            sb = new StringBuilder();
+            if(s.hasBeenAssigned()) {
+                sb.append(s.studentToString());
+                Proposal p = getProposalByStudent(s.getStudentNumber()); // gets the proposal assigned to the student
+                if(p instanceof SelfProposal)
+                    sb.append("-> Preference order: 1");
+                else
+                    sb.append("-> Preference order: ").append(getApplicationByStudent(s).getIndexProposal(p));
+
+                result.add(sb.toString());
+            }
+        }
+
+        return result.toArray(new String[result.size()]);
+    }
+
+    public String[] getStudentsUnassigned(){
+        List <String> result = new ArrayList<>();
+
+        for (Student s : getStudentsValues()) {
+            if(!s.hasBeenAssigned()) {
+                result.add(s.studentToString());
+            }
+
+
+        }
+
+        return result.toArray(new String[result.size()]);
     }
 
     public String[] getAvailableStudentsWithoutApplication() {
@@ -477,7 +545,9 @@ public class DataLogic implements Serializable {
         return pat.matcher(id).matches();
     }
 
-    public void setFilters(boolean[] filters) { this.filters = filters; }
+    public void setFiltersStageTwo(boolean[] filters) { this.filtersStageTwo = filters; }
+
+    public void setFiltersStageThree(boolean[] filters) { this.filtersStageThree = filters; }
 
     public boolean deleteStudent(long studentNumber) {
         if (studentsList.remove(studentNumber) == null)

@@ -1,4 +1,4 @@
-package pt.isec.pa.apoio_poe.ui.gui.StageTwo;
+package pt.isec.pa.apoio_poe.ui.gui.StageThree;
 
 import javafx.scene.control.MenuBar;
 import javafx.scene.layout.BorderPane;
@@ -8,11 +8,12 @@ import pt.isec.pa.apoio_poe.model.fsm.AppState;
 import pt.isec.pa.apoio_poe.model.fsm.ListingType;
 import pt.isec.pa.apoio_poe.ui.gui.ListPane;
 import pt.isec.pa.apoio_poe.ui.gui.MenuBarUI;
+import pt.isec.pa.apoio_poe.ui.gui.StageTwo.StageTwoToolBarUI;
 
-public class StageTwoUI  extends BorderPane {
+public class StageThreeUI extends BorderPane {
     private final Manager manager;
 
-    public StageTwoUI(Manager manager) {
+    public StageThreeUI(Manager manager) {
         this.manager = manager;
         createViews();
         registerHandlers();
@@ -25,7 +26,7 @@ public class StageTwoUI  extends BorderPane {
         MenuBar menuBar = new MenuBarUI(manager);
         this.setTop(menuBar);
 
-        StageTwoToolBarUI toolBar = new StageTwoToolBarUI(manager);
+        StageThreeToolBarUI toolBar = new StageThreeToolBarUI(manager);
         this.setBottom(toolBar);
 
         StackPane centerPane = new StackPane(new ListPane(manager));
@@ -38,6 +39,6 @@ public class StageTwoUI  extends BorderPane {
     }
 
     private void update() {
-        this.setVisible(manager.getState() == AppState.APPLICATION_OPTIONS_STAGE_TWO);
+        this.setVisible(manager.getState() == AppState.PROPOSAL_ATTRIBUTION_PREV_OPEN_STAGE_THREE || manager.getState() == AppState.PROPOSAL_ATTRIBUTION_PREV_CLOSED_STAGE_THREE);
     }
 }

@@ -40,7 +40,10 @@ public class AppContext implements Serializable {
     public List<Student> getStudentsSelfProposals(){return dl.getStudentsSelfProposals();}
     public List<Student> getStudentsWithApplication(){return dl.getStudentsWithApplication();}
     public List<Student> getStudentsWithoutApplication(){return dl.getStudentsWithoutApplication();}
-    public List<Proposal> getProposalsWithFilters(){return dl.getProposalsWithFilters();}
+    public List<Proposal> getProposalsWithFiltersStageTwo(){return dl.getProposalsWithFiltersStageTwo();}
+    public List<Proposal> getProposalsWithFiltersStageThree(){return dl.getProposalsWithFiltersStageThree();}
+    public String[] getStudentsAssigned(){return dl.getStudentsAssigned();}
+    public String[] getStudentsUnassigned(){return dl.getStudentsUnassigned();}
 
     public void setCurrentState(int ordinal) { this.currentState = ordinal; }
 
@@ -117,7 +120,9 @@ public class AppContext implements Serializable {
 
     public boolean add(String ... parameters) {return state.add(parameters);}
 
-    public void setFilters(boolean[] filters) { dl.setFilters(filters); }
+    public void setFiltersStageTwo(boolean[] filters) { dl.setFiltersStageTwo(filters); }
+
+    public void setFiltersStageThree(boolean[] filters) { dl.setFiltersStageThree(filters); }
 
     public boolean delete(Object selectedItem) {return state.delete(selectedItem);}
 

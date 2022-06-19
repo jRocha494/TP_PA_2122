@@ -1,10 +1,5 @@
 package pt.isec.pa.apoio_poe.ui.gui;
 
-import javafx.beans.Observable;
-import javafx.beans.binding.Bindings;
-import javafx.beans.value.ObservableValue;
-import javafx.event.ActionEvent;
-import javafx.event.EventType;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.layout.Background;
@@ -12,11 +7,8 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.paint.Color;
 import pt.isec.pa.apoio_poe.model.Manager;
-import pt.isec.pa.apoio_poe.model.data.Proposal;
 import pt.isec.pa.apoio_poe.model.data.Student;
-import pt.isec.pa.apoio_poe.model.data.Teacher;
 import pt.isec.pa.apoio_poe.model.fsm.AppState;
-import pt.isec.pa.apoio_poe.ui.gui.StageOne.DialogAddStudent;
 import pt.isec.pa.apoio_poe.ui.gui.StageOne.DialogStudent;
 
 public class ListPane extends ListView<Object> {
@@ -75,7 +67,10 @@ public class ListPane extends ListView<Object> {
             case STUDENTS_SELFPROPOSALS -> this.getItems().addAll(manager.getStudentsSelfProposals());
             case PROPOSALS_STUDENTS_WITH_APPLICATION -> this.getItems().addAll(manager.getStudentsWithApplication());
             case PROPOSALS_STUDENTS_WITHOUT_APPLICATION -> this.getItems().addAll(manager.getStudentsWithoutApplication());
-            case PROPOSALS_FILTERS -> this.getItems().addAll(manager.getProposalsWithFilters());
+            case PROPOSALS_FILTERS_STAGE_TWO -> this.getItems().addAll(manager.getProposalsWithFiltersStageTwo());
+            case PROPOSALS_FILTERS_STAGE_THREE -> this.getItems().addAll(manager.getProposalsWithFiltersStageThree());
+            case STUDENTS_ASSIGNED -> this.getItems().addAll(manager.getStudentsAssigned());
+            case STUDENTS_UNASSIGNED -> this.getItems().addAll(manager.getStudentsUnassigned());
             default -> this.setVisible(false);
         }
     }

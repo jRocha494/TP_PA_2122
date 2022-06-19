@@ -1,29 +1,36 @@
-package pt.isec.pa.apoio_poe.ui.gui.StageTwo;
+package pt.isec.pa.apoio_poe.ui.gui.StageThree;
 
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
-import javafx.scene.layout.*;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import pt.isec.pa.apoio_poe.model.Manager;
 import pt.isec.pa.apoio_poe.model.fsm.ListingType;
+import pt.isec.pa.apoio_poe.ui.gui.StageTwo.DialogAddApplication;
 import pt.isec.pa.apoio_poe.ui.gui.util.ToastMessage;
 
 import java.util.Arrays;
 
-public class StageTwoToolBarUI extends ToolBar {
+public class StageThreeToolBarUI extends ToolBar {
     private final Manager manager;
     //private final BorderPane root;
-    private Button btnClose, btnAdvance, btnExit, btnReturn, btnImportData, btnExportData, btnAdd, btnListApplications, btnListStudentsWithSelfProposals,
-            btnListStudentsWithApplication, btnListStudentsWithoutApplication;
+    private Button btnClose, btnAdvance, btnExit, btnReturn, btnExportData,
+            btnSelfProposalAttribution, btnPreDefinedProposalsAttribution,
+            btnRemoveAssignement, btnRemoveAllAssignments,
+            btnListStudentsWithSelfProposals, btnListStudentsWithApplication,
+            btnListStudentsAssigned, btnListStudentsUnassigned;
     MenuButton btnListProposalsWithFilters;
     MenuItem mniApplyFilters;
     CustomMenuItem filter1, filter2, filter3, filter4;
     CheckBox[] filterCbs;
     boolean[] filters;
 
-    public StageTwoToolBarUI(Manager manager/*, BorderPane root*/) {
+    public StageThreeToolBarUI(Manager manager/*, BorderPane root*/) {
         this.manager = manager;
         filterCbs = new CheckBox[4];
         filters = new boolean[4];
@@ -38,20 +45,21 @@ public class StageTwoToolBarUI extends ToolBar {
         btnClose = new Button("Close Stage");
         btnAdvance = new Button("Next Stage");
         btnReturn = new Button("Previous Stage");
-        btnImportData = new Button("Import Data");
         btnExportData = new Button("Export Data");
-        btnAdd = new Button("Add Data");
         btnExit = new Button("Quit");
-        btnListApplications = new Button("List Applications");
+        btnSelfProposalAttribution = new Button("Automatic assign self-proposals/proposals with a pre-defined student");
+        btnRemoveAssignement = new Button("Remove an assignment");
+        btnRemoveAllAssignments = new Button("Remove all assignments");
         btnListStudentsWithSelfProposals = new Button("View students list with self-proposals");
         btnListStudentsWithApplication = new Button("View students with registered application");
-        btnListStudentsWithoutApplication = new Button("View students without registered application");
+        btnListStudentsAssigned = new Button("View students assigned to proposal");
+        btnListStudentsUnassigned = new Button("View students unassigned");
 
         btnListProposalsWithFilters = new MenuButton("List Proposals (With Filters)");
         filterCbs[0] = new CheckBox("Students Self-Proposals");
         filterCbs[1] = new CheckBox("Teachers Proposals");
-        filterCbs[2] = new CheckBox("Proposals with Application");
-        filterCbs[3] = new CheckBox("Proposals without Application");
+        filterCbs[2] = new CheckBox("Proposals Unassigned");
+        filterCbs[3] = new CheckBox("Proposals Assigned");
         filter1 = new CustomMenuItem(filterCbs[0]);
         filter2 = new CustomMenuItem(filterCbs[1]);
         filter3 = new CustomMenuItem(filterCbs[2]);
@@ -64,9 +72,9 @@ public class StageTwoToolBarUI extends ToolBar {
         btnListProposalsWithFilters.getItems().setAll(filter1, filter2, filter3, filter4, new SeparatorMenuItem(), mniApplyFilters);
 
         this.setBackground(new Background(new BackgroundFill(Color.TURQUOISE, CornerRadii.EMPTY, Insets.EMPTY)));
-        this.getItems().addAll(btnAdd, btnClose, btnAdvance, btnReturn, btnListApplications,
-                btnListStudentsWithSelfProposals, btnListStudentsWithApplication, btnListStudentsWithoutApplication,
-                btnListProposalsWithFilters, btnImportData, btnExportData, btnExit);
+        this.getItems().addAll(btnClose, btnAdvance, btnReturn, btnSelfProposalAttribution, btnRemoveAssignement,
+                btnRemoveAllAssignments, btnListStudentsWithSelfProposals, btnListStudentsWithApplication,
+                btnListStudentsAssigned, btnListStudentsUnassigned, btnListProposalsWithFilters, btnExportData, btnExit);
     }
 
     private void registerHandlers() {
@@ -76,29 +84,6 @@ public class StageTwoToolBarUI extends ToolBar {
         btnAdvance.setOnAction(actionEvent -> manager.advanceStage());
         btnReturn.setOnAction(actionEvent -> manager.returnStage());
         btnExit.setOnAction(actionEvent -> Platform.exit());
-
-        btnImportData.setOnAction(actionEvent -> {
-            TextField filename = new TextField();
-
-            GridPane gridPane = new GridPane();
-            gridPane.add(new Label("File name:"), 0, 0);
-            gridPane.add(filename, 1, 0);
-
-            Alert alert = new Alert(Alert.AlertType.NONE);
-            alert.getDialogPane().getButtonTypes().addAll(ButtonType.APPLY, ButtonType.CANCEL);
-            alert.setHeaderText("Import Data");
-            alert.getDialogPane().setContent(gridPane);
-
-            final Button btnApply = (Button) alert.getDialogPane().lookupButton(ButtonType.APPLY);
-            btnApply.addEventFilter(ActionEvent.ACTION, event -> {
-                if(!manager.boolImportCSV(filename.getText())){
-                    event.consume();
-                    ToastMessage.show(gridPane.getScene().getWindow(), "Something went wrong");
-                }
-            });
-
-            alert.showAndWait();
-        });
 
         btnExportData.setOnAction(actionEvent -> {
             TextField filename = new TextField();
@@ -123,18 +108,36 @@ public class StageTwoToolBarUI extends ToolBar {
             alert.showAndWait();
         });
 
-        btnAdd.setOnAction(actionEvent -> {
-            Dialog dialog = new DialogAddApplication(manager);
-            dialog.showAndWait();
-        });
+        btnSelfProposalAttribution.setOnAction(actionEvent -> manager.automaticAssignmentSelfProposals());
+        btnRemoveAssignement.setOnAction(actionEvent -> {
+            ChoiceBox choiceBox = new ChoiceBox();
+            choiceBox.getItems().addAll(manager.viewAssignments());
 
-        btnListApplications.setOnAction(actionEvent -> {
-            manager.setListingType(ListingType.APPLICATIONS);
+            GridPane gridPane = new GridPane();
+            gridPane.add(new Label("Assignment"), 0, 0);
+            gridPane.add(choiceBox, 1, 0);
+
+            Alert alert = new Alert(Alert.AlertType.NONE);
+            alert.getDialogPane().getButtonTypes().addAll(ButtonType.APPLY, ButtonType.CANCEL);
+            alert.setHeaderText("Remove Assignment");
+            alert.getDialogPane().setContent(gridPane);
+
+            final Button btnApply = (Button) alert.getDialogPane().lookupButton(ButtonType.APPLY);
+            btnApply.addEventFilter(ActionEvent.ACTION, event -> {
+                if(!manager.removeAssignment(choiceBox.getSelectionModel().getSelectedIndex())){
+                    event.consume();
+                    ToastMessage.show(gridPane.getScene().getWindow(), "Something went wrong");
+                }
+            });
+
+            alert.showAndWait();
         });
+        btnRemoveAllAssignments.setOnAction(actionEvent -> manager.removeAllAssignments());
 
         btnListStudentsWithSelfProposals.setOnAction(actionEvent -> manager.setListingType(ListingType.STUDENTS_SELFPROPOSALS));
         btnListStudentsWithApplication.setOnAction(actionEvent -> manager.setListingType(ListingType.PROPOSALS_STUDENTS_WITH_APPLICATION));
-        btnListStudentsWithoutApplication.setOnAction(actionEvent -> manager.setListingType(ListingType.PROPOSALS_STUDENTS_WITHOUT_APPLICATION));
+        btnListStudentsAssigned.setOnAction(actionEvent -> manager.setListingType(ListingType.STUDENTS_ASSIGNED));
+        btnListStudentsUnassigned.setOnAction(actionEvent -> manager.setListingType(ListingType.STUDENTS_UNASSIGNED));
 
         filterCbs[0].setOnAction(actionEvent -> { filters[0] = filterCbs[0].isSelected(); });
         filterCbs[1].setOnAction(actionEvent -> { filters[1] = filterCbs[1].isSelected(); });
@@ -142,8 +145,8 @@ public class StageTwoToolBarUI extends ToolBar {
         filterCbs[3].setOnAction(actionEvent -> { filters[3] = filterCbs[3].isSelected(); });
 
         mniApplyFilters.setOnAction(actionEvent -> {
-            manager.setFiltersStageTwo(filters);
-            manager.setListingType(ListingType.PROPOSALS_FILTERS_STAGE_TWO);
+            manager.setFiltersStageThree(filters);
+            manager.setListingType(ListingType.PROPOSALS_FILTERS_STAGE_THREE);
         });
     }
 

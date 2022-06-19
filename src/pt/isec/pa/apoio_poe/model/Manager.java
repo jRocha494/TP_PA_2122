@@ -8,6 +8,7 @@ import pt.isec.pa.apoio_poe.model.fsm.ListingType;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.*;
+import java.util.HashMap;
 import java.util.List;
 
 public class Manager {
@@ -75,7 +76,10 @@ public class Manager {
     public List<Student> getStudentsSelfProposals() {return ac.getStudentsSelfProposals();}
     public List<Student> getStudentsWithApplication() {return ac.getStudentsWithApplication();}
     public List<Student> getStudentsWithoutApplication() {return ac.getStudentsWithoutApplication();}
-    public List<Proposal> getProposalsWithFilters() {return ac.getProposalsWithFilters();}
+    public List<Proposal> getProposalsWithFiltersStageTwo() {return ac.getProposalsWithFiltersStageTwo();}
+    public List<Proposal> getProposalsWithFiltersStageThree() {return ac.getProposalsWithFiltersStageThree();}
+    public String[] getStudentsAssigned() {return ac.getStudentsAssigned();}
+    public String[] getStudentsUnassigned() {return ac.getStudentsUnassigned();}
 
     public boolean returnStage() {
         pcs.firePropertyChange(STATE, null, null);
@@ -186,8 +190,12 @@ public class Manager {
         return false;
     }
 
-    public void setFilters(boolean[] filters){
-        ac.setFilters(filters);
+    public void setFiltersStageTwo(boolean[] filters){
+        ac.setFiltersStageTwo(filters);
+    }
+
+    public void setFiltersStageThree(boolean[] filters){
+        ac.setFiltersStageThree(filters);
     }
 
     public boolean delete(Object selectedItem) {
