@@ -71,7 +71,7 @@ public class ListPane extends ListView<Object> {
             case PROPOSALS_FILTERS_STAGE_TWO -> this.getItems().addAll(manager.getProposalsWithFiltersStageTwo());
             case PROPOSALS_FILTERS_STAGE_THREE -> this.getItems().addAll(manager.getProposalsWithFiltersStageThree());
             case STUDENTS_ASSIGNED -> this.getItems().addAll(manager.getStudentsAssigned());
-            case STUDENTS_UNASSIGNED -> this.getItems().addAll(manager.getStudentsUnassigned());
+            case STUDENTS_UNASSIGNED -> this.getItems().addAll(manager.getListStudentsUnassigned());
             default -> this.setVisible(false);
         }
     }

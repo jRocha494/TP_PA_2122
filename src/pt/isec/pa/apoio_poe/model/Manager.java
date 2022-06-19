@@ -81,7 +81,7 @@ public class Manager {
     public List<Proposal> getProposalsWithFiltersStageTwo() {return ac.getProposalsWithFiltersStageTwo();}
     public List<Proposal> getProposalsWithFiltersStageThree() {return ac.getProposalsWithFiltersStageThree();}
     public String[] getStudentsAssigned() {return ac.getStudentsAssigned();}
-    public String[] getStudentsUnassigned() {return ac.getStudentsUnassigned();}
+    public String[] getListStudentsUnassigned() {return ac.getListStudentsUnassigned();}
 
     public boolean returnStage() {
         if (ac.returnStage()) {

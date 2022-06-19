@@ -43,7 +43,7 @@ public class AppContext implements Serializable {
     public List<Proposal> getProposalsWithFiltersStageTwo(){return dl.getProposalsWithFiltersStageTwo();}
     public List<Proposal> getProposalsWithFiltersStageThree(){return dl.getProposalsWithFiltersStageThree();}
     public String[] getStudentsAssigned(){return dl.getStudentsAssigned();}
-    public String[] getStudentsUnassigned(){return dl.getStudentsUnassigned();}
+    public String[] getListStudentsUnassigned(){return dl.getListStudentsUnassigned();}
 
     public void setCurrentState(int ordinal) { this.currentState = ordinal; }
 

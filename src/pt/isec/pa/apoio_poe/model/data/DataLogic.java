@@ -546,7 +546,7 @@ public class DataLogic implements Serializable {
         return result.toArray(new String[result.size()]);
     }
 
-    public String[] getStudentsUnassigned(){
+    public String[] getListStudentsUnassigned(){
         List <String> result = new ArrayList<>();
 
         for (Student s : getStudentsValues()) {
