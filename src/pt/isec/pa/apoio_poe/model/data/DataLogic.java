@@ -299,7 +299,7 @@ public class DataLogic implements Serializable {
         List<Proposal> result = new ArrayList<>();
 
         for(Proposal p : getProposals()){
-            if(!p.hasBeenAssigned() || !p.hasAssignedStudent()) // if the proposal hasn't been assigned yet... adds its key to the array
+            if(!p.hasBeenAssigned() && !p.hasAssignedStudent()) // if the proposal hasn't been assigned yet... adds its key to the array
                 result.add(p);
         }
         return result;
@@ -580,7 +580,7 @@ public class DataLogic implements Serializable {
         List<Student> result = new ArrayList<>();
 
         for (Student s : getStudents()){
-            if (!s.hasBeenAssigned() && !s.hasApplication())
+            if (!s.hasBeenAssigned() && !s.hasApplication() && !s.hasProposed())
                 result.add(s);
         }
         return result;

@@ -449,7 +449,10 @@ public class StageTwo extends StateAdapter {
             return false;
 
         Student student = (Student) parameters[0];
-        Proposal[] proposals = Arrays.copyOfRange((Proposal[]) parameters,1,parameters.length-1);
+        Proposal[] proposals = new Proposal[parameters.length-1];
+        for (int i = 0; i < parameters.length-1; i++) {
+            proposals[i] = (Proposal) parameters[i+1];
+        }
 
         try {
             studentNumber = student.getStudentNumber();

@@ -50,6 +50,9 @@ public class DialogAddApplication extends Dialog{
         //studentCB.getItems().addAll(manager.getAvailableStudentsWithoutApplication());
 
         proposal = new ChoiceBox[6];
+        for (int i = 0; i < 6; i++) {
+            proposal[i] = new ChoiceBox();
+        }
         List<Proposal> proposalsList = manager.getAvailableProposalsList();
         for(int i=0; i<proposal.length-1; i++){
             if(proposalsList.size() > 0){
