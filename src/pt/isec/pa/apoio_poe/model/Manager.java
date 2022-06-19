@@ -66,7 +66,9 @@ public class Manager {
 
     public void advanceStage() {
         ac.advanceStage();
+        this.listingType = ListingType.NONE;
         pcs.firePropertyChange(STATE, null, null);
+        pcs.firePropertyChange(LISTING, null, null);
     }
 
     public List<Student> getStudents(){return ac.getStudents();}
@@ -82,8 +84,13 @@ public class Manager {
     public String[] getStudentsUnassigned() {return ac.getStudentsUnassigned();}
 
     public boolean returnStage() {
-        pcs.firePropertyChange(STATE, null, null);
-        return ac.returnStage();
+        if (ac.returnStage()) {
+            this.listingType = ListingType.NONE;
+            pcs.firePropertyChange(STATE, null, null);
+            pcs.firePropertyChange(LISTING, null, null);
+            return true;
+        }
+        return false;
     }
     public String viewStudents() { return ac.viewStudents(); }
     public String viewTeachers() { return ac.viewTeachers(); }
@@ -166,8 +173,11 @@ public class Manager {
         if(appContext!=null) {
             this.ac = appContext;
             this.ac.changeState(AppState.values()[this.ac.getCurrentState()].createState(ac, ac.getDl()));
+            System.out.println(getState());
         }
         pcs.firePropertyChange(DATA, null, null);
+        pcs.firePropertyChange(STATE, null, null);
+        pcs.firePropertyChange(LISTING, null, null);
     }
 
     private AppContext _load(File hFile) {
@@ -182,7 +192,7 @@ public class Manager {
         return null;
     }
 
-    public boolean add(String ... parameters) {
+    public boolean add(Object ... parameters) {
         if (ac.add(parameters)){
             pcs.firePropertyChange(DATA, null, null);
             return true;
@@ -206,11 +216,17 @@ public class Manager {
         return false;
     }
 
-    public boolean update(String ... parameters) {
+    public boolean update(Object ... parameters) {
         if (ac.update(parameters)){
             pcs.firePropertyChange(DATA, null, null);
             return true;
         }
         return false;
     }
+
+    public String[] getBranches() {return ac.getBranches();}
+
+    public List<Student> getStudentsForInternships() {return ac.getStudentsForInternships();}
+    public List<Student> getStudentsUnassigned() {return ac.getStudentsUnassigned();}
+    public List<Student> getStudentsWithoutProposal(){return ac.getStudentsWithoutProposal();}
 }

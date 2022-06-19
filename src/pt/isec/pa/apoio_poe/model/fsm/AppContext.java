@@ -118,7 +118,7 @@ public class AppContext implements Serializable {
     public String viewProposalsUnassigned() { return state.viewProposalsUnassigned(); }
     public String viewProposalsAssigned() { return state.viewProposalsAssigned(); }
 
-    public boolean add(String ... parameters) {return state.add(parameters);}
+    public boolean add(Object ... parameters) {return state.add(parameters);}
 
     public void setFiltersStageTwo(boolean[] filters) { dl.setFiltersStageTwo(filters); }
 
@@ -126,5 +126,11 @@ public class AppContext implements Serializable {
 
     public boolean delete(Object selectedItem) {return state.delete(selectedItem);}
 
-    public boolean update(String ... parameters) {return state.update(parameters);}
+    public boolean update(Object ... parameters) {return state.update(parameters);}
+
+    public String[] getBranches() {return dl.getBranches();}
+
+    public List<Student> getStudentsForInternships() {return dl.getStudentsForInternships();}
+    public List<Student> getStudentsUnassigned() {return dl.getStudentsUnassigned();}
+    public List<Student> getStudentsWithoutProposal() {return dl.getStudentsWithoutProposal();}
 }

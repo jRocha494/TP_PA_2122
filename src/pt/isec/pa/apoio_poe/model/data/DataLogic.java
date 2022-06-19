@@ -24,6 +24,9 @@ public class DataLogic implements Serializable {
     private boolean[] filtersStageTwo;
     private boolean[] filtersStageThree;
 
+    //TODO Em verificações que se faça se é um branch válido, verificar se existe neste array
+    private String[] branches = {"DA", "RAS", "SI"};
+
     public DataLogic() {
         this.numberStudentsAndProposals = new HashMap<>();
         this.proposalsList = new HashMap<>();
@@ -42,21 +45,64 @@ public class DataLogic implements Serializable {
         Arrays.fill(filtersStageTwo, false);
         Arrays.fill(filtersStageThree, false);
     }
+    public void updateInternship(String id, String title, Student assignedStudent, List<String> destinedBranch, String hostingEntity){
+        Long studentID = proposalsList.get(id).getAssignedStudent() != null ? proposalsList.get(id).getAssignedStudent().getStudentNumber() : null;
+        if (studentID != null)
+            studentsList.get(studentID).setAssociatedWithProposal(false);
+
+        proposalsList.put(id, new Internship(id,title,assignedStudent,destinedBranch,hostingEntity));
+        if (assignedStudent!=null)
+            assignedStudent.setAssociatedWithProposal(true);
+    }
+    public void updateProject(String id, String title, Student assignedStudent, List<String> destinedBranch, Teacher proposingTeacher){
+        Long studentID = proposalsList.get(id).getAssignedStudent() != null ? proposalsList.get(id).getAssignedStudent().getStudentNumber() : null;
+        if (studentID != null)
+            studentsList.get(studentID).setAssociatedWithProposal(false);
+        String teacherID = ((Project)proposalsList.get(id)).getProposingTeacher() != null ? ((Project) proposalsList.get(id)).getProposingTeacher().getEmail() : null;
+        if (teacherID != null)
+            teachersList.get(teacherID).setIsAdvisor(true);
+
+        proposalsList.put(id, new Project(id,title,assignedStudent,destinedBranch,proposingTeacher));
+        if (assignedStudent!=null)
+            assignedStudent.setAssociatedWithProposal(true);
+        if (proposingTeacher != null)
+            proposingTeacher.setIsAdvisor(false);
+    }
+    public void updateSelfProposal(String id, String title, Student assignedStudent){
+        Long studentID = proposalsList.get(id).getAssignedStudent() != null ? proposalsList.get(id).getAssignedStudent().getStudentNumber() : null;
+        if (studentID != null)
+            studentsList.get(studentID).setHasProposed(false);
+
+        proposalsList.put(id, new SelfProposal(id,title,assignedStudent));
+        if (assignedStudent != null)
+            assignedStudent.setHasProposed(true);
+//        studentsList.get(assignedStudent.getStudentNumber()).setHasProposed(true);
+    }
 
     public void addInternship(String id, String title, Student assignedStudent, List<String> destinedBranch, String hostingEntity){
         proposalsList.put(id, new Internship(id,title,assignedStudent,destinedBranch,hostingEntity));
+        if (assignedStudent!=null)
+            assignedStudent.setAssociatedWithProposal(true);
         for(String b : destinedBranch)
             numberStudentsAndProposals.get(b).incrementNmrProposals();
     }
     public void addProject(String id, String title, Student assignedStudent, List<String> destinedBranch, Teacher proposingTeacher){
         proposalsList.put(id, new Project(id,title,assignedStudent,destinedBranch,proposingTeacher));
+        if (assignedStudent!=null)
+            assignedStudent.setAssociatedWithProposal(true);
+        if (proposingTeacher != null)
+            proposingTeacher.setIsAdvisor(false);
         for(String b : destinedBranch)
             numberStudentsAndProposals.get(b).incrementNmrProposals();
     }
     public void addSelfProposal(String id, String title, Student assignedStudent){
         proposalsList.put(id, new SelfProposal(id,title,assignedStudent));
+        if (assignedStudent != null) {
+            assignedStudent.setHasProposed(true);
+            assignedStudent.setAssociatedWithProposal(true);
+        }
         numberStudentsAndProposals.get(assignedStudent.getBranch()).incrementNmrProposals();
-        studentsList.get(assignedStudent.getStudentNumber()).setHasProposed(true);
+//        studentsList.get(assignedStudent.getStudentNumber()).setHasProposed(true);
     }
     public void addStudent(long studentNumber, String name, String email, String course, String branch, double classification, boolean internshipAccess){
         studentsList.put(studentNumber, new Student(studentNumber, name, email, course, branch, classification, internshipAccess));
@@ -89,13 +135,23 @@ public class DataLogic implements Serializable {
     public Application getApplicationByStudent(Student id) { return applicationsList.get(id); }
 
     public Proposal getProposalByStudent(long id){
-        if(studentExists(id)) {
+        //if(studentExists(id)) {
             for (Proposal p : proposalsList.values()) {
                 if(p.hasAssignedStudent())
                     if(p.getAssignedStudent().getStudentNumber() == id)
                         return p;
             }
-        }
+        //}
+        return null;
+    }
+    public Proposal getProposalByTeacher(String email){
+        //if(teacherExists(email)) {
+            for (Proposal p : proposalsList.values()) {
+                if (p instanceof Project && ((Project) p).hasProposingTeacher())
+                    if(((Project) p).getProposingTeacher().getEmail().equalsIgnoreCase(email))
+                        return p;
+            }
+        //}
         return null;
     }
 
@@ -550,14 +606,127 @@ public class DataLogic implements Serializable {
     public void setFiltersStageThree(boolean[] filters) { this.filtersStageThree = filters; }
 
     public boolean deleteStudent(long studentNumber) {
-        if (studentsList.remove(studentNumber) == null)
-            return false;
-        return true;
+        Student s = studentsList.remove(studentNumber);
+        if (s != null){
+            Proposal p = getProposalByStudent(s.getStudentNumber());
+            if (p!=null){
+                if(p instanceof SelfProposal)
+                    deleteProposal(p.getId());
+                else
+                    p.setAssignedStudent(null);
+            }
+            numberStudentsAndProposals.get(s.getBranch()).decrementNmrStudents();
+            return true;
+        }
+        return false;
     }
 
     public void updateStudent(long studentNumber, String name, String email, String course, String branch, double classification, boolean internshipAccess) {
         studentsList.put(studentNumber, new Student(studentNumber, name, email, course, branch, classification, internshipAccess));
     }
+
+    public String[] getBranches() {return branches;}
+
+    public List<Student> getStudentsForInternships() {
+        List<Student> students = new ArrayList<>();
+
+        for (Student student : getStudentsValues()){
+            if(student.hasInternshipAccess() && !student.hasBeenAssigned() && !student.hasProposed() && !student.isAssociatedWithProposal())
+                students.add(student);
+        }
+        return students;
+    }
+
+    public List<Student> getStudentsUnassigned() {
+        List<Student> students = new ArrayList<>();
+
+        for (Student student : getStudentsValues()){
+            if(!student.hasBeenAssigned() && !student.hasProposed() && !student.isAssociatedWithProposal())
+                students.add(student);
+        }
+        return students;
+    }
+
+    public List<Student> getStudentsWithoutProposal() {
+        List<Student> students = new ArrayList<>();
+
+        for (Student student : getStudentsValues()){
+            if(!student.hasProposed() && !student.hasBeenAssigned() && !student.isAssociatedWithProposal())
+                students.add(student);
+        }
+        return students;
+    }
+
+    public boolean deleteTeacher(String email) {
+
+        Teacher t = teachersList.remove(email);
+        if (t != null){
+            Proposal p = getProposalByTeacher(t.getEmail());
+            if (p!=null)
+                if(p instanceof Project)
+                    deleteProposal(p.getId());
+            return true;
+        }
+        return false;
+    }
+
+    public void updateTeacher(String email, String name) {
+        teachersList.put(email, new Teacher(email, name));
+    }
+
+    public boolean deleteProposal(String id) {
+        if(getProposal(id) instanceof Project){
+            getTeacherByProposal(id).setIsAdvisor(true);
+        }
+
+        Student s = getStudentByProposal(id);
+        if (s != null)
+            s.setHasProposed(false);
+
+        Proposal p = proposalsList.remove(id);
+        if (p == null)
+            return false;
+
+        if (p instanceof Project)
+            for(String b : ((Project) p).getDestinedBranch())
+                numberStudentsAndProposals.get(b).decrementNmrProposals();
+        else if (p instanceof Internship)
+            for(String b : ((Internship) p).getDestinedBranch())
+                numberStudentsAndProposals.get(b).decrementNmrProposals();
+        else if (p instanceof SelfProposal)
+            numberStudentsAndProposals.get(p.getAssignedStudent().getBranch()).decrementNmrProposals();
+        return true;
+    }
+
+    public Student getStudentByProposal(String id) {
+        if (proposalExists(id)) {
+            return getProposal(id).getAssignedStudent();
+        }
+        return null;
+    }
+
+    public Teacher getTeacherByProposal(String id) {
+        if (proposalExists(id)) {
+            Proposal p = getProposal(id);
+            if (p instanceof Project)
+                return ((Project) p).getProposingTeacher();
+        }
+        return null;
+    }
+//
+//    public void setStudentHasProposedByProposal(String id, boolean b) {
+//        if (proposalExists(id)){
+//            getProposal(id).setStudentHasProposed(b);
+//        }
+//    }
+//
+//    public void setTeacherIsAdvisorByProposal(String id, boolean b) {
+//        if (proposalExists(id)){
+//            Proposal p = getProposal(id);
+//            if (p instanceof Project)
+//                ((Project) p).setTeacherIsAdvisor(b);
+//        }
+//    }
 
     /*public boolean manuallyAssign(int proposalChosen, int studentChosen, String[] availableProposals, String[] availableStudents) {
         Proposal pToAssign = proposalsList.get(availableProposals[proposalChosen]);
@@ -583,6 +752,8 @@ public class DataLogic implements Serializable {
         public void setNmrStudents(int nmrStudents) { this.nmrStudents = nmrStudents; }
         public void incrementNmrProposals() { nmrProposals++; }
         public void incrementNmrStudents() { nmrStudents++; }
+        public void decrementNmrProposals() { nmrProposals--; }
+        public void decrementNmrStudents() { nmrStudents--; }
 
     }
 }

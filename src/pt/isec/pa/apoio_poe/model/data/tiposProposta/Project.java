@@ -6,7 +6,7 @@ import pt.isec.pa.apoio_poe.model.data.Teacher;
 
 import java.util.List;
 
-public class Project extends Proposal {
+public class Project extends Proposal implements Cloneable {
     protected List<String> destinedBranch;    // to which branch(es) this internship is destined to. ("RAS", "DA", and/or "SI"
     protected Teacher proposingTeacher;    // identification for the teacher proposing this project
 
@@ -16,12 +16,22 @@ public class Project extends Proposal {
         this.proposingTeacher = proposingTeacher;
     }
 
+    public boolean hasProposingTeacher(){
+        return proposingTeacher != null;
+    }
+
     public List<String> getDestinedBranch() {
         return destinedBranch;
     }
 
     public Teacher getProposingTeacher() {
-        return proposingTeacher;
+        Teacher teacher = null;
+        try {
+            teacher = (Teacher) proposingTeacher.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
+        return teacher;
     }
 
     @Override
@@ -59,5 +69,14 @@ public class Project extends Proposal {
         }
 
         return sb.toString();
+    }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException{
+        return super.clone();
+    }
+
+    public void setTeacherIsAdvisor(boolean b) {
+        proposingTeacher.setIsAdvisor(b);
     }
 }

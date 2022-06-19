@@ -9,7 +9,10 @@ import javafx.scene.paint.Color;
 import pt.isec.pa.apoio_poe.model.Manager;
 import pt.isec.pa.apoio_poe.model.data.Student;
 import pt.isec.pa.apoio_poe.model.fsm.AppState;
+import pt.isec.pa.apoio_poe.ui.gui.StageOne.DialogAddStudent;
+import pt.isec.pa.apoio_poe.ui.gui.StageOne.DialogProposal;
 import pt.isec.pa.apoio_poe.ui.gui.StageOne.DialogStudent;
+import pt.isec.pa.apoio_poe.ui.gui.StageOne.DialogTeacher;
 
 public class ListPane extends ListView<Object> {
     private final Manager manager;
@@ -31,26 +34,24 @@ public class ListPane extends ListView<Object> {
         manager.addPropertyChangeListener(Manager.DATA, evt -> update());
 
         this.setOnMouseClicked(mouseEvent -> {
-            if(mouseEvent.getClickCount() == 2 && manager.getState() != AppState.CONFIGURATIONS_STATE_STAGE_ONE){
+            if(mouseEvent.getClickCount() == 2 /*&& manager.getState() != AppState.CONFIGURATIONS_STATE_STAGE_ONE*/){
                 Object object = this.getSelectionModel().getSelectedItem();
                 if (object != null) {
                     switch(manager.getListingType()){
                         case STUDENTS -> {
-                            Dialog dialog = new DialogStudent(manager, (Student) object);
+                            Dialog dialog = new DialogStudent(manager, object);
                             dialog.showAndWait();
                         }
-//                        case TEACHERS -> {
-//                            Dialog dialog = new DialogTeacher(manager, (Teacher) object);
-//                            dialog.showAndWait();
-//                        }
-//                        case PROPOSALS -> {
-//                            Dialog dialog = new DialogProposal(manager, (Proposal) object);
-//                            dialog.showAndWait();
-//                        }
+                        case TEACHERS -> {
+                            Dialog dialog = new DialogTeacher(manager, object);
+                            dialog.showAndWait();
+                        }
+                        case PROPOSALS -> {
+                            Dialog dialog = new DialogProposal(manager, object);
+                            dialog.showAndWait();
+                        }
                     }
-                    //manager.delete(this.getSelectionModel().getSelectedItem());
                 }
-//                manager.remove(this.getSelectionModel().getSelectedIndex());
             }
         });
     }

@@ -11,9 +11,10 @@ public class Student implements Comparable<Student>, Serializable, Cloneable {
     private String branch;  // "DA", "RAS" or "SI"
     private double classification;
     private boolean hasInternshipAccess;   // boolean representing whether this Student is eligible to apply for internships
-    private boolean hasProposed;    // True if this student has proposed a project/internship, False if not (Students can only propose once)
+    private boolean hasProposed;    // True if this student has proposed a self-proposal, False if not (Students can only propose once)
     private boolean hasApplication; // True if this student has an associated application
     private boolean hasBeenAssigned;    // Flag on whether this student has been officially associated with an assignment or not
+    private boolean isAssociatedWithProposal;   // Flag on whether this student has been associated with a proposal
 
     public Student(long studentNumber, String name, String email, String course, String branch, double classification, boolean hasInternshipAccess) {
         this.studentNumber = studentNumber;
@@ -26,6 +27,15 @@ public class Student implements Comparable<Student>, Serializable, Cloneable {
         this.hasProposed = false;
         this.hasApplication = false;
         this.hasBeenAssigned = false;
+        this.isAssociatedWithProposal = false;
+    }
+
+    public void setAssociatedWithProposal(boolean associatedWithProposal) {
+        isAssociatedWithProposal = associatedWithProposal;
+    }
+
+    public boolean isAssociatedWithProposal() {
+        return isAssociatedWithProposal;
     }
 
     public long getStudentNumber() {

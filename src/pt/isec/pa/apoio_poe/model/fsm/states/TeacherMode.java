@@ -1,6 +1,7 @@
 package pt.isec.pa.apoio_poe.model.fsm.states;
 
 import pt.isec.pa.apoio_poe.model.data.DataLogic;
+import pt.isec.pa.apoio_poe.model.data.Student;
 import pt.isec.pa.apoio_poe.model.data.Teacher;
 import pt.isec.pa.apoio_poe.model.fsm.AppContext;
 import pt.isec.pa.apoio_poe.model.fsm.AppState;
@@ -49,13 +50,22 @@ public class TeacherMode extends StateAdapter {
     }
 
     @Override
-//    public boolean add(String number, String name, String email, String course, String branch, String classification, String internshipAccess){
-    public boolean add(String ... parameters){
+    public boolean returnStage(){
+        changeState(AppState.CONFIGURATIONS_STATE_STAGE_ONE);
+        return true;
+    }
+
+    @Override
+    public boolean delete(Object selectedItem){
+        return dl.deleteTeacher(((Teacher) selectedItem).getEmail());
+    }
+
+    private boolean validateData(Object ... parameters){
         if (parameters.length != 2)
             return false;
 
-        String email = parameters[0];
-        String name = parameters[1];
+        String email = (String) parameters[0];
+        String name = (String) parameters[1];
         try {
             //Email
             if(!ac.emailIsValid(email))
@@ -66,6 +76,30 @@ public class TeacherMode extends StateAdapter {
         }catch (Exception e){
             return false;
         }
+        return true;
+    }
+
+    @Override
+    public boolean update(Object ... parameters){
+        if (!this.validateData(parameters))
+            return false;
+
+        String email = (String) parameters[0];
+        String name = (String) parameters[1];
+
+        dl.updateTeacher(email, name);
+        return true;
+    }
+
+    @Override
+    public boolean add(Object ... parameters){
+        if (!this.validateData(parameters))
+            return false;
+
+        String email = (String) parameters[0];
+        String name = (String) parameters[1];
+
+        dl.addTeacher(email, name);
         return true;
     }
 

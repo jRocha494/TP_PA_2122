@@ -15,7 +15,7 @@ import pt.isec.pa.apoio_poe.ui.gui.StageOne.DialogAddTeacher;
 public class ToolBarUI extends ToolBar {
     private final Manager manager;
     //private final BorderPane root;
-    private Button btnClose, btnAdvance, btnExit, btnListStudents, btnListTeachers, btnListProposals, btnImportData, btnExportData, btnAdd;
+    private Button btnClose, btnAdvance, btnExit, btnListStudents, btnListTeachers, btnListProposals, btnImportData, btnExportData, btnAdd, btnReturn;
     MenuButton btnChangeMode;
     MenuItem mniStudent, mniTeacher, mniProposal;
 
@@ -37,6 +37,7 @@ public class ToolBarUI extends ToolBar {
         btnExportData = new Button("Export Data");
         btnAdd = new Button("Add Data");
         btnExit = new Button("Quit");
+        btnReturn = new Button("Return");
 
         btnChangeMode = new MenuButton("Change Mode");
         mniStudent = new MenuItem("Students");
@@ -45,7 +46,7 @@ public class ToolBarUI extends ToolBar {
         btnChangeMode.getItems().addAll(mniStudent, mniTeacher, mniProposal);
 
         this.setBackground(new Background(new BackgroundFill(Color.TURQUOISE, CornerRadii.EMPTY, Insets.EMPTY)));
-        this.getItems().addAll(btnAdd, btnClose, btnAdvance, btnListStudents, btnListTeachers, btnListProposals, btnChangeMode, btnImportData, btnExportData, btnExit);
+        this.getItems().addAll(btnAdd, btnClose, btnAdvance, btnListStudents, btnListTeachers, btnListProposals, btnChangeMode, btnImportData, btnExportData, btnReturn, btnExit);
     }
 
     private void registerHandlers() {
@@ -78,9 +79,20 @@ public class ToolBarUI extends ToolBar {
         btnListProposals.setOnAction(actionEvent -> {
             manager.setListingType(ListingType.PROPOSALS);
         });
-        mniStudent.setOnAction(actionEvent -> manager.changeConfigurationMode(AppState.CONFIGURATIONS_STATE_STUDENT_MANAGER.ordinal()));
-        mniTeacher.setOnAction(actionEvent -> manager.changeConfigurationMode(AppState.CONFIGURATIONS_STATE_TEACHER_MANAGER.ordinal()));
-        mniProposal.setOnAction(actionEvent -> manager.changeConfigurationMode(AppState.CONFIGURATIONS_STATE_PROPOSAL_MANAGER.ordinal()));
+        mniStudent.setOnAction(actionEvent -> {
+            manager.changeConfigurationMode(AppState.CONFIGURATIONS_STATE_STUDENT_MANAGER.ordinal());
+            manager.setListingType(ListingType.NONE);
+        });
+        mniTeacher.setOnAction(actionEvent -> {
+            manager.changeConfigurationMode(AppState.CONFIGURATIONS_STATE_TEACHER_MANAGER.ordinal());
+            manager.setListingType(ListingType.NONE);
+        });
+        mniProposal.setOnAction(actionEvent -> {
+            manager.changeConfigurationMode(AppState.CONFIGURATIONS_STATE_PROPOSAL_MANAGER.ordinal());
+            manager.setListingType(ListingType.NONE);
+        });
+
+        btnReturn.setOnAction(actionEvent -> manager.returnStage());
 
         btnAdd.setOnAction(actionEvent -> {
             switch (manager.getState()){
@@ -105,6 +117,7 @@ public class ToolBarUI extends ToolBar {
                 mniProposal.setDisable(false);
                 btnImportData.setDisable(true);
                 btnExportData.setDisable(true);
+                btnReturn.setDisable(true);
             }
             case CONFIGURATIONS_STATE_STUDENT_MANAGER -> {
                 btnAdd.setDisable(false);
@@ -116,6 +129,7 @@ public class ToolBarUI extends ToolBar {
                 mniProposal.setDisable(false);
                 btnImportData.setDisable(false);
                 btnExportData.setDisable(false);
+                btnReturn.setDisable(false);
             }
             case CONFIGURATIONS_STATE_TEACHER_MANAGER -> {
                 btnAdd.setDisable(false);
@@ -126,6 +140,7 @@ public class ToolBarUI extends ToolBar {
                 mniTeacher.setDisable(true);
                 mniProposal.setDisable(false);
                 btnImportData.setDisable(false);
+                btnReturn.setDisable(false);
             }
             case CONFIGURATIONS_STATE_PROPOSAL_MANAGER -> {
                 btnAdd.setDisable(false);
@@ -136,6 +151,7 @@ public class ToolBarUI extends ToolBar {
                 mniTeacher.setDisable(false);
                 mniProposal.setDisable(true);
                 btnImportData.setDisable(false);
+                btnReturn.setDisable(false);
             }
         }
     }

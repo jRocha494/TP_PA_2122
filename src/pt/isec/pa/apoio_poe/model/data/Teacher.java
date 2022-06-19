@@ -15,7 +15,7 @@ public class Teacher implements Serializable, Cloneable {
         this.isAdvisor = isAdvisor;
         this.hasBeenAssigned = false;
     }
-    public Teacher(String email, String name){this(email,name,false);}
+    public Teacher(String email, String name){this(email,name,true);}
 
 
     public String getEmail() {
@@ -76,5 +76,9 @@ public class Teacher implements Serializable, Cloneable {
     @Override
     public Object clone() throws CloneNotSupportedException{
         return super.clone();
+    }
+
+    public void setIsAdvisor(boolean b) {
+        this.isAdvisor = b;
     }
 }

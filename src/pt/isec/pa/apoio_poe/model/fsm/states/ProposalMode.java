@@ -2,6 +2,8 @@ package pt.isec.pa.apoio_poe.model.fsm.states;
 
 import pt.isec.pa.apoio_poe.model.data.DataLogic;
 import pt.isec.pa.apoio_poe.model.data.Proposal;
+import pt.isec.pa.apoio_poe.model.data.Student;
+import pt.isec.pa.apoio_poe.model.data.Teacher;
 import pt.isec.pa.apoio_poe.model.fsm.AppContext;
 import pt.isec.pa.apoio_poe.model.fsm.AppState;
 import pt.isec.pa.apoio_poe.model.fsm.StateAdapter;
@@ -48,6 +50,171 @@ public class ProposalMode extends StateAdapter {
             sb.append(p.proposalToString());
         }
         return sb.toString();
+    }
+
+    @Override
+    public boolean returnStage(){
+        changeState(AppState.CONFIGURATIONS_STATE_STAGE_ONE);
+        return true;
+    }
+
+    @Override
+    public boolean delete(Object selectedObject){
+        Proposal proposal = (Proposal) selectedObject;
+        return dl.deleteProposal(((Proposal) selectedObject).getId());
+    }
+
+    @Override
+    public boolean update(Object ... parameters){
+        System.out.println("NO UPDATE DO PROPOSAL MODE");
+        try{
+            //Proposal id
+            String id = (String) parameters[1];
+            if(!ac.proposalIdIsValid(id))
+                return false;
+
+            //Proposal title
+            String title = (String) parameters[2];
+
+            //Proposal Student Assigned
+            Student student = (Student) parameters[3];
+            if (student != null) {
+//                dl.setStudentHasProposedByProposal(id, false);
+//                Student s = dl.getStudentByProposal(id);
+//                if (s!=null)
+//                    s.setHasProposed(false);
+                if (dl.proposalWithStudentExists(student.getStudentNumber()))
+                    return false;
+//                else
+//                    student.setHasProposed(true);
+            }
+
+            String proposalType = (String) parameters[0];
+            if (proposalType.equalsIgnoreCase("Internship")){
+                if (parameters.length != 6)
+                    return false;
+
+                //Proposal Branches
+                List<String> branches = (List<String>) parameters[4];
+                if (branches.isEmpty())
+                    return false;
+
+                //verifies if the assigned student's branch is contemplated on the proposal's branch list
+                if (student != null)
+                    if (!branches.contains(student.getBranch()))
+                        return false;
+
+                //Proposal hosting entity
+                String hostingEntity = (String) parameters[5];
+
+                dl.updateInternship(id, title, student, branches, hostingEntity);
+            }
+            else if(proposalType.equalsIgnoreCase("Project")) {
+                if (parameters.length != 6)
+                    return false;
+
+                //Proposal Branches
+                List<String> branches = (List<String>) parameters[4];
+                if (branches.isEmpty())
+                    return false;
+
+                //Proposal's Proposing Teacher
+                Teacher teacher = (Teacher) parameters[5];
+                if (teacher == null)
+                    return false;
+//                dl.setTeacherIsAdvisorByProposal(id, true);
+//                Teacher t = dl.getTeacherByProposal(id);
+//                if (t!=null)
+//                    t.setIsAdvisor(true);
+
+//                teacher.setIsAdvisor(false);    //sets the "isAdvisor" flag to false, because the teacher has now proposed a project
+                dl.updateProject(id, title, student, branches, teacher);
+            }
+            else if(proposalType.equalsIgnoreCase("Self Proposal")) {
+                if (parameters.length != 4)
+                    return false;
+
+                if (student == null)
+                    return false;
+
+                dl.updateSelfProposal(id, title, student);
+            }
+
+        }catch (Exception e){
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public boolean add(Object ... parameters){
+        try{
+            //Proposal id
+            String id = (String) parameters[1];
+            if(!ac.proposalIdIsValid(id))
+                return false;
+            if (dl.proposalExists(id))
+                return false;
+
+            //Proposal title
+            String title = (String) parameters[2];
+
+            //Proposal Student Assigned
+            Student student = (Student) parameters[3];
+            if (student != null)
+                if(dl.proposalWithStudentExists(student.getStudentNumber()))
+                    return false;
+//                else
+//                    student.setHasProposed(true);
+
+            String proposalType = (String) parameters[0];
+            if (proposalType.equalsIgnoreCase("Internship")){
+                if (parameters.length != 6)
+                    return false;
+
+                //Proposal Branches
+                List<String> branches = (List<String>) parameters[4];
+                System.out.println("BRANCHES: " + branches);
+
+                if (branches.isEmpty())
+                    return false;
+
+                //Proposal hosting entity
+                String hostingEntity = (String) parameters[5];
+
+                dl.addInternship(id, title, student, branches, hostingEntity);
+            }
+            else if(proposalType.equalsIgnoreCase("Project")) {
+                if (parameters.length != 6)
+                    return false;
+
+                //Proposal Branches
+                List<String> branches = (List<String>) parameters[4];
+                if (branches.isEmpty())
+                    return false;
+
+                //Proposal's Proposing Teacher
+                Teacher teacher = (Teacher) parameters[5];
+                if (teacher == null)
+                    return false;
+
+                //teacher.setIsAdvisor(false);    //sets the "isAdvisor" flag to false, because the teacher has now proposed a project
+                dl.addProject(id, title, student, branches, teacher);
+            }
+            else if(proposalType.equalsIgnoreCase("Self Proposal")) {
+                if (parameters.length != 4)
+                    return false;
+
+                if (student == null)
+                    return false;
+
+                dl.addSelfProposal(id, title, student);
+            }
+
+        }catch (Exception e){
+            return false;
+        }
+        return true;
     }
 
     @Override

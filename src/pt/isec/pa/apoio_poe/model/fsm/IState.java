@@ -60,9 +60,7 @@ public interface IState {
     String viewProposalsUnassigned();
     String viewProposalsAssigned();
 
-    boolean add(String ... parameters);
-
+    boolean add(Object ... parameters);
     boolean delete(Object selectedItem);
-
-    boolean update(String ... parameters);
+    boolean update(Object ... parameters);
 }

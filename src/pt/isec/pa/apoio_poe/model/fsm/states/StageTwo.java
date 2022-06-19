@@ -394,15 +394,15 @@ public class StageTwo extends StateAdapter {
 
     @Override
 //    public boolean add(String number, String name, String email, String course, String branch, String classification, String internshipAccess){
-    public boolean add(String... parameters) {
+    public boolean add(Object ... parameters) {
         List<Proposal> chosenProposals = new ArrayList<>();
         long studentNumber;
 
         if (parameters.length < 2 || parameters.length > 7)
             return false;
 
-        String student = parameters[0];
-        String[] proposals = Arrays.copyOfRange(parameters,1,parameters.length-1);
+        String student = (String) parameters[0];
+        String[] proposals = Arrays.copyOfRange((String[]) parameters,1,parameters.length-1);
 
         try {
             if (student.length() != 10)

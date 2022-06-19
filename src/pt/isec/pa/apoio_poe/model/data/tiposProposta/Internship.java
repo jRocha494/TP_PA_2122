@@ -5,7 +5,7 @@ import pt.isec.pa.apoio_poe.model.data.Student;
 
 import java.util.List;
 
-public class Internship extends Proposal {
+public class Internship extends Proposal implements Cloneable{
     protected List<String> destinedBranch;    // to which branch(es) this internship is destined to. ("RAS", "DA", and/or "SI"
     protected String hostingEntity;   // identification code for the entity hosting said internship
 
@@ -58,5 +58,10 @@ public class Internship extends Proposal {
         }
 
         return sb.toString();
+    }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException{
+        return super.clone();
     }
 }

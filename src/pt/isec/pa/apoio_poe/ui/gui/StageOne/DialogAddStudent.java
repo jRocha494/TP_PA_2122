@@ -76,10 +76,10 @@ public class DialogAddStudent extends Dialog{
                     studentNumber.getText(),
                     studentName.getText(),
                     studentEmail.getText(),
-                    (String) studentCourse.getValue(),
-                    (String) studentBranch.getValue(),
+                    studentCourse.getValue(),
+                    studentBranch.getValue(),
                     studentClassification.getText(),
-                    (String) studentInternshipAccess.getValue()
+                    studentInternshipAccess.getValue()
             )) {
                 event.consume();
                 ToastMessage.show(grid.getScene().getWindow(), "Incorrect parameters.");

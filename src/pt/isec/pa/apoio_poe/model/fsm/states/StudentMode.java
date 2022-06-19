@@ -49,63 +49,59 @@ public class StudentMode extends StateAdapter {
     }
 
     @Override
-    public boolean delete(Object selectedItem){
-        Student s = (Student) selectedItem;
-        return dl.deleteStudent(s.getStudentNumber());
+    public boolean returnStage(){
+        changeState(AppState.CONFIGURATIONS_STATE_STAGE_ONE);
+        return true;
     }
 
     @Override
-    public boolean update(String ... parameters){
-        if (parameters.length != 7)
+    public boolean delete(Object selectedItem){
+        return dl.deleteStudent(((Student) selectedItem).getStudentNumber());
+    }
+
+    @Override
+    public boolean update(Object ... parameters){
+        if (!this.validateData(parameters))
             return false;
 
-        try {
+        String number = (String) parameters[0];
+        String name = (String) parameters[1];
+        String email = (String) parameters[2];
+        String course = (String) parameters[3];
+        String branch = (String) parameters[4];
+        String classification = (String) parameters[5];
+        String internshipAccess = (String) parameters[6];
 
-            String number = parameters[0];
-            String name = parameters[1];
-            String email = parameters[2];
-            String course = parameters[3];
-            String branch = parameters[4];
-            String classification = parameters[5];
-            String internshipAccess = parameters[6];
-
-            long studentNumber = Long.parseLong(number);
-
-            //Email
-            if(!ac.emailIsValid(email))
-                return false;
-
-            //Classification
-            double classif = Double.parseDouble(classification);
-            if(classif>1 || classif<0)
-                return false;
-
-            //InternshipAccess
-            boolean iAccess = Boolean.parseBoolean(internshipAccess);
-
-            dl.updateStudent(studentNumber, name, email, course.toUpperCase(), branch.toUpperCase(), classif, iAccess);
-        }catch (Exception e){
+        //Email
+        if (!ac.emailIsValid(email))
             return false;
-        }
-            return true;
-        }
+
+        long studentNumber = Long.parseLong(number);
+        double classif = Double.parseDouble(classification);
+        boolean iAccess = internshipAccess.equalsIgnoreCase("yes") ? true : false;
+        //boolean iAccess = Boolean.parseBoolean(internshipAccess);
+
+        System.out.println(studentNumber + name + email + course.toUpperCase() + branch.toUpperCase() + classif + iAccess);
+        dl.updateStudent(studentNumber, name, email, course.toUpperCase(), branch.toUpperCase(), classif, iAccess);
+        return true;
+    }
 
     @Override
 //    public boolean add(String number, String name, String email, String course, String branch, String classification, String internshipAccess){
-    public boolean add(String ... parameters){
-        if (parameters.length != 7)
+    public boolean add(Object ... parameters){
+        if (!this.validateData(parameters))
             return false;
 
-        String number = parameters[0];
-        String name = parameters[1];
-        String email = parameters[2];
-        String course = parameters[3];
-        String branch = parameters[4];
-        String classification = parameters[5];
-        String internshipAccess = parameters[6];
+        String number = (String) parameters[0];
+        String name = (String) parameters[1];
+        String email = (String) parameters[2];
+        String course = (String) parameters[3];
+        String branch = (String) parameters[4];
+        String classification = (String) parameters[5];
+        String internshipAccess = (String) parameters[6];
 
-        //validates student number
         try {
+            //validates student number
             if (number.length() != 10)
                 return false;
             long studentNumber = Long.parseLong(number);
@@ -113,21 +109,36 @@ public class StudentMode extends StateAdapter {
                 return false;
 
             //Email
-            if(!ac.emailIsValid(email))
+            if (!ac.emailIsValid(email))
                 return false;
             if (dl.studentExists(email))
                 return false;
 
+            double classif = Double.parseDouble(classification);
+            boolean iAccess = internshipAccess.equalsIgnoreCase("yes") ? true : false;
+            //boolean iAccess = Boolean.parseBoolean(internshipAccess);
+
+            dl.addStudent(studentNumber, name, email, course.toUpperCase(), branch.toUpperCase(), classif, iAccess);
+        }
+        catch (Exception e){
+            return false;
+        }
+        return true;
+    }
+
+    private boolean validateData(Object ... parameters){
+        if (parameters.length != 7)
+            return false;
+
+        //String number = (String) parameters[0];
+        //String email = (String) parameters[2];
+        String classification = (String) parameters[5];
+
+        try {
             //Classification
             double classif = Double.parseDouble(classification);
             if(classif>1 || classif<0)
                 return false;
-
-            //InternshipAccess
-            boolean iAccess = Boolean.parseBoolean(internshipAccess);
-
-            dl.addStudent(studentNumber, name, email, course.toUpperCase(), branch.toUpperCase(), classif, iAccess);
-
         }catch (Exception e){
             return false;
         }

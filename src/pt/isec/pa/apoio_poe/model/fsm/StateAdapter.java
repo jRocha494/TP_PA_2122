@@ -166,11 +166,11 @@ public abstract class StateAdapter implements IState {
     public String viewProposalsAssigned(){return "";}
 
     @Override
-    public boolean add(String ... parameters){return false;}
+    public boolean add(Object ... parameters){return false;}
 
     @Override
     public boolean delete(Object selectedItem){return false;}
 
     @Override
-    public boolean update(String ... parameters){return false;}
+    public boolean update(Object ... parameters){return false;}
 }

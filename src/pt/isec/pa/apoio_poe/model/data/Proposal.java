@@ -29,9 +29,18 @@ public class Proposal implements Serializable, Cloneable {
 
     public String getTitle() { return title; }
 
-    public Student getAssignedStudent() {
-        return assignedStudent;
+    public Student getAssignedStudent(){
+        Student student = null;
+        try {
+            student = (Student) assignedStudent.clone();
+        }
+        catch (Exception e){
+            //e.printStackTrace();
+            return null;
+        }
+        return student;
     }
+
     public void setAssignedStudent(Student assignedStudent) {
         this.assignedStudent = assignedStudent;
     }
@@ -78,5 +87,10 @@ public class Proposal implements Serializable, Cloneable {
     @Override
     public Object clone() throws CloneNotSupportedException{
         return super.clone();
+    }
+
+    public void setStudentHasProposed(boolean b) {
+        if (assignedStudent != null)
+            assignedStudent.setHasProposed(b);
     }
 }

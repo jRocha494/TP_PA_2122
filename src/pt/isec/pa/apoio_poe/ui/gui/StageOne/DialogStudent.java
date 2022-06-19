@@ -7,6 +7,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import pt.isec.pa.apoio_poe.model.Manager;
 import pt.isec.pa.apoio_poe.model.data.Student;
+import pt.isec.pa.apoio_poe.model.fsm.AppState;
 import pt.isec.pa.apoio_poe.ui.gui.util.ToastMessage;
 
 public class DialogStudent extends Dialog {
@@ -30,11 +31,14 @@ public class DialogStudent extends Dialog {
 
     private void createViews() {
 //        dialog = new Dialog();
-        this.setTitle("Add a new Student");
+        this.setTitle("Edit Student");
 //            dialog.setHeaderText("Insert Student data");
         btnEdit = new ButtonType("Edit");
         btnDelete = new ButtonType("Delete");
-        this.getDialogPane().getButtonTypes().addAll(btnEdit, btnDelete, ButtonType.CANCEL);
+        if (manager.getState() != AppState.CONFIGURATIONS_STATE_STAGE_ONE) {
+            this.getDialogPane().getButtonTypes().addAll(btnEdit, btnDelete, ButtonType.CANCEL);
+        } else
+            this.getDialogPane().getButtonTypes().addAll(ButtonType.CANCEL);
 
         grid = new GridPane();
         grid.setHgap(10);
@@ -82,43 +86,36 @@ public class DialogStudent extends Dialog {
         // Requests focus on the student number field by default
         Platform.runLater(() -> studentName.requestFocus());
 
-        this.getDialogPane().lookupButton(btnDelete).addEventFilter(ActionEvent.ACTION, actionEvent -> {
-            manager.delete(selectedStudent);
-        });
+        if (this.getDialogPane().lookupButton(btnDelete) != null)
+            this.getDialogPane().lookupButton(btnDelete).addEventFilter(ActionEvent.ACTION, actionEvent -> {
+                manager.delete(selectedStudent);
+            });
 
-        this.getDialogPane().lookupButton(btnEdit).addEventFilter(ActionEvent.ACTION, actionEvent -> {
+        if (this.getDialogPane().lookupButton(btnEdit) != null)
+            this.getDialogPane().lookupButton(btnEdit).addEventFilter(ActionEvent.ACTION, actionEvent -> {
+            System.out.println("studentInternshipAccess: " + studentInternshipAccess.getValue());
             if(!manager.update(
                     studentNumber.getText(),
                     studentName.getText(),
                     studentEmail.getText(),
-                    (String) studentCourse.getValue(),
-                    (String) studentBranch.getValue(),
+                    studentCourse.getValue(),
+                    studentBranch.getValue(),
                     studentClassification.getText(),
-                    (String) studentInternshipAccess.getValue()
+                    studentInternshipAccess.getValue()
             )){
                 actionEvent.consume();
                 ToastMessage.show(grid.getScene().getWindow(), "Incorrect parameters.");
             }
         });
-
-        
-//        final Button btnApply = (Button) this.getDialogPane().lookupButton(btnEdit);
-//        btnApply.addEventFilter(ActionEvent.ACTION, event -> {
-//            if(!manager.add(
-//                    studentNumber.getText(),
-//                    studentName.getText(),
-//                    studentEmail.getText(),
-//                    (String) studentCourse.getValue(),
-//                    (String) studentBranch.getValue(),
-//                    studentClassification.getText(),
-//                    (String) studentInternshipAccess.getValue()
-//            )) {
-//                event.consume();
-//                ToastMessage.show(grid.getScene().getWindow(), "Incorrect parameters.");
-//            }
-//        });
     }
 
     private void update() {
+//        System.out.println(manager.getState());
+//        switch (manager.getState()) {
+//            case CONFIGURATIONS_STATE_STAGE_ONE -> {
+//                System.out.println("NO CASE DIALOG STUDENT");
+//                this.getDialogPane().getButtonTypes().removeAll();
+//            }
+//        }
     }
 }

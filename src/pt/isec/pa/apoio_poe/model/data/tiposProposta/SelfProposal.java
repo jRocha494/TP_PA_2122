@@ -3,7 +3,7 @@ package pt.isec.pa.apoio_poe.model.data.tiposProposta;
 import pt.isec.pa.apoio_poe.model.data.Proposal;
 import pt.isec.pa.apoio_poe.model.data.Student;
 
-public class SelfProposal extends Proposal {
+public class SelfProposal extends Proposal implements Cloneable{
     public SelfProposal(String id, String title, Student assignedStudent) {
         super(id, title, assignedStudent);
     }
@@ -30,5 +30,10 @@ public class SelfProposal extends Proposal {
         sb.append("[SELF PROPOSAL]\n" + super.proposalToString());
 
         return sb.toString();
+    }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException{
+        return super.clone();
     }
 }
