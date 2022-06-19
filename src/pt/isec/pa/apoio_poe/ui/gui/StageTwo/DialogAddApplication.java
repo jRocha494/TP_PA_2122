@@ -54,7 +54,7 @@ public class DialogAddApplication extends Dialog{
             proposal[i] = new ChoiceBox();
         }
         List<Proposal> proposalsList = manager.getAvailableProposalsList();
-        for(int i=0; i<proposal.length-1; i++){
+        for(int i=0; i<proposal.length; i++){
             if(proposalsList.size() > 0){
                 proposal[i].getItems().add("None");
                 proposal[i].getItems().addAll(proposalsList);

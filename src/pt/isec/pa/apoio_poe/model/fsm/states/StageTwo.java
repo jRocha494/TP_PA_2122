@@ -399,46 +399,46 @@ public class StageTwo extends StateAdapter {
         Student s = ((Application) selectedObject).getStudent();
         return dl.deleteApplication(s.getStudentNumber());
     }
-//
-//    @Override
-//    public boolean update(Object ... parameters){
-//        List<Proposal> chosenProposals = new ArrayList<>();
+
+    @Override
+    public boolean update(Object ... parameters){
+        List<Proposal> chosenProposals = new ArrayList<>();
 //        long studentNumber;
-//
-//        if (parameters.length < 2 || parameters.length > 7)
-//            return false;
-//
-//        Student student = (Student) parameters[0];
-//        Proposal[] proposals = Arrays.copyOfRange((Proposal[]) parameters,1,parameters.length-1);
-//
-//        try{
-//            studentNumber = student.getStudentNumber();
-//            if (!dl.studentExists(studentNumber) ||
-//                    dl.getStudent(studentNumber).hasApplication() ||
-//                    dl.getStudent(studentNumber).hasProposed() ||
-//                    dl.proposalWithStudentExists(studentNumber))
-//                return false;
-//
-//            //Chosen Proposals
-//            for (int i = 0; i < proposals.length-1 && proposals[i] != null ; i++) {
-//                if (!ac.proposalIdIsValid(proposals[i].getId())) {
-//                    return false;
-//                }
-//
-//                if (!dl.proposalExists(proposals[i].getId()) ||
-//                        chosenProposals.contains(proposals[i]) ||
-//                        dl.hasAssignedStudent(proposals[i].getId()) ||
-//                        (dl.isInternship(proposals[i].getId()) && !dl.hasInternshipAccess(studentNumber))) {
-//                    return false;
-//                }
-//                chosenProposals.add(proposals[i]);
-//            }
-//            dl.updateApplication(dl.getStudent(studentNumber), chosenProposals);
-//        }catch (NumberFormatException e){
-//            return false;
-//        }
-//        return true;
-//    }
+
+        if (parameters.length < 2 || parameters.length > 7)
+            return false;
+
+        long studentNumber = (long) parameters[0];
+        Proposal[] proposals = Arrays.copyOfRange((Proposal[]) parameters,1,parameters.length-1);
+
+        try{
+//            studentNumber = dl.getStudent(Long.parseLong(student));
+            if (!dl.studentExists(studentNumber) ||
+                    dl.getStudent(studentNumber).hasApplication() ||
+                    dl.getStudent(studentNumber).hasProposed() ||
+                    dl.proposalWithStudentExists(studentNumber))
+                return false;
+
+            //Chosen Proposals
+            for (int i = 0; i < proposals.length-1 && proposals[i] != null ; i++) {
+                if (!ac.proposalIdIsValid(proposals[i].getId())) {
+                    return false;
+                }
+
+                if (!dl.proposalExists(proposals[i].getId()) ||
+                        chosenProposals.contains(proposals[i]) ||
+                        dl.hasAssignedStudent(proposals[i].getId()) ||
+                        (dl.isInternship(proposals[i].getId()) && !dl.hasInternshipAccess(studentNumber))) {
+                    return false;
+                }
+                chosenProposals.add(proposals[i]);
+            }
+            dl.updateApplication(dl.getStudent(studentNumber), chosenProposals);
+        }catch (NumberFormatException e){
+            return false;
+        }
+        return true;
+    }
 
     @Override
     public boolean add(Object ... parameters) {

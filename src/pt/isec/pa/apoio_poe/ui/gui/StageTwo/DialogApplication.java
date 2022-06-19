@@ -18,7 +18,8 @@ public class DialogApplication extends Dialog {
     private final Manager manager;
     private Application selectedApplication;
 
-    ChoiceBox applicationStudent;
+    //ChoiceBox applicationStudent;
+    TextField applicationStudent;
     ChoiceBox[] applicationProposals;
     GridPane grid;
     ButtonType btnEdit, btnDelete;
@@ -47,21 +48,27 @@ public class DialogApplication extends Dialog {
         grid.setVgap(10);
         grid.setPadding(new Insets(20, 150, 10, 10));
 
-        applicationStudent = new ChoiceBox();
-        List<Student> studentsList = manager.getAvailableStudentsWithoutApplication();
-        if (studentsList.size() > 0){
-            applicationStudent.getItems().add("---");
-            applicationStudent.getItems().addAll(studentsList);
-        }
-        else
-            applicationStudent.getItems().add("---");
-        Student s = selectedApplication.getStudent();
-        if (s!=null)
-            applicationStudent.setValue(s);
-        else
-            applicationStudent.setValue("---");
+        applicationStudent = new TextField(String.valueOf(selectedApplication.getStudent().getStudentNumber()));
+        applicationStudent.setPromptText("Student");
+        applicationStudent.setEditable(false);
+//        applicationStudent = new ChoiceBox();
+//        List<Student> studentsList = manager.getAvailableStudentsWithoutApplication();
+//        if (studentsList.size() > 0){
+//            applicationStudent.getItems().add("---");
+//            applicationStudent.getItems().addAll(studentsList);
+//        }
+//        else
+//            applicationStudent.getItems().add("---");
+//        Student s = selectedApplication.getStudent();
+//        if (s!=null)
+//            applicationStudent.setValue(s);
+//        else
+//            applicationStudent.setValue("---");
 
         applicationProposals = new ChoiceBox[6];
+        for (int i = 0; i < 6; i++) {
+            applicationProposals[i] = new ChoiceBox();
+        }
         List<Proposal> proposalsList = manager.getAvailableProposalsList();
         for(int i=0; i<applicationProposals.length-1; i++){
             if(proposalsList.size() > 0){
@@ -96,7 +103,7 @@ public class DialogApplication extends Dialog {
 
     private void registerHandlers() {
         // Requests focus on the student number field by default
-        Platform.runLater(() -> applicationStudent.requestFocus());
+        Platform.runLater(() -> applicationProposals[0].requestFocus());
 
         this.getDialogPane().lookupButton(btnDelete).addEventFilter(ActionEvent.ACTION, actionEvent -> {
             manager.delete(selectedApplication);
@@ -108,11 +115,11 @@ public class DialogApplication extends Dialog {
                 ToastMessage.show(grid.getScene().getWindow(), "Some buttons are not correctly selected.");
             } else {
                 Proposal[] chosenProposals = new Proposal[6];
-                for (int i = 0; i < applicationProposals.length - 1; i++) {
+                for (int i = 0; i < applicationProposals.length; i++) {
                     chosenProposals[i] = applicationProposals[i].getValue() instanceof Proposal ? (Proposal) applicationProposals[i].getValue() : null;
                 }
                 if (!manager.update(
-                        applicationStudent.getValue(),
+                        applicationStudent.getText(),
                         chosenProposals[0],
                         chosenProposals[1],
                         chosenProposals[2],
@@ -128,19 +135,10 @@ public class DialogApplication extends Dialog {
     }
 
     private void update() {
-//        System.out.println(manager.getState());
-//        switch (manager.getState()) {
-//            case CONFIGURATIONS_STATE_STAGE_ONE -> {
-//                System.out.println("NO CASE DIALOG STUDENT");
-//                this.getDialogPane().getButtonTypes().removeAll();
-//            }
-//        }
     }
 
     private boolean buttonsAreSelected(){
-        if(applicationStudent.getValue() == null)
-            return false;
-        else if(applicationProposals[1].getValue() != null && applicationProposals[0].getValue() == null)
+        if(applicationProposals[1].getValue() != null && applicationProposals[0].getValue() == null)
             return false;
         else if(applicationProposals[2].getValue() != null &&
                 (applicationProposals[1].getValue() == null || applicationProposals[0] == null))

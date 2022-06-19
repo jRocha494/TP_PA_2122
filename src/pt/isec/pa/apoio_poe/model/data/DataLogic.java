@@ -737,6 +737,11 @@ public class DataLogic implements Serializable {
         }
         return false;
     }
+
+    public void updateApplication(Student student, List<Proposal> chosenProposals) {
+        applicationsList.put(student, new Application(chosenProposals, student));
+        studentsList.get(student.getStudentNumber()).setHasApplication(true);
+    }
 //
 //    public void setStudentHasProposedByProposal(String id, boolean b) {
 //        if (proposalExists(id)){
