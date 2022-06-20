@@ -1,0 +1,9 @@
+.button {
+    -fx-font-family: "Roboto";
+    -fx-font-size: 12;
+    -fx-font-weight: bold;
+    -fx-text-fill: rgb(49, 89, 23);
+    -fx-border-color: rgb(49, 89, 23);
+    -fx-border-radius: 5;
+    -fx-padding: 3 6 6 6;
+}
