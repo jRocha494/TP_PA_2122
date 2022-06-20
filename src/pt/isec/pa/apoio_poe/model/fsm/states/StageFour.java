@@ -25,8 +25,10 @@ public class StageFour extends StateAdapter {
 
     @Override
     public boolean closeStage(){
-        ac.setCloseStatus("Stage4", true);
-        changeState(AppState.VIEW_DATA_STAGE_FIVE);
+        if(ac.isStageClosed("Stage3")) {
+            ac.setCloseStatus("Stage4", true);
+            changeState(AppState.VIEW_DATA_STAGE_FIVE);
+        }
         return true;
     }
 
@@ -34,10 +36,7 @@ public class StageFour extends StateAdapter {
     public boolean returnStage(){
         // in case previous stage (stage 3) is NOT closed, returns to it
         if(!ac.isStageClosed("Stage3")){
-            if(!ac.isStageClosed("Stage2"))
-                changeState(AppState.PROPOSAL_ATTRIBUTION_PREV_OPEN_STAGE_THREE);
-            else
-                changeState(AppState.PROPOSAL_ATTRIBUTION_PREV_CLOSED_STAGE_THREE);
+            changeState(AppState.PROPOSAL_ATTRIBUTION_STAGE_THREE);
             return true;
         }
         return false;
