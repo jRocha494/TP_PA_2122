@@ -74,6 +74,7 @@ public class Manager {
     public List<Teacher> getTeachers(){return ac.getTeachers();}
     public List<Proposal> getProposals(){return ac.getProposals();}
     public List<Application> getApplications(){return ac.getApplications();}
+    public List<Assignment> getAssignments(){return ac.getAssignments();}
     public List<Student> getStudentsSelfProposals() {return ac.getStudentsSelfProposals();}
     public List<Student> getStudentsWithApplication() {return ac.getStudentsWithApplication();}
     public List<Student> getStudentsWithoutApplication() {return ac.getStudentsWithoutApplication();}

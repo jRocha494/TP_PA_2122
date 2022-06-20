@@ -112,6 +112,16 @@ public class Student implements Comparable<Student>, Serializable, Cloneable {
     }
 
     @Override
+    public int hashCode() {
+        int result = 17;
+
+        result = 31 * result + name.hashCode();
+        result = (int) (31 * result + studentNumber);
+        result = 31 * result + email.hashCode();
+        return result;
+    }
+
+    @Override
     public boolean equals(Object o){
         if(o == this)
             return true;

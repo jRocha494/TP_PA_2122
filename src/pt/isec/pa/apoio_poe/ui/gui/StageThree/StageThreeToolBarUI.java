@@ -113,7 +113,7 @@ public class StageThreeToolBarUI extends ToolBar {
         btnSelfProposalAttribution.setOnAction(actionEvent -> manager.automaticAssignmentSelfProposals());
         btnRemoveAssignement.setOnAction(actionEvent -> {
             ChoiceBox choiceBox = new ChoiceBox();
-            choiceBox.getItems().addAll(manager.viewAssignments());
+            choiceBox.getItems().addAll(manager.getAssignments());
 
             GridPane gridPane = new GridPane();
             gridPane.add(new Label("Assignment"), 0, 0);
@@ -126,7 +126,7 @@ public class StageThreeToolBarUI extends ToolBar {
 
             final Button btnApply = (Button) alert.getDialogPane().lookupButton(ButtonType.APPLY);
             btnApply.addEventFilter(ActionEvent.ACTION, event -> {
-                if(!manager.removeAssignment(choiceBox.getSelectionModel().getSelectedIndex())){
+                if(!manager.removeAssignment(choiceBox.getSelectionModel().getSelectedIndex() + 1)){
                     event.consume();
                     ToastMessage.show(gridPane.getScene().getWindow(), "Something went wrong");
                 }
@@ -153,9 +153,9 @@ public class StageThreeToolBarUI extends ToolBar {
 
         btnManuallyAssign.setOnAction(actionEvent -> {
             ChoiceBox studentCB = new ChoiceBox();
-            studentCB.getItems().addAll(manager.viewAssignments());
+            studentCB.getItems().addAll(manager.getAvailableStudents());
             ChoiceBox proposalCB = new ChoiceBox();
-            proposalCB.getItems().addAll(manager.viewAssignments());
+            proposalCB.getItems().addAll(manager.getAvailableProposals());
 
             GridPane gridPane = new GridPane();
             gridPane.add(new Label("Student"), 0, 0);

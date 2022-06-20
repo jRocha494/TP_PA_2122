@@ -2,7 +2,7 @@ package pt.isec.pa.apoio_poe.model.data;
 
 import java.io.Serializable;
 
-public class Assignment implements Serializable {
+public class Assignment implements Serializable, Cloneable {
     static final long serialVersionUID = 100L;
     private Student student;
     private Proposal proposal;
@@ -35,7 +35,7 @@ public class Assignment implements Serializable {
     }
 
     public boolean hasAdvisor() { return advisor!=null; }
-    public boolean hasStudent() { return advisor!=null; }
+    public boolean hasStudent() { return student!=null; }
 
     public void setAdvisor(Teacher advisor) {
         this.advisor = advisor;
@@ -53,5 +53,10 @@ public class Assignment implements Serializable {
         sb.append("Proposal: ").append(proposal.getId()).append(" | ").append(proposal.getTitle()).append("\n");
 
         return sb.toString();
+    }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException{
+        return super.clone();
     }
 }

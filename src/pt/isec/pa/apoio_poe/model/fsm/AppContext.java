@@ -37,6 +37,7 @@ public class AppContext implements Serializable {
     public List<Teacher> getTeachers(){return dl.getTeachers();}
     public List<Proposal> getProposals(){return dl.getProposals();}
     public List<Application> getApplications(){return dl.getApplications();}
+    public List<Assignment> getAssignments(){return dl.getAssignments();}
     public List<Student> getStudentsSelfProposals(){return dl.getStudentsSelfProposals();}
     public List<Student> getStudentsWithApplication(){return dl.getStudentsWithApplication();}
     public List<Student> getStudentsWithoutApplication(){return dl.getStudentsWithoutApplication();}

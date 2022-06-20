@@ -73,6 +73,15 @@ public class Proposal implements Serializable, Cloneable {
     }
 
     @Override
+    public int hashCode() {
+        int result = 17;
+
+        result = 31 * result + id.hashCode();
+        result = 31 * result + title.hashCode();
+        return result;
+    }
+
+    @Override
     public boolean equals(Object o){
         if(o == this)
             return true;

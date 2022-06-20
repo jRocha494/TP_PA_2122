@@ -106,7 +106,7 @@ public class ProposalMode extends StateAdapter {
                 //Proposal hosting entity
                 String hostingEntity = (String) parameters[5];
 
-                dl.updateInternship(id, title, student, branches, hostingEntity);
+                dl.updateInternship(id, title, dl.getStudent(student.getStudentNumber()), branches, hostingEntity);
             }
             else if(proposalType.equalsIgnoreCase("Project")) {
                 if (parameters.length != 6)
@@ -127,7 +127,7 @@ public class ProposalMode extends StateAdapter {
 //                    t.setIsAdvisor(true);
 
 //                teacher.setIsAdvisor(false);    //sets the "isAdvisor" flag to false, because the teacher has now proposed a project
-                dl.updateProject(id, title, student, branches, teacher);
+                dl.updateProject(id, title, dl.getStudent(student.getStudentNumber()), branches, teacher);
             }
             else if(proposalType.equalsIgnoreCase("Self Proposal")) {
                 if (parameters.length != 4)
@@ -136,7 +136,7 @@ public class ProposalMode extends StateAdapter {
                 if (student == null)
                     return false;
 
-                dl.updateSelfProposal(id, title, student);
+                dl.updateSelfProposal(id, title, dl.getStudent(student.getStudentNumber()));
             }
 
         }catch (Exception e){
@@ -181,7 +181,7 @@ public class ProposalMode extends StateAdapter {
                 //Proposal hosting entity
                 String hostingEntity = (String) parameters[5];
 
-                dl.addInternship(id, title, student, branches, hostingEntity);
+                dl.addInternship(id, title, dl.getStudent(student.getStudentNumber()), branches, hostingEntity);
             }
             else if(proposalType.equalsIgnoreCase("Project")) {
                 if (parameters.length != 6)
@@ -198,7 +198,7 @@ public class ProposalMode extends StateAdapter {
                     return false;
 
                 //teacher.setIsAdvisor(false);    //sets the "isAdvisor" flag to false, because the teacher has now proposed a project
-                dl.addProject(id, title, student, branches, teacher);
+                dl.addProject(id, title, dl.getStudent(student.getStudentNumber()), branches, teacher);
             }
             else if(proposalType.equalsIgnoreCase("Self Proposal")) {
                 if (parameters.length != 4)
@@ -207,7 +207,7 @@ public class ProposalMode extends StateAdapter {
                 if (student == null)
                     return false;
 
-                dl.addSelfProposal(id, title, student);
+                dl.addSelfProposal(id, title, dl.getStudent(student.getStudentNumber()));
             }
 
         }catch (Exception e){

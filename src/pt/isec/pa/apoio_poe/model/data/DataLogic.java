@@ -80,29 +80,29 @@ public class DataLogic implements Serializable {
     }
 
     public void addInternship(String id, String title, Student assignedStudent, List<String> destinedBranch, String hostingEntity){
-        proposalsList.put(id, new Internship(id,title,assignedStudent,destinedBranch,hostingEntity));
         if (assignedStudent!=null)
             assignedStudent.setAssociatedWithProposal(true);
         for(String b : destinedBranch)
             numberStudentsAndProposals.get(b).incrementNmrProposals();
+        proposalsList.put(id, new Internship(id,title,assignedStudent,destinedBranch,hostingEntity));
     }
     public void addProject(String id, String title, Student assignedStudent, List<String> destinedBranch, Teacher proposingTeacher){
-        proposalsList.put(id, new Project(id,title,assignedStudent,destinedBranch,proposingTeacher));
         if (assignedStudent!=null)
             assignedStudent.setAssociatedWithProposal(true);
         if (proposingTeacher != null)
             proposingTeacher.setIsAdvisor(false);
         for(String b : destinedBranch)
             numberStudentsAndProposals.get(b).incrementNmrProposals();
+        proposalsList.put(id, new Project(id,title,assignedStudent,destinedBranch,proposingTeacher));
     }
     public void addSelfProposal(String id, String title, Student assignedStudent){
-        proposalsList.put(id, new SelfProposal(id,title,assignedStudent));
         if (assignedStudent != null) {
             assignedStudent.setHasProposed(true);
             assignedStudent.setAssociatedWithProposal(true);
         }
         numberStudentsAndProposals.get(assignedStudent.getBranch()).incrementNmrProposals();
 //        studentsList.get(assignedStudent.getStudentNumber()).setHasProposed(true);
+        proposalsList.put(id, new SelfProposal(id,title,assignedStudent));
     }
     public void addStudent(long studentNumber, String name, String email, String course, String branch, double classification, boolean internshipAccess){
         studentsList.put(studentNumber, new Student(studentNumber, name, email, course, branch, classification, internshipAccess));
@@ -121,6 +121,7 @@ public class DataLogic implements Serializable {
     public void addAssignment(Assignment assignment) { assignmentList.add(assignment); }
     public void removeAssignment(int assignmentToRemove) { assignmentList.remove(assignmentToRemove); }
     public void removeAssignment(Assignment a) { assignmentList.remove(a); }
+    public void removeAssignmentList(List<Assignment> a) { assignmentList.removeAll(a); }
 
     public Student getStudent(long id){
         return studentsList.get(id);
@@ -128,9 +129,7 @@ public class DataLogic implements Serializable {
     public Teacher getTeacher(String id) {
         return teachersList.get(id);
     }
-    public Proposal getProposal(String id){
-        return proposalsList.get(id);
-    }
+    public Proposal getProposal(String id){ return proposalsList.get(id); }
     public Assignment getAssignment(int index) {return assignmentList.get(index); }
     public Application getApplicationByStudent(Student id) { return applicationsList.get(id); }
 
@@ -426,6 +425,19 @@ public class DataLogic implements Serializable {
         return retLst;
     }
 
+    public List<Assignment> getAssignments() {
+        List<Assignment> retLst = new ArrayList<>();
+        for(Assignment a : getAssignmentList()){
+            try{
+                retLst.add((Assignment) a.clone());
+
+            } catch (CloneNotSupportedException e) {
+                e.printStackTrace();
+            }
+        }
+        return retLst;
+    }
+
     public List<Student> getStudentsSelfProposals(){
         List<Student> retLst = new ArrayList<>();
 
@@ -580,7 +592,7 @@ public class DataLogic implements Serializable {
         List<Student> result = new ArrayList<>();
 
         for (Student s : getStudents()){
-            if (!s.hasBeenAssigned() && !s.hasApplication() && !s.hasProposed())
+            if (!s.hasBeenAssigned() && !s.hasApplication() && !s.hasProposed() && !s.isAssociatedWithProposal())
                 result.add(s);
         }
         return result;

@@ -138,6 +138,8 @@ public class StageThree extends StateAdapter {
 
     @Override
     public boolean removeAllAssignments(){
+        List <Assignment> auxList = new ArrayList<>();
+
         for(Assignment a : dl.getAssignmentList()){
             if(a.getProposal() instanceof SelfProposal || (a.getProposal() instanceof Project && a.getProposal().hasAssignedStudent()))
                 continue;
@@ -148,9 +150,11 @@ public class StageThree extends StateAdapter {
                     a.getStudent().setHasBeenAssigned(false);
                 a.getProposal().setHasBeenAssigned(false);
                 a.getProposal().setAssignedStudent(null);
-                dl.removeAssignment(a);
+                auxList.add(a);
             }
         }
+
+        dl.removeAssignmentList(auxList);
         return true;
     }
 
