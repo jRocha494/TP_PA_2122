@@ -22,8 +22,9 @@ import java.util.Arrays;
 public class StageFiveToolBarUI extends ToolBar {
     private final Manager manager;
     Button btnExit, btnExportData;
-    MenuButton btnListStudents, btnListProposals, btnStatisticGraphics;
-    MenuItem mniStudentsAssigned, mniStudentsUnassignedWithApplication, mniProposalsAvailable, mniProposalsAssigned, mniProposalsByBranch, mniNumberProposalsAssignedAndUnassigned;
+    MenuButton btnListStudents, btnListProposals, btnStatisticGraphics, btnListStatistics;
+    MenuItem mniStudentsAssigned, mniStudentsUnassignedWithApplication, mniProposalsAvailable, mniProposalsAssigned, mniProposalsByBranch, mniNumberProposalsAssignedAndUnassigned,
+            mniAvarage, mniMin, mniMax;
 
     public StageFiveToolBarUI(Manager manager) {
         this.manager = manager;
@@ -43,15 +44,22 @@ public class StageFiveToolBarUI extends ToolBar {
         mniProposalsAssigned = new MenuItem("Proposals Assigned");
         btnListProposals.getItems().addAll(mniProposalsAvailable, mniProposalsAssigned);
 
+        btnListStatistics = new MenuButton("List Statistics");
+        mniAvarage = new MenuItem("Avarage assigments per Advisor");
+        mniMin = new MenuItem("Least assigments per Advisor");
+        mniMax = new MenuItem("Most assigments per Advisor");
+        btnListStatistics.getItems().addAll(mniAvarage, mniMin, mniMax);
+
         btnStatisticGraphics = new MenuButton("Show Graphics");
         mniProposalsByBranch = new MenuItem("Proposals By Branch");
-        btnListProposals.getItems().add(mniProposalsByBranch);
+        mniNumberProposalsAssignedAndUnassigned = new MenuItem("Proposals Assigned and Unassigned");
+        btnStatisticGraphics.getItems().addAll(mniProposalsByBranch, mniNumberProposalsAssignedAndUnassigned);
 
         btnExportData = new Button("Export Data");
         btnExit = new Button("Quit");
 
         this.setBackground(new Background(new BackgroundFill(Color.TURQUOISE, CornerRadii.EMPTY, Insets.EMPTY)));
-        this.getItems().addAll(btnListStudents, btnListProposals, btnExportData, btnExit);
+        this.getItems().addAll(btnListStudents, btnListProposals, btnStatisticGraphics, btnListStatistics, btnExportData, btnExit);
     }
 
     private void registerHandlers() {
@@ -63,6 +71,10 @@ public class StageFiveToolBarUI extends ToolBar {
 
         mniProposalsAvailable.setOnAction(actionEvent -> manager.setListingType(ListingType.PROPOSALS_AVAILABLE));
         mniProposalsAssigned.setOnAction(actionEvent -> manager.setListingType(ListingType.PROPOSALS_ASSIGNED));
+
+        mniAvarage.setOnAction(actionEvent -> manager.setListingType(ListingType.AVARAGE));
+        mniMin.setOnAction(actionEvent -> manager.setListingType(ListingType.MINIMUM));
+        mniMax.setOnAction(actionEvent -> manager.setListingType(ListingType.MAXIMUM));
 
         btnExit.setOnAction(actionEvent -> Platform.exit());
 
@@ -90,29 +102,37 @@ public class StageFiveToolBarUI extends ToolBar {
         });
 
         mniProposalsByBranch.setOnAction(actionEvent -> {
+            Alert alert = new Alert(Alert.AlertType.NONE);
+            alert.setHeaderText("Graphics");
             ObservableList<PieChart.Data> pieChartData =
                     FXCollections.observableArrayList(
                             new PieChart.Data("DA", manager.getNmrProposalsByBranch("DA")),
                             new PieChart.Data("RAS", manager.getNmrProposalsByBranch("RAS")),
                             new PieChart.Data("SI", manager.getNmrProposalsByBranch("SI")));
             final PieChart chart = new PieChart(pieChartData);
-            chart.setTitle("Imported Fruits");
+            chart.setTitle("Proposals by Branch");
 
-            this.getChildren().add(chart);
+            alert.getDialogPane().setContent(chart);
+            alert.getButtonTypes().addAll(ButtonType.CLOSE);
+            alert.showAndWait();
 //            ((Group) scene.getRoot()).getChildren().add(chart);
 //            stage.setScene(scene);
 //            stage.show();
         });
 
         mniNumberProposalsAssignedAndUnassigned.setOnAction(actionEvent -> {
+            Alert alert = new Alert(Alert.AlertType.NONE);
+            alert.setHeaderText("Graphics");
             ObservableList<PieChart.Data> pieChartData =
                     FXCollections.observableArrayList(
                             new PieChart.Data("Proposals Assigned", manager.getNmrProposalsAssigned()),
                             new PieChart.Data("Proposals Unassigned", manager.getNmrProposalsUnassigned()));
             final PieChart chart = new PieChart(pieChartData);
-            chart.setTitle("Imported Fruits");
+            chart.setTitle("Proposals Assigned and Unassigned");
 
-            this.getChildren().add(chart);
+            alert.getDialogPane().setContent(chart);
+            alert.getButtonTypes().addAll(ButtonType.CLOSE);
+            alert.showAndWait();
         });
     }
 

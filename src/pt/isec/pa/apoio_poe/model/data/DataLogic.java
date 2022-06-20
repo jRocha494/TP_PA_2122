@@ -628,6 +628,73 @@ public class DataLogic implements Serializable {
         return result;
     }
 
+    public String getAvarageAssigments() {
+        int sum = 0, total = 0, count = 0;
+        List<Integer> assignments = new ArrayList<>();
+
+        for (Teacher t : getTeachers()){
+            count = 0;
+            if (t.isAdvisor()) {
+                for(Assignment a : getAssignmentList()) {
+                    if (a.getAdvisor().getEmail().equals(t.getEmail())) {
+                        count++;
+                        assignments.add(count);
+                    }
+                }
+            }
+            total += count;
+        }
+
+        for(int i : assignments)
+            sum += i;
+
+        return "Avarage Assignments per Advisor: " + (sum/total);
+    }
+
+    public String getMinimumAssignments() {
+        int min = 1000, count;
+        String minTeacher="";
+
+        for (Teacher t : getTeachers()){
+            count = 0;
+            if (t.isAdvisor()) {
+                for(Assignment a : getAssignmentList()) {
+                    if (a.getAdvisor().getEmail().equals(t.getEmail())) {
+                        count++;
+                    }
+                }
+            }
+            if(count < min) {
+                minTeacher = t.getEmail();
+                min = count;
+            }
+        }
+
+        return "Least Assignments per Advisor: " + min + " (" + minTeacher + ")";
+    }
+
+    public String getMaximumAssignments() {
+        int max = -1, count;
+        String maxTeacher="";
+
+        for (Teacher t : getTeachers()){
+            count = 0;
+            if (t.isAdvisor()) {
+                for(Assignment a : getAssignmentList()) {
+                    if (a.getAdvisor().getEmail().equals(t.getEmail())) {
+                        count++;
+                    }
+                }
+            }
+            if(count > max) {
+                maxTeacher = t.getEmail();
+                max = count;
+            }
+        }
+
+        return "Most Assignments per Advisor: " + max + " (" + maxTeacher + ")";
+    }
+
     public boolean filenameIsValid(String filename) {
         String[] fn = filename.split("\\.");
 

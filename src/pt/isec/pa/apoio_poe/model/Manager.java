@@ -129,6 +129,11 @@ public class Manager {
 
     public String viewStudentsAssigned() { return ac.viewStudentsAssigned(); }
     public String viewStudentsUnassigned() { return ac.viewStudentsUnassigned(); }
+
+    public String getAvarageAssigments() { return ac.getAvarageAssigments(); }
+    public String getMinimumAssignments() { return ac.getMinimumAssignments(); }
+    public String getMaximumAssignments() { return ac.getMaximumAssignments(); }
+
     public boolean automaticAssignment() {
         pcs.firePropertyChange(DATA, null, null);
         pcs.firePropertyChange(STATE, null, null);

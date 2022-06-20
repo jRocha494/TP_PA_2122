@@ -41,7 +41,6 @@ public class ConflictStageUI extends DialogPane {
 
     private void registerHandlers() {
         manager.addPropertyChangeListener(Manager.STATE, evt -> update());
-        manager.addPropertyChangeListener(Manager.DATA, evt -> update());
 
         final Button btnApply = (Button) this.lookupButton(ButtonType.APPLY);
         btnApply.addEventFilter(ActionEvent.ACTION, actionEvent -> {

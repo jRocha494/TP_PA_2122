@@ -98,6 +98,9 @@ public class AppContext implements Serializable {
     public boolean removeAssignment(int assignmentToRemove) { return state.removeAssignment(assignmentToRemove); }
     public boolean removeAllAssignments() { return state.removeAllAssignments(); }
     public String viewStudentsUnassigned() { return state.viewStudentsUnassigned(); }
+    public String getAvarageAssigments() { return dl.getAvarageAssigments(); }
+    public String getMinimumAssignments() { return dl.getMinimumAssignments(); }
+    public String getMaximumAssignments() { return dl.getMaximumAssignments(); }
 
     public String viewStudentsAssigned() { return state.viewStudentsAssigned(); }
 

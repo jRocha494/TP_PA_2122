@@ -96,8 +96,8 @@ public class TextUI {
                 }
             }
             case 2 -> System.out.println(m.viewProposals());
-            //case 3 -> System.out.println(m.importProposalsCSV(PAInput.readString("Introduce the name of the file to read: ", true)));
-            case 3 -> System.out.println(m.importCSV("proposals1"));
+            case 3 -> System.out.println(m.importCSV(PAInput.readString("Introduce the name of the file to read: ", true)));
+            //case 3 -> System.out.println(m.importCSV("proposals1"));
             case 4 -> System.out.println(m.exportCSV(PAInput.readString("Introduce the name of the file to write: ", true)));
             case 5 -> m.closeStage();
             case 6 -> m.advanceStage();
@@ -118,8 +118,8 @@ public class TextUI {
                 }
             }
             case 2 -> System.out.println(m.viewStudents());
-            //case 3 -> System.out.println(m.importStudentsCSV(PAInput.readString("Introduce the name of the file to read: ", true)));
-            case 3 -> System.out.println(m.importCSV("students1"));
+            case 3 -> System.out.println(m.importCSV(PAInput.readString("Introduce the name of the file to read: ", true)));
+            //case 3 -> System.out.println(m.importCSV("students1"));
             case 4 -> System.out.println(m.exportCSV(PAInput.readString("Introduce the name of the file to write: ", true)));
             case 5 -> m.closeStage();
             case 6 -> m.advanceStage();
@@ -140,8 +140,8 @@ public class TextUI {
                 }
             }
             case 2 -> System.out.println(m.viewTeachers());
-            //case 3 -> System.out.println(m.importTeachersCSV(PAInput.readString("Introduce the name of the file to read: ", true)));
-            case 3 -> System.out.println(m.importCSV("teachers1"));
+            case 3 -> System.out.println(m.importCSV(PAInput.readString("Introduce the name of the file to read: ", true)));
+            //case 3 -> System.out.println(m.importCSV("teachers1"));
             case 4 -> System.out.println(m.exportCSV(PAInput.readString("Introduce the name of the file to write: ", true)));
             case 5 -> m.closeStage();
             case 6 -> m.advanceStage();
