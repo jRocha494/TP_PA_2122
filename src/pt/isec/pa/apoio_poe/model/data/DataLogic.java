@@ -784,6 +784,36 @@ public class DataLogic implements Serializable {
         applicationsList.put(student, new Application(chosenProposals, student));
         studentsList.get(student.getStudentNumber()).setHasApplication(true);
     }
+
+    public double getNmrProposalsByBranch(String branch) {
+        double count = 0;
+        for (Proposal p : getProposals()){
+            if (p instanceof Internship)
+                if (((Internship) p).getDestinedBranch().contains(branch))
+                    count++;
+            else if(p instanceof Project)
+                if (((Project) p).getDestinedBranch().contains(branch))
+                    count++;
+        }
+        return count;
+    }
+
+    public double getNmrProposalsAssigned() {
+        double count = 0;
+        for (Proposal p : getProposals()){
+            if (p.hasBeenAssigned() && p.getAssignedStudent()!=null)
+                count++;
+        }
+        return count;
+    }
+    public double getNmrProposalsUnassigned() {
+        double count = 0;
+        for (Proposal p : getProposals()){
+            if (!p.hasBeenAssigned())
+                count++;
+        }
+        return count;
+    }
 //
 //    public void setStudentHasProposedByProposal(String id, boolean b) {
 //        if (proposalExists(id)){

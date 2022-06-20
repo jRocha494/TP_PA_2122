@@ -138,4 +138,9 @@ public class AppContext implements Serializable {
     public List<Student> getStudentsForInternships() {return dl.getStudentsForInternships();}
     public List<Student> getStudentsUnassigned() {return dl.getStudentsUnassigned();}
     public List<Student> getStudentsWithoutProposal() {return dl.getStudentsWithoutProposal();}
+
+    public double getNmrProposalsByBranch(String branch) {return dl.getNmrProposalsByBranch(branch);}
+
+    public double getNmrProposalsAssigned() {return dl.getNmrProposalsAssigned();}
+    public double getNmrProposalsUnassigned() {return dl.getNmrProposalsUnassigned();}
 }

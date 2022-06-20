@@ -255,4 +255,9 @@ public class Manager {
     public List<Student> getStudentsWithoutProposal(){return ac.getStudentsWithoutProposal();}
 
     public boolean isStageClosed(String stage){ return ac.isStageClosed(stage); }
+
+    public double getNmrProposalsByBranch(String branch) {return ac.getNmrProposalsByBranch(branch);}
+
+    public double getNmrProposalsAssigned() {return ac.getNmrProposalsAssigned();}
+    public double getNmrProposalsUnassigned() {return ac.getNmrProposalsUnassigned();}
 }

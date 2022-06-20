@@ -40,6 +40,6 @@ public class StageFiveUI extends BorderPane {
     }
 
     private void update() {
-        this.setVisible(manager.getState() == AppState.PROPOSAL_ATTRIBUTION_STAGE_THREE);
+        this.setVisible(manager.getState() == AppState.VIEW_DATA_STAGE_FIVE);
     }
 }
