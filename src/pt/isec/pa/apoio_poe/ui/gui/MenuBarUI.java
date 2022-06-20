@@ -1,10 +1,7 @@
 package pt.isec.pa.apoio_poe.ui.gui;
 
 import javafx.application.Platform;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuBar;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.SeparatorMenuItem;
+import javafx.scene.control.*;
 import javafx.stage.FileChooser;
 import pt.isec.pa.apoio_poe.model.Manager;
 
@@ -28,7 +25,7 @@ public class MenuBarUI extends MenuBar {
         mnExit = new MenuItem("_Exit");
         app.getItems().addAll(mnSave, mnLoad, new SeparatorMenuItem(), mnExit);
 
-        this.getMenus().add(app);
+        this.getMenus().addAll(app);
     }
 
     private void registerHandlers() {
