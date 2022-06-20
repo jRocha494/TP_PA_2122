@@ -1,4 +1,4 @@
-package pt.isec.pa.apoio_poe.ui.gui;
+package pt.isec.pa.apoio_poe.ui.gui.StageOne;
 
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -14,14 +14,14 @@ import pt.isec.pa.apoio_poe.ui.gui.StageOne.DialogAddStudent;
 import pt.isec.pa.apoio_poe.ui.gui.StageOne.DialogAddTeacher;
 import pt.isec.pa.apoio_poe.ui.gui.util.ToastMessage;
 
-public class ToolBarUI extends ToolBar {
+public class StageOneToolBarUI extends ToolBar {
     private final Manager manager;
     //private final BorderPane root;
     private Button btnClose, btnAdvance, btnExit, btnListStudents, btnListTeachers, btnListProposals, btnImportData, btnExportData, btnAdd, btnReturn;
     MenuButton btnChangeMode;
     MenuItem mniStudent, mniTeacher, mniProposal;
 
-    public ToolBarUI(Manager manager/*, BorderPane root*/) {
+    public StageOneToolBarUI(Manager manager/*, BorderPane root*/) {
         this.manager = manager;
         //this.root = root;
         createViews();

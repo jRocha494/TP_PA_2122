@@ -82,6 +82,8 @@ public class Manager {
     public List<Proposal> getProposalsWithFiltersStageThree() {return ac.getProposalsWithFiltersStageThree();}
     public String[] getStudentsAssigned() {return ac.getStudentsAssigned();}
     public String[] getListStudentsUnassigned() {return ac.getListStudentsUnassigned();}
+    public List<Student> getStudentsAssignedWithAdvisor(){return ac.getStudentsAssignedWithAdvisor();}
+    public List<Student> getStudentsAssignedWithoutAdvisor(){return ac.getStudentsAssignedWithoutAdvisor();}
 
     public boolean returnStage() {
         if (ac.returnStage()) {
@@ -102,23 +104,43 @@ public class Manager {
 
     public String filterProposals(Integer... filters) { return ac.filterProposals(filters); }
 
-    public boolean automaticAssignmentSelfProposals() { return ac.automaticAssignmentSelfProposals(); }
+    public boolean automaticAssignmentSelfProposals() {
+        pcs.firePropertyChange(DATA, null, null);
+        return ac.automaticAssignmentSelfProposals();
+    }
     public List<Proposal> getAvailableProposalsList() { return ac.getAvailableProposalsList(); }
     public String[] getAvailableProposals() { return ac.getAvailableProposals(); }
     public String[] getAvailableStudents() { return ac.getAvailableStudents(); }
     public List<Student> getAvailableStudentsWithoutApplication() { return ac.getAvailableStudentsWithoutApplication(); }
-    public boolean manuallyAssign(String student, String proposal){ return ac.manuallyAssign(student, proposal); }
+    public boolean manuallyAssign(String student, String proposal){
+        pcs.firePropertyChange(DATA, null, null);
+        return ac.manuallyAssign(student, proposal);
+    }
     public boolean manuallyAssign(int proposalChosen, int studentChosen, String[] availableProposals, String[] availableStudents) { return ac.manuallyAssign(proposalChosen, studentChosen, availableProposals, availableStudents); }
 
-    public boolean removeAssignment(int assignmentToRemove) { return ac.removeAssignment(assignmentToRemove);}
-    public boolean removeAllAssignments() { return ac.removeAllAssignments(); }
+    public boolean removeAssignment(int assignmentToRemove) {
+        pcs.firePropertyChange(DATA, null, null);
+        return ac.removeAssignment(assignmentToRemove);
+    }
+    public boolean removeAllAssignments() {
+        pcs.firePropertyChange(DATA, null, null);
+        return ac.removeAllAssignments();
+    }
 
     public String viewStudentsAssigned() { return ac.viewStudentsAssigned(); }
     public String viewStudentsUnassigned() { return ac.viewStudentsUnassigned(); }
-    public boolean automaticAssignment() { return ac.automaticAssignment();}
+    public boolean automaticAssignment() {
+        pcs.firePropertyChange(DATA, null, null);
+        pcs.firePropertyChange(STATE, null, null);
+        return ac.automaticAssignment();
+    }
     public String[] getConflictedCases(){ return ac.getConflictedCases(); }
     public String getConflictedProposal() { return ac.getConflictedProposal(); }
-    public boolean resolveConflictedCases(int option) { return ac.resolveConflictedCases(option); }
+    public boolean resolveConflictedCases(int option) {
+        pcs.firePropertyChange(DATA, null, null);
+        pcs.firePropertyChange(STATE, null, null);
+        return ac.resolveConflictedCases(option);
+    }
 
     public boolean automaticAssignmentAdvisors() { return ac.automaticAssignmentAdvisors(); }
 

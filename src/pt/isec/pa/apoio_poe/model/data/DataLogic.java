@@ -483,6 +483,36 @@ public class DataLogic implements Serializable {
         return retLst;
     }
 
+    public List<Student> getStudentsAssignedWithAdvisor(){
+        List<Student> retLst = new ArrayList<>();
+
+        for (Assignment a : getAssignmentList()){
+            if(a.hasStudent() && a.hasAdvisor())
+                try{
+                    retLst.add((Student) a.getStudent().clone());
+                } catch (CloneNotSupportedException e) {
+                    e.printStackTrace();
+                }
+        }
+
+        return retLst;
+    }
+
+    public List<Student> getStudentsAssignedWithoutAdvisor(){
+        List<Student> retLst = new ArrayList<>();
+
+        for (Assignment a : getAssignmentList()){
+            if(a.hasStudent() && !a.hasAdvisor())
+                try{
+                    retLst.add((Student) a.getStudent().clone());
+                } catch (CloneNotSupportedException e) {
+                    e.printStackTrace();
+                }
+        }
+
+        return retLst;
+    }
+
     public List<Proposal> getProposalsWithFiltersStageTwo() {
         Predicate<Proposal> bySelfProposals = proposal -> proposal instanceof SelfProposal;
         Predicate<Proposal> byTeacherProposals = proposal -> proposal instanceof Project;

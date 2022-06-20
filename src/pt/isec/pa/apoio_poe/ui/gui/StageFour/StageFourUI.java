@@ -1,4 +1,4 @@
-package pt.isec.pa.apoio_poe.ui.gui.StageOne;
+package pt.isec.pa.apoio_poe.ui.gui.StageFour;
 
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.ToolBar;
@@ -10,10 +10,10 @@ import pt.isec.pa.apoio_poe.model.fsm.ListingType;
 import pt.isec.pa.apoio_poe.ui.gui.ListPane;
 import pt.isec.pa.apoio_poe.ui.gui.MenuBarUI;
 
-public class StageOneTeacherModeUI extends BorderPane {
+public class StageFourUI extends BorderPane {
     private final Manager manager;
 
-    public StageOneTeacherModeUI(Manager manager) {
+    public StageFourUI(Manager manager) {
         this.manager = manager;
         createViews();
         registerHandlers();
@@ -21,12 +21,12 @@ public class StageOneTeacherModeUI extends BorderPane {
     }
 
     private void createViews() {
-        manager.setListingType(ListingType.TEACHERS);
+        manager.setListingType(ListingType.NONE);
 
         MenuBar menuBar = new MenuBarUI(manager);
         this.setTop(menuBar);
 
-        ToolBar toolBar = new StageOneToolBarUI(manager);
+        ToolBar toolBar = new StageFourToolBarUI(manager);
         this.setBottom(toolBar);
 
         StackPane centerPane = new StackPane(new ListPane(manager));
@@ -39,6 +39,6 @@ public class StageOneTeacherModeUI extends BorderPane {
     }
 
     private void update() {
-        this.setVisible(manager.getState() == AppState.CONFIGURATIONS_STATE_TEACHER_MANAGER);
+        this.setVisible(manager.getState() == AppState.ADVISOR_ATTRIBUTION_STAGE_FOUR);
     }
 }

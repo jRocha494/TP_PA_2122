@@ -8,7 +8,6 @@ import pt.isec.pa.apoio_poe.model.fsm.AppState;
 import pt.isec.pa.apoio_poe.model.fsm.ListingType;
 import pt.isec.pa.apoio_poe.ui.gui.ListPane;
 import pt.isec.pa.apoio_poe.ui.gui.MenuBarUI;
-import pt.isec.pa.apoio_poe.ui.gui.ToolBarUI;
 
 public class StageOneUI extends BorderPane {
     private final Manager manager;
@@ -26,7 +25,7 @@ public class StageOneUI extends BorderPane {
         MenuBar menuBar = new MenuBarUI(manager);
         this.setTop(menuBar);
 
-        ToolBar toolBar = new ToolBarUI(manager);
+        ToolBar toolBar = new StageOneToolBarUI(manager);
         this.setBottom(toolBar);
 
         StackPane centerPane = new StackPane(new ListPane(manager));
