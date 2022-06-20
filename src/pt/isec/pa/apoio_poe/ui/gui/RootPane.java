@@ -7,6 +7,7 @@ import pt.isec.pa.apoio_poe.ui.gui.StageOne.StageOneProposalModeUI;
 import pt.isec.pa.apoio_poe.ui.gui.StageOne.StageOneStudentModeUI;
 import pt.isec.pa.apoio_poe.ui.gui.StageOne.StageOneTeacherModeUI;
 import pt.isec.pa.apoio_poe.ui.gui.StageOne.StageOneUI;
+import pt.isec.pa.apoio_poe.ui.gui.StageThree.ConflictStageUI;
 import pt.isec.pa.apoio_poe.ui.gui.StageThree.StageThreeUI;
 import pt.isec.pa.apoio_poe.ui.gui.StageTwo.StageTwoUI;
 
@@ -40,7 +41,8 @@ public class RootPane extends BorderPane {
                 new StageOneTeacherModeUI(manager),
                 new StageOneProposalModeUI(manager),
                 new StageTwoUI(manager),
-                new StageThreeUI(manager)
+                new StageThreeUI(manager),
+                new ConflictStageUI(manager)
         );
         this.setCenter(stackPane);
     }

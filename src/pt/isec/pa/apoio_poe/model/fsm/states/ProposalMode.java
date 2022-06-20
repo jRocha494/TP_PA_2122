@@ -117,6 +117,11 @@ public class ProposalMode extends StateAdapter {
                 if (branches.isEmpty())
                     return false;
 
+                //verifies if the assigned student's branch is contemplated on the proposal's branch list
+                if (student != null)
+                    if (!branches.contains(student.getBranch()))
+                        return false;
+
                 //Proposal's Proposing Teacher
                 Teacher teacher = (Teacher) parameters[5];
                 if (teacher == null)
@@ -173,10 +178,13 @@ public class ProposalMode extends StateAdapter {
 
                 //Proposal Branches
                 List<String> branches = (List<String>) parameters[4];
-                System.out.println("BRANCHES: " + branches);
-
                 if (branches.isEmpty())
                     return false;
+
+                //verifies if the assigned student's branch is contemplated on the proposal's branch list
+                if (student != null)
+                    if (!branches.contains(student.getBranch()))
+                        return false;
 
                 //Proposal hosting entity
                 String hostingEntity = (String) parameters[5];
@@ -191,6 +199,11 @@ public class ProposalMode extends StateAdapter {
                 List<String> branches = (List<String>) parameters[4];
                 if (branches.isEmpty())
                     return false;
+
+                //verifies if the assigned student's branch is contemplated on the proposal's branch list
+                if (student != null)
+                    if (!branches.contains(student.getBranch()))
+                        return false;
 
                 //Proposal's Proposing Teacher
                 Teacher teacher = (Teacher) parameters[5];
