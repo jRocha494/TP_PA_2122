@@ -81,6 +81,10 @@ public class ListPane extends ListView<Object> {
             case ASSIGNMENTS -> this.getItems().addAll(manager.getAssignments());
             case STUDENTS_ASSIGNED_WITH_ADVISOR -> this.getItems().addAll(manager.getStudentsAssignedWithAdvisor());
             case STUDENTS_ASSIGNED_WITHOUT_ADVISOR -> this.getItems().addAll(manager.getStudentsAssignedWithoutAdvisor());
+            case STUDENTS_ASSIGNED_STAGE_FIVE -> this.getItems().addAll(manager.viewStudentsAssigned());
+            case STUDENTS_UNASSIGNED_WITH_APPLICATION -> this.getItems().addAll(manager.viewStudentsUnassignedWithApplications());
+            case PROPOSALS_AVAILABLE -> this.getItems().addAll(manager.viewProposalsUnassigned());
+            case PROPOSALS_ASSIGNED -> this.getItems().addAll(manager.viewProposalsAssigned());
             default -> this.setVisible(false);
         }
     }

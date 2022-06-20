@@ -1,4 +1,4 @@
-package pt.isec.pa.apoio_poe.ui.gui.StageTwo;
+package pt.isec.pa.apoio_poe.ui.gui.StageFive;
 
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.ToolBar;
@@ -9,11 +9,12 @@ import pt.isec.pa.apoio_poe.model.fsm.AppState;
 import pt.isec.pa.apoio_poe.model.fsm.ListingType;
 import pt.isec.pa.apoio_poe.ui.gui.ListPane;
 import pt.isec.pa.apoio_poe.ui.gui.MenuBarUI;
+import pt.isec.pa.apoio_poe.ui.gui.StageThree.StageThreeToolBarUI;
 
-public class StageTwoUI  extends BorderPane {
+public class StageFiveUI extends BorderPane {
     private final Manager manager;
 
-    public StageTwoUI(Manager manager) {
+    public StageFiveUI(Manager manager) {
         this.manager = manager;
         createViews();
         registerHandlers();
@@ -26,7 +27,7 @@ public class StageTwoUI  extends BorderPane {
         MenuBar menuBar = new MenuBarUI(manager);
         this.setTop(menuBar);
 
-        ToolBar toolBar = new StageTwoToolBarUI(manager);
+        ToolBar toolBar = new StageFiveToolBarUI(manager);
         this.setBottom(toolBar);
 
         StackPane centerPane = new StackPane(new ListPane(manager));
@@ -39,6 +40,6 @@ public class StageTwoUI  extends BorderPane {
     }
 
     private void update() {
-        this.setVisible(manager.getState() == AppState.APPLICATION_OPTIONS_STAGE_TWO);
+        this.setVisible(manager.getState() == AppState.PROPOSAL_ATTRIBUTION_STAGE_THREE);
     }
 }

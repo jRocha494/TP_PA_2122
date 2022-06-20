@@ -1,6 +1,7 @@
 package pt.isec.pa.apoio_poe.ui.gui.StageThree;
 
 import javafx.scene.control.MenuBar;
+import javafx.scene.control.ToolBar;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import pt.isec.pa.apoio_poe.model.Manager;
@@ -26,7 +27,7 @@ public class StageThreeUI extends BorderPane {
         MenuBar menuBar = new MenuBarUI(manager);
         this.setTop(menuBar);
 
-        StageThreeToolBarUI toolBar = new StageThreeToolBarUI(manager);
+        ToolBar toolBar = new StageThreeToolBarUI(manager);
         this.setBottom(toolBar);
 
         StackPane centerPane = new StackPane(new ListPane(manager));
